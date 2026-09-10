@@ -1,6 +1,6 @@
 # The Weekly Split
 
-**[Open the live website](https://malonewayne.github.io/Deco3500-Team-17/)**
+**[打开网站 Open the live website](https://malonewayne.github.io/Deco3500-Team-17/)**
 
 A mobile web prototype for a Sunday sharehouse settlement ritual: receipt draft, orphan spinner, anonymous veto, review re-split, and chore bounties.
 
