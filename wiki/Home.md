@@ -16,7 +16,7 @@ In St Lucia sharehouses, the weekly shop still gets split by one person doing ma
 
 We are not designing another personal budgeting app. We are designing a **ten-minute, same-room settlement ritual** that lets the interface take the blame.
 
-This is a **household** problem in inner-west Brisbane. The users are housemates on a lease, not “university students.”
+This is a **household** problem in inner-west Brisbane. The users are housemates on a lease, not “university students.” Six interviews with people who already split house bills sit behind the pages below.
 
 ## Pitch pages (assignment outline)
 

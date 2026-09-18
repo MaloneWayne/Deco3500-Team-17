@@ -26,42 +26,49 @@ People’s contribution: existing Sunday habits, not a new campus behaviour we h
 
 Consequences: spam was the risk for public notes. For a household, the risks are majority pile-ons, veto trolling, and making debt look like a game.
 
-Assumption: people will contest a bill if the social heat is low enough. We still need a real house to confirm that. The prototype is how we made the assumption testable.
+Assumption: people will contest a bill if the social heat is low enough. Interviews later supported that, with a catch: people also want to see the maths.
 
 The Social Possibility Wheel stopped us from only drawing maps. Shared objects became the receipt, the bounty card, the house pool. Awareness became seeing other people’s claims land without a speech. Traces became the locked bill: who paid whom, item by item.
 
-## Kill concepts in public
+## Ask, then kill concepts in public
 
-We put three concepts on a matrix so we could compare them in the same language.
+We put three concepts on a matrix so we could compare them in the same language: Campus Thrift Radar, Budget Quest, Cooling-off Buddy.
 
-Campus Thrift Radar is a location product. It needs daily mobility and faith that people will tag a deal in under ten seconds. It also needs “student” as the identity. Out.
+Then we interviewed six people who already split household costs. The transcripts are in the repo. We did not invent them.
 
-Cooling-off Buddy is a good idea for impulse shopping. It assumes a trusted pair and a five-minute delay. It does not settle last week’s groceries. Out, for this brief.
+They kept describing the same night: someone pays, someone screenshots, someone stays quiet. P01 did not want to look serious about a few dollars. P04 did speak up about protein powder and felt like an accuser. P05 said it would feel different if the *app* asked for a review. P06 wanted a vote that does not embarrass anyone, and a result they can read.
 
-Budget Quest was the parent of what we shipped. Shared dashboard, shared goal, gamified pool. The weakness was async logging. If the house is already in the kitchen, do not send them away to type.
+That is not a campus map. That is a kitchen.
 
-The Weekly Split is Budget Quest pulled into the room. Same shared object (the receipt). Same social fear (awkwardness). Different timing: synchronous, colocated, ten minutes.
+Thrift Radar went out: it needs students-as-students and daily tagging. Cooling-off Buddy went out: impulse shopping is the wrong moment. Budget Quest was the parent of what we shipped, but async logging fights the fact that the house is already in the room.
+
+The Weekly Split is Budget Quest pulled onto the table. Same shared object (the receipt). Same social fear (awkwardness). Different timing: synchronous, colocated, ten minutes.
+
+One assumption broke in a useful way. We had treated chores as a cute currency. P03 and P04 said pricing labour would start a second argument. Informal trades already happen. So bounty cards stayed, but only as a proposal the others can reject.
 
 ## Prototype the fight, not the branding
 
 A mid-fi prototype in this project had to do one job: **run the conflict**.
 
-Claim/pass is the polite version of “I didn’t eat that.” The orphan wheel is what happens when politeness fails. The veto is for the person who still feels ripped off after the swipes. The review is a blind reclassification, not a debate. The slider is for pizza, where “personal vs communal” is the wrong question. The bounty card is for weeks when cash is the wrong currency.
+Claim/pass is the polite version of “I didn’t eat that.” The orphan wheel is what happens when politeness fails — and houses already use rock-paper-scissors and joke wheels for that. The veto is for the person who still feels ripped off after the swipes. The review is a blind reclassification, not a debate. The slider is for pizza, where “personal vs communal” is the wrong question. The bounty card is for weeks when cash is the wrong currency.
 
-We implemented those moves in a mobile web app so a demonstrator can press through them without installing Xcode. That matches the submission rule: simple to run.
+We implemented those moves in a mobile web app so a demonstrator can press through them without installing Xcode. Visual screens sit next to that code so the social beat is readable without a laptop. That matches the submission rule: simple to run.
 
 Building it changed the design. On paper, “everyone swipes at once” is a sentence. In the interface, you feel the wait for the fourth person. You see why a toast that says “3 claimed · $4.00 each” matters. You see why the veto screen must not list names.
 
 ## Stay honest about evidence
 
-We used AI to build faster. We did not use it to invent users. There is no fabricated interview in this wiki. The strongest current evidence is (1) how existing apps fail the conversation, (2) how the local housing pattern produces Sunday splits, and (3) a prototype that makes the proposed social move playable.
+We used AI to build faster. We did not use it to invent users. The interview file is a teammate’s work. The quotes in this wiki come from there.
 
-The next method is obvious and still undone: sit with a real house, use a real receipt, watch whether anyone asks who vetoed. Until that night happens, we understand the problem well enough to argue, not well enough to stop listening.
+What we can claim: existing apps fail the conversation; inner-west sharehousing produces Sunday splits; six people described swallowing unfair costs; a prototype makes the proposed social move playable.
+
+What we cannot claim: we have watched a house that is not us finish this ritual. That night is still ahead.
 
 ## What we would protect if time got short
 
-If we had to throw things overboard, we would keep the colocated rule, the anonymous veto, and the item-level claim. We would drop OCR, bank payouts, and campus features. Those are how, not what.
+If we had to throw things overboard, we would keep the colocated rule, the anonymous veto, the visible maths, and the item-level claim. We would drop OCR, bank payouts, and campus features. Those are how, not what.
 
 The what is small: a St Lucia kitchen, a receipt, and a way to be unfairly charged without having to become the unkind one.
 
-*(About 1,050 words.)*
+If this pitch has a personality, it is that sentence. We would rather be accused of designing something small than of decorating a campus.
+

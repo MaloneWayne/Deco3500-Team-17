@@ -10,7 +10,7 @@ Wicked problems do not sit still. This kitchen fight is a symptom. The prototype
 
 **Power in the house.** The person who paid the $150 grocery bill holds the receipt. The person who is new to the lease speaks last. A “fair split” can hide that.
 
-**Culture of niceness.** Australian sharehouses prize being easy to live with. The social cost of “that’s yours, not ours” is higher than the dollar amount.
+**Culture of niceness.** Australian sharehouses prize being easy to live with. P06 said it plainly: you choose peace instead of perfect fairness. The social cost of “that’s yours, not ours” is higher than the dollar amount.
 
 So: we are not curing housing. We are treating one weekly flare-up that housing produces.
 
@@ -20,7 +20,7 @@ So: we are not curing housing. We are treating one weekly flare-up that housing 
 
 **Veto as a weapon.** An anonymous pause is a gift to a shy person. It is also a gift to someone who wants to stall every bill.
 
-**Gamification of debt.** Spinners and sliders are funny until someone is actually broke. A joke wheel that assigns $14.50 can feel cruel.
+**Gamification of debt.** Spinners and sliders are funny until someone is actually broke. A joke wheel that assigns $14.50 can feel cruel. P03 already used a wheel *as a joke* to cool an air-con fight. The line between ice-breaker and insult is thin.
 
 **The accountant is still there.** Drew still floated the groceries in our demo. The ritual splits the bill. It does not stop one person from being the bank.
 

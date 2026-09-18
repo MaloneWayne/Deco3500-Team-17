@@ -10,7 +10,7 @@ The shy housemate who would rather overpay than accuse. That is the user we desi
 
 - **The housemate who shops.** If personal items snap back to “whoever added it to the cart,” the shopper eats every ambiguous luxury.
 - **Anyone without a working phone.** A web app still assumes a screen, data, and enough English to read “Play veto card.”
-- **Low-income housemates.** A spinner that dumps an orphan item on you is a fee for being unlucky, not for consuming.
+- **Low-income housemates.** A spinner that dumps an orphan item on you is a fee for being unlucky, not for consuming. P04 warned that swapping chores for money can start a second fight about what an hour of cleaning is worth.
 - **People who miss Sunday.** If the house locks the bill without you, you did not consent. You just got a total.
 
 ## Socio-political
@@ -23,7 +23,7 @@ The prototype lets chores offset dollars. That can be fair. It can also become c
 
 ## Exclusion
 
-We localised to English-speaking sharehouses in inner-west Brisbane. That already drops housemates who are new to the language, or houses that are not four-person professional-style shares (family rentals, boarding rooms, one-person studios).
+We localised to sharehouses in inner-west Brisbane. P03 already settles in WeChat, not English group chat. A veto button that only exists in English is not a small detail. It also drops houses that are not four-person shares (family rentals, boarding rooms, one-person studios).
 
 ## What we will not do
 

@@ -41,6 +41,6 @@ Phones on the table. Same items at the same time. Swipe, veto, review, lock.
 
 St Lucia sharehouses already have the colocation. Sunday night already exists. The missing piece is a **mediator**, not a ledger.
 
-A poster cannot run a blind vote. Splitwise will not sit at the table. A spinner is funny for one orphan item and useless for a full receipt.
+A poster cannot run a blind vote. Splitwise will not sit at the table. A spinner is funny for one orphan item (P01 already does rock-paper-scissors) and useless for a full receipt.
 
 So: a mobile web ritual, no install, playable in a browser, tied to a household rather than a campus map.
