@@ -21,3 +21,4 @@ Do not put invented quotes here. Rize Ma's six interviews already exist in [`Rui
 | [Interview 2.md](Interview%202.md) | Undergraduate (Year 3), 4-bedroom apartment |
 | [Interview 3.md](Interview%203.md) | PhD candidate (Year 2), townhouse with lab mates |
 | [Interview 4.md](Interview%204.md) | Undergraduate (Year 1), student housing with 3 roommates |
+| [Analysis.md](Analysis.md) | Cross-interview findings from Interviews 1–4 |
