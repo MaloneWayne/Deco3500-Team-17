@@ -14,7 +14,10 @@ Do not put invented quotes here. Rize Ma's six interviews already exist in [`Rui
 
 ## Files
 
-| File | Status |
+| File | Participant |
 | --- | --- |
-| [Protocol.md](Protocol.md) | Ready. Same five questions as the interview sheet. |
-| `P07.md` … | Add after each real session. |
+| [Protocol.md](Protocol.md) | Interview script (five questions) |
+| [Interview 1.md](Interview%201.md) | Postgraduate student, shared student house |
+| [Interview 2.md](Interview%202.md) | Undergraduate (Year 3), 4-bedroom apartment |
+| [Interview 3.md](Interview%203.md) | PhD candidate (Year 2), townhouse with lab mates |
+| [Interview 4.md](Interview%204.md) | Undergraduate (Year 1), student housing with 3 roommates |
