@@ -18,7 +18,7 @@ We are not designing another personal budgeting app. We are designing a **ten-mi
 
 This is a **household** problem in inner-west Brisbane. The users are housemates who already share living expenses, rather than “university students” as an abstract demographic.
 
-Our current research base includes **eight semi-structured interviews** with people who already split household bills, together with a **35-response survey** exploring unequal consumption, repayment discomfort, confrontation avoidance, weekly settlement routines and private proportional input.
+Our current research base includes **17 semi-structured problem interviews**, **four screen-led prototype interviews**, and a **35-response survey** exploring unequal consumption, repayment discomfort, confrontation avoidance, weekly settlement routines and private proportional input.
 
 Across these sources, a consistent pattern emerged: the difficult part is not only calculating what each person owes, but creating a socially comfortable way for housemates to express that a split feels unfair.
 

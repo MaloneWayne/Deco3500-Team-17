@@ -34,7 +34,7 @@ The Social Possibility Wheel stopped us from only drawing maps. Shared objects b
 
 We put three concepts on a matrix so we could compare them in the same language: Campus Thrift Radar, Budget Quest, Cooling-off Buddy.
 
-Then we interviewed six people who already split household costs. The transcripts are in the repo. We did not invent them.
+Then we conducted 17 problem interviews with people who already split household costs. The transcripts are in the repo. We did not invent them.
 
 They kept describing the same night: someone pays, someone screenshots, someone stays quiet. P01 did not want to look serious about a few dollars. P04 did speak up about protein powder and felt like an accuser. P05 said it would feel different if the *app* asked for a review. P06 wanted a vote that does not embarrass anyone, and a result they can read.
 
@@ -60,7 +60,7 @@ Building it changed the design. On paper, “everyone swipes at once” is a sen
 
 We used AI to build faster. We did not use it to invent users. The interview file is a teammate’s work. The quotes in this wiki come from there.
 
-What we can claim: existing apps fail the conversation; inner-west sharehousing produces Sunday splits; six people described swallowing unfair costs; a prototype makes the proposed social move playable.
+What we can claim: existing apps often leave the fairness conversation to housemates; 17 problem interviews repeatedly described silence, unclear payment requests and uneven consumption; four prototype interviews showed that the core flow is understandable while also exposing risks in guessable vetoes, timed confrontation, chore valuation and the orphan spinner.
 
 What we cannot claim: we have watched a house that is not us finish this ritual. That night is still ahead.
 
@@ -71,4 +71,3 @@ If we had to throw things overboard, we would keep the colocated rule, the anony
 The what is small: a St Lucia kitchen, a receipt, and a way to be unfairly charged without having to become the unkind one.
 
 If this pitch has a personality, it is that sentence. We would rather be accused of designing something small than of decorating a campus.
-

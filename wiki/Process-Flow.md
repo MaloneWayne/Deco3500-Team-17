@@ -7,7 +7,7 @@ flowchart TD
   A[Local bound<br/>St Lucia / Indooroopilly / Toowong] --> B[First read of the problem<br/>Sharehouse Sunday split]
   B --> C[Starting assumptions<br/>Anonymity helps<br/>Same-room beats async<br/>Chores can offset cash]
   C --> D[Methods<br/>6 social dimensions<br/>Possibility Wheel<br/>Concept matrix]
-  D --> E[Interviews n=6<br/>Sharehouse settlement]
+  D --> E[Problem interviews n=17<br/>Sharehouse settlement]
   E --> F{What we learned}
   F -->|Campus map aims at students| G[Drop Thrift Radar]
   F -->|Impulse alert is the wrong moment| H[Drop Cooling-off Buddy]
@@ -16,7 +16,8 @@ flowchart TD
   J --> K[Existing tools<br/>Splitwise / WeChat / Messenger]
   K --> L[Solution class<br/>Colocated web ritual]
   L --> M[Mid-fi prototype<br/>The Weekly Split]
-  M --> N[Claim / Pass]
+  M --> W[Prototype interviews n=4<br/>Feature walkthroughs]
+  W --> N[Claim / Pass]
   N --> O[Orphan spinner]
   O --> P[Anonymous veto]
   P --> Q[Blind review + slider]
@@ -33,7 +34,7 @@ flowchart TD
 | --- | --- | --- |
 | Bound | Picked inner-west Brisbane sharehouses, not a campus population | Geography stays; user is housemate |
 | Assumptions | Named the speech-act problem | Still the core bet |
-| Methods | Frameworks, three concepts, six interviews, a working prototype | Interviews ranked the bets |
+| Methods | Frameworks, three concepts, 17 problem interviews, four prototype interviews, a working prototype | Interviews ranked the bets and exposed design risks |
 | Filter | Killed location and impulse-buy branches; softened priced chores | Kitchen ritual remains |
 | Current practice | Splitwise, WeChat, Messenger, equal split by default | Expectation: item totals, not lectures |
 | Solution class | Compared posters, tokens, async apps, colocated UI | Web ritual, no install |

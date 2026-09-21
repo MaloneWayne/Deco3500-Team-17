@@ -34,14 +34,17 @@ The research was used to test whether those initial assumptions reflected actual
 
 ## What the interviews did to those bets
 
-We conducted **eight semi-structured interviews** with people who currently split household costs.
+We conducted **17 semi-structured interviews** with people who currently split household costs.
 
-The first six interviews (P01–P06) were conducted by Rize Ma. Two additional interviews were conducted by Chloe to further probe confrontation avoidance, private proportional input, co-located settlement and anonymous review.
+The interview set was collected across the team and explored confrontation avoidance, current settlement routines, unequal consumption, private proportional input, co-located settlement, anonymous review, chore-based contributions and playful mediation.
 
 Full notes and analysis are available in:
 
-- [`Ruize Ma/Interview Transcript 01.docx`](https://github.com/MaloneWayne/Deco3500-Team-17/blob/main/Ruize%20Ma/Interview%20Transcript%2001.docx)
-- [`Chloe/Interview`](https://github.com/MaloneWayne/Deco3500-Team-17/tree/main/Chloe/Interview)
+- [`Ruize Ma/Interview Transcript 01.docx`](../Ruize%20Ma/Interview%20Transcript%2001.docx) and [`interview-findings.md`](../Ruize%20Ma/interview-findings.md)
+- [`Chloe/Interview`](../Chloe/Interview/)
+- [`Pengxiao Yang/Interview/README.md`](../Pengxiao%20Yang/Interview/README.md)
+- [`Malone Wang/md type`](../Malone%20Wang/md%20type/)
+- [`Wanxing He/interview1`](../Wanxing%20He/interview1/)
 
 Some participants study. That is a demographic fact of inner-west Brisbane housing, not our user definition.
 
@@ -49,10 +52,10 @@ We asked about the lease, the fridge, the receipt and the group chat. We did not
 
 | Assumption | What we heard | Verdict |
 | --- | --- | --- |
-| 1. Anonymity lowers the cost of objecting | P06 wanted anonymous voting. P05 said it would feel different if *the app* asked for a review instead of a housemate. P01 stayed quiet over snacks rather than “look too serious about a few dollars.” One additional participant said that if the system simply states that an item needs review, “it feels less personal.” Another was open to anonymity for expensive items but worried about repeated anonymous rejection. | **Held, with structure.** Anonymity can lower the interpersonal cost of objecting, but it needs a reason, a visible effect and a limited review loop. |
+| 1. Anonymity lowers the cost of objecting | P06 wanted anonymous voting. P05 said it would feel different if *the app* asked for a review instead of a housemate. P01 stayed quiet over snacks rather than “look too serious about a few dollars.” Other participants said that a system-raised review could feel less personal, but also worried about repeated anonymous rejection. | **Held, with structure.** Anonymity can lower the interpersonal cost of objecting, but it needs a reason, a visible effect and a limited review loop. |
 | 2. Same-room beats async | P01: “We never sit together to calculate it.” P02 gets a Messenger demand for $30 they cannot place. P03’s numbers arrive as WeChat screenshots and someone else’s maths. P06 already likes a Sunday-night rhythm. One additional participant said that being together while using separate phones still preserved privacy. | **Held, with a stronger distinction.** The design is not “everyone talks about every item.” It is synchronous co-location with private individual input. |
 | 3. Chores can replace cash | Informal trades exist (P01, P02, P05). P03 and P04 pushed back: putting a dollar value on cleaning would start a *second* fight. One additional participant said chore barter might work for small amounts if everyone agrees; another preferred it to remain optional. | **Softened.** Bounty or chore trades stay optional. The house must accept the trade. We do not automatically price labour. |
-| 4. Awkwardness, not arithmetic | P04: Splitwise records payments; “the difficult part happens before entering the expense.” P03: people accept small unfairness because exact calculation is also annoying. Additional interviews again described accepting small losses to avoid tension; one participant summarised this as: “The social cost feels bigger than the money.” | **Held.** This is now the core problem statement rather than an initial hunch. |
+| 4. Awkwardness, not arithmetic | P04: Splitwise records payments; “the difficult part happens before entering the expense.” P03: people accept small unfairness because exact calculation is also annoying. Other interview accounts described accepting small losses to avoid tension; one participant summarised this as: “The social cost feels bigger than the money.” | **Held.** This is now the core problem statement rather than an initial hunch. |
 
 The delta that matters is that we started by treating chores as a cute equivalent to money.
 
@@ -173,7 +176,7 @@ This means **32 of 35 respondents (91.4%)** rated their comfort at **4 or 5 out 
 
 The mean rating was **4.20 / 5**.
 
-The additional interviews supported the same direction: participants were more comfortable estimating their own consumption privately than directly telling another housemate that they had consumed more.
+The interview accounts supported the same direction: participants were more comfortable estimating their own consumption privately than directly telling another housemate that they had consumed more.
 
 **Design consequence:** Proportional Claim became a core interaction rather than a speculative extra.
 
@@ -183,7 +186,8 @@ The additional interviews supported the same direction: participants were more c
 
 Our current evidence base includes:
 
-- **Eight semi-structured interviews**
+- **17 semi-structured problem interviews**
+- **four screen-led prototype interviews**
 - **35 survey responses**
 - recurring evidence that equal splitting is often accepted despite unequal consumption;
 - evidence that people delay or avoid direct confrontation;
@@ -203,11 +207,11 @@ Across these sources, the strongest recurring pattern is:
 
 ## Evidence we still need
 
-The interviews are recall, and the survey measures stated attitudes.
+The problem interviews are recall, the survey measures stated attitudes, and the prototype interviews were screen-led walkthroughs rather than complete household sessions.
 
 Neither is the same as watching a household complete the ritual in context.
 
-We have not yet sat in a St Lucia kitchen with a real Woolworths or Coles receipt and observed:
+The prototype interviews identified concerns about guessable vetoes, timed confrontation, strategic slider input, chore valuation and the unfairness of the Orphan Item Penalty Game. We have not yet sat in a St Lucia kitchen with a real Woolworths or Coles receipt and observed:
 
 - whether participants actually use anonymous review;
 - whether someone still asks “who pressed veto?”;

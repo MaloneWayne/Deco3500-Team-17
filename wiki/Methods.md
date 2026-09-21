@@ -6,9 +6,9 @@ We therefore used qualitative methods to understand how people negotiate shared 
 
 ## What we used
 
-### Semi-structured interviews (n = 8)
+### Semi-structured interviews (n = 17)
 
-We conducted eight semi-structured interviews with people who already share household expenses.
+We conducted 17 semi-structured interviews with people who already share household expenses.
 
 The interviews used a consistent set of prompts around:
 
@@ -18,14 +18,35 @@ The interviews used a consistent set of prompts around:
 - whether non-monetary trades such as chores ever stand in for cash;
 - whether humour, anonymity, games or a neutral tool can reduce tension.
 
-The first six interviews were conducted by Rize Ma. Two additional interviews were conducted by Chloe to further probe confrontation avoidance, private proportional input, co-located settlement and anonymous review.
+The interview set was collected across the team. It covers existing settlement routines, confrontation avoidance, unequal consumption, private proportional input, co-located settlement, anonymous review, chore-based contributions and playful mediation.
 
 We did not fish for campus stories. Participants were people already living in shared households, including sharehouses and university accommodation. Several study, but the **unit of analysis was the household**, not “the university student” as an abstract category.
 
 Raw and summarised interview material is available in the repo:
 
-- [`Interview Transcript 01.docx`](https://github.com/MaloneWayne/Deco3500-Team-17/blob/main/Ruize%20Ma/Interview%20Transcript%2001.docx)
-- [`Chloe / Interview`](https://github.com/MaloneWayne/Deco3500-Team-17/tree/main/Chloe/Interview)
+- Rize Ma: [`Interview Transcript 01.docx`](../Ruize%20Ma/Interview%20Transcript%2001.docx) (P01-P06) and [`interview-findings.md`](../Ruize%20Ma/interview-findings.md)
+- Chloe: [`Interview`](../Chloe/Interview/) (two transcripts and analysis)
+- Pengxiao Yang: [`Interview/README.md`](../Pengxiao%20Yang/Interview/README.md) (four transcripts, protocol and analysis)
+- Malone Wang: [`interview transcript1.md`](../Malone%20Wang/md%20type/interview%20transcript1.md), [`interview transcript2.md`](../Malone%20Wang/md%20type/interview%20transcript2.md) and [`Interview analysis.md`](../Malone%20Wang/md%20type/Interview%20analysis.md)
+- Wanxing He: [`interview transcript 1`](../Wanxing%20He/interview1/interview_transcript_1.md), [`interview transcript 2`](../Wanxing%20He/interview1/interview_transcript_2.md) and [`interview transcript 3`](../Wanxing%20He/interview1/interview_transcript_3.md)
+
+### Prototype interviews (n = 4)
+
+We also conducted four screen-led prototype interviews. Participants walked through the Receipt Draft, Veto and Review phase, proportional slider, chore proposal and Orphan Item Penalty Game. These sessions tested comprehension and anticipated social consequences; they were not full co-located household trials.
+
+The prototype interviews found that:
+
+- Claim / Pass was easy to understand, but could create pressure when other housemates' choices were visible;
+- swiping could postpone disagreement rather than resolve it;
+- a veto may not feel anonymous in a three- or four-person household;
+- the countdown, majority vote and proportional slider could introduce pressure, pile-ons or strategic under-reporting;
+- chore offsets were acceptable only for small amounts with explicit group agreement; and
+- participants consistently viewed the Orphan Item Penalty Game as unfair for shared essentials.
+
+Prototype interview material:
+
+- Malone Wang: [`process and questions`](../Malone%20Wang/md%20type/prototype%20interview%20process%20and%20questions.md), [`transcript 1`](../Malone%20Wang/md%20type/prototype%20interview%20transcript1.md), [`transcript 2`](../Malone%20Wang/md%20type/prototype%20interview%20transcript2.md) and [`analysis`](../Malone%20Wang/md%20type/prototype%20interview%20analysis.md)
+- Wanxing He: [`prototype interview transcript 1`](../Wanxing%20He/interview2/prototype_interview_transcript_1.md) and [`prototype interview transcript 2`](../Wanxing%20He/interview2/prototype_interview_transcript_2.md)
 
 ---
 
@@ -148,7 +169,7 @@ Across the interviews, participants repeatedly described accepting a slightly un
 
 P01, P02, P03, P05 and P06 all described versions of paying and swallowing the difference.
 
-The two additional interviews reinforced this pattern. One participant described accepting small grocery differences because questioning every item could make the household uncomfortable. Another summarised the trade-off as:
+The wider interview set reinforced this pattern. One participant described accepting small grocery differences because questioning every item could make the household uncomfortable. Another summarised the trade-off as:
 
 > “The social cost feels bigger than the money.”
 
@@ -162,7 +183,7 @@ Splitwise, Messenger, WeChat and bank transfers generally appear **after someone
 
 P04 described the difficult work as classifying the item rather than logging the dollar.
 
-The additional interviews reinforced the same point: participants described receiving payment requests after the calculation had already happened, sometimes without clearly remembering what the amount included.
+The interviews reinforced the same point: participants described receiving payment requests after the calculation had already happened, sometimes without clearly remembering what the amount included.
 
 The design opportunity therefore sits before payment:
 
@@ -204,7 +225,7 @@ The prototype therefore needs more than one split logic.
 
 ### Co-location does not require public confrontation
 
-The additional interviews surfaced an important distinction between:
+The interviews surfaced an important distinction between:
 
 - being physically together;
 - having to verbally challenge another person.
@@ -239,7 +260,7 @@ Game-like elements may support rhythm, progress and tension relief, but should n
 
 P06 wanted a vote that does not embarrass anyone, but also wanted a clear explanation of the result.
 
-The additional interviews strengthened this concern.
+The interviews strengthened this concern.
 
 Participants were open to anonymous review, but raised the risk that someone could repeatedly reject an item without explanation.
 
@@ -253,6 +274,8 @@ Anonymous review therefore needs:
 - a visible effect on the item;
 - a limited review loop;
 - a clear transition into final resolution.
+
+The prototype interviews made the limitation more concrete: in a small household, participants expected people to guess who used the veto, and some felt that a timed discussion or a 3-to-1 vote could increase tension. Anonymous review therefore remains a design hypothesis to refine and test, not a solved problem.
 
 ---
 
@@ -293,7 +316,7 @@ R10. Use automation for mathematical inconsistency, but return unresolved social
 
 ## What we did not do (yet)
 
-We have not yet conducted:
+The four prototype interviews tested feature comprehension and anticipated social effects. We have not yet conducted:
 
 - a diary study;
 - direct observation of a live household settlement;
