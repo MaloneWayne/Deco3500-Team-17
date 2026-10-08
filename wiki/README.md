@@ -4,4 +4,6 @@ Team 17 course wiki. Pages follow the Team Design Proposal brief: title, problem
 
 **Start here:** [Home.md](Home.md)
 
+Prototype sessions: [Testing-Plan.md](Testing-Plan.md).
+
 On GitHub, open the files in this folder. (The repo Wiki tab stays empty until someone creates the first page there in the GitHub UI.)

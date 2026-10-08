@@ -26,6 +26,7 @@ All pitch pages live in [`/wiki`](https://github.com/MaloneWayne/Deco3500-Team-1
 | Process flow diagram | [Process Flow](wiki/Process-Flow.md) |
 | Design process (~1000 words) | [Design Process Overview](wiki/Design-Process-Overview.md) |
 | Mid-fi prototype | [`weekly-split/`](weekly-split/) (browser, no install) |
+| User testing protocol | [Testing Plan](wiki/Testing-Plan.md) |
 
 ## If the live site 404s
 

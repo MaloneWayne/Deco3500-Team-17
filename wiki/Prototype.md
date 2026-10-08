@@ -49,3 +49,5 @@ You can play all four seats on one device. That is for demo. The intended use is
 ## What is still mid-fi
 
 NPC housemates auto-swipe so a single demo phone can finish the ritual. There is no real OCR of a Woolies receipt, no accounts, no bank payout. The social mechanics are the high-fidelity part. The plumbing is not.
+
+How to test this with real housemates: [Testing Plan](Testing-Plan.md).

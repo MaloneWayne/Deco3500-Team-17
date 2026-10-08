@@ -38,4 +38,5 @@ Also required by the brief:
 - [Process Flow](Process-Flow.md) — project flow diagram
 - [Ethical Considerations](Ethical-Considerations.md) — socio-political, economic, exclusion
 - [Design Process Overview](Design-Process-Overview.md) — longer process write-up
+- [Testing Plan](Testing-Plan.md) — prototype user test protocol
 - [Team](Team.md)

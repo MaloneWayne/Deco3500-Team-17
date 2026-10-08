@@ -15,3 +15,4 @@ Team 17
 - [How We Used AI](How-We-Used-AI)
 - [Design Process Overview](Design-Process-Overview)
 - [Process Flow](Process-Flow)
+- [Testing Plan](Testing-Plan)
