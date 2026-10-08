@@ -1,0 +1,1 @@
+The key finding is that participants generally expressed dissatisfaction with 'The Orphan Item Penalty Game', so we decided to drop this feature

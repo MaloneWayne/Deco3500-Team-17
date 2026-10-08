@@ -6,7 +6,7 @@ This page is the group looking at the work, not at the user.
 
 We narrowed. Campus-wide thrift pins were a plausible studio idea and a weak local product. The kitchen is a real room in St Lucia. You can point at it.
 
-We asked people. Six interviews gave us a delta we could not have got from the wheel alone: chores-for-cash is socially real and financially poisonous if you price it. Anonymity is wanted. So is a visible total.
+We asked people. Seventeen problem interviews showed that chores-for-cash is socially real and risky if automatically priced. Four prototype interviews then challenged the first interaction design: anonymity may be guessable in a small household, a timed veto can feel confrontational, and randomly assigning an orphan item feels unfair. A visible total and item-level explanation still matter.
 
 We built. The mid-fi prototype runs the full ritual. The screen flows show the same loop in a form a stakeholder can read in ten seconds.
 
@@ -14,7 +14,7 @@ We let the brief bite. “Do not target university students” stopped us from s
 
 ## Gaps
 
-**The interviews are recall.** People described last semester’s groceries. That is better than nothing. It is not a Sunday session with a house that is not us, a real receipt, and a veto on the table. The grading criteria ask whether the problem is supported by strong evidence. Interviews got us from hunch to pattern. Observation would get us from pattern to behaviour.
+**The problem interviews are recall, and the prototype interviews were screen-led.** People described past expenses and reacted to features, but they did not complete a live Sunday settlement as an existing household with a real receipt. The grading criteria ask whether the problem is supported by strong evidence. Interviews got us from hunch to pattern and exposed design risks. Observation would get us from anticipated behaviour to behaviour in context.
 
 **Recruitment skew.** Several participants study. Inner-west sharehouses are full of that. We still have not spoken to a house of four workers with no university tie. If the ritual only works for people who already treat Sunday as “admin night,” we have overfitted.
 
@@ -32,7 +32,7 @@ P04 already told us that speaking up feels like accusing someone. P06 already to
 
 ## Were the methods effective?
 
-The wheel and the six dimensions were effective at killing ideas. Interviews were effective at ranking remaining bets (anonymity up, priced chores down). Prototyping was effective at making the veto feel like a product, not a paragraph. Kitchen observation is still the missing method.
+The wheel and the six dimensions were effective at killing ideas. Problem interviews ranked the early bets; prototype interviews then weakened the orphan spinner and exposed risks in anonymity, timed discussion and chore valuation. Kitchen observation is still the missing method.
 
 ## What we would do differently
 
