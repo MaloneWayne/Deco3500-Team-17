@@ -1,0 +1,671 @@
+# The Weekly Split — Usability Test Transcript
+
+**Participant ID:** P1  
+**Test Mode:** Mode A — Solo Think-Aloud  
+**NPC:** ON  
+**Total Session Duration:** 33 min 08 sec  
+
+## Participant Profile
+
+- Lives in a 4-person share house
+- Regularly splits grocery and takeaway bills
+- Has experience as the default bill payer in the household
+
+## Test Setup
+
+- Device: Narrow mobile browser view (~390 px)
+- Audio recording: Consented
+- Screen recording: Declined
+- Prototype type: Mid-fidelity mobile prototype
+- Participant name stored only as code: P1
+
+## Seed Receipt
+
+| Item | Price |
+| --- | ---: |
+| Communal Basket | $66.80 |
+| Fancy Cheese | $12.00 |
+| Premium Protein | $22.00 |
+| Chicken Thighs | $18.90 |
+| Heavy-Duty Cleaner | $14.50 |
+| Specialty Coffee | $15.80 |
+| Pizza Delivery Feast | $80.00 |
+
+**Transcript Key:**  
+- **F** = Facilitator  
+- **P1** = Participant  
+- Text in brackets describes observed behaviour or non-verbal actions.
+
+---
+
+# 1. Consent and Opening Context
+
+**Time:** 00:00–02:48
+
+**F:**  
+We are running a student design test for *The Weekly Split*. You’ll try a mobile prototype for splitting shared-house bills, roughly 35 minutes total. You can skip any task or stop at any time. All notes will use this code P1, none of your real-name details will be saved. We are only recording audio for team analysis, it will not be shared publicly. Do you consent to take part in this study?
+
+**P1:**  
+Yeah, sure.
+
+**F:**  
+And audio recording?
+
+**P1:**  
+Yep, that’s fine.
+
+*Facilitator ticks consent sheet.*
+
+**F:**  
+Okay, quick intro. We are testing a ten-minute share-house settlement on a phone. It is a prototype: fake housemates, fake grocery plus pizza week, no real money changes hands.
+
+We want to understand whether this way of splitting bills feels usable and how it might change conversations about household costs.
+
+I will not tell you which buttons you “should” press. Please keep thinking aloud. Tell me what you are looking at and what you are about to do. There is no “correct” split.
+
+---
+
+# 2. Warm-Up Questions
+
+**Time:** 02:48–07:21
+
+## W1 — Household Situation
+
+**F:**  
+How many people are on your lease, and who usually pays for the weekly grocery shop?
+
+**P1:**  
+Four total on the lease. Rotates, but mostly two of us end up fronting the money for groceries. I’m one of the people who pays most often.
+
+## W2 — Current Bill-Splitting Method
+
+**F:**  
+Last time you split a grocery or takeaway bill, how did that request come through?
+
+**P1:**  
+Splitwise notifications. Someone inputs all the items and sends the app ping to everyone’s phones later, not face-to-face.
+
+## W3 — Experience of Unfair Costs
+
+**F:**  
+Have you ever paid for something you barely used and just said nothing? One sentence is okay.
+
+**P1:**  
+Absolutely, all the time. Like fancy condiments I never touch, I just swallow the cost to avoid an argument.
+
+## W4 — Comfort Discussing Money
+
+**F:**  
+On a scale from 1 to 5, how comfortable are money conversations in your real house?
+
+1 means you avoid talking about money completely.  
+5 means it is very easy.
+
+**P1:**  
+Probably a two. Super awkward to bring up unfair costs.
+
+**Recorded score:** 2/5
+
+---
+
+# 3. Task T1 — Sit Down and Start
+
+**Time:** 07:21–09:42
+
+## Goal
+
+Determine whether the participant can enter and understand the activity without a tutorial.
+
+**F:**  
+You are a housemate at this table. Pick who you are tonight, then start the settlement.
+
+*P1 selects Bailey as their user seat.*
+
+*Participant pauses for approximately 12 seconds while looking over the screen.*
+
+*P1 taps **Deal the Receipt**.*
+
+## T1Q1 — Understanding the App
+
+**F:**  
+In your own words, what is this app for?
+
+**P1:**  
+Looks like for flatmates to go through the grocery receipt together and work out who owes what.
+
+## T1Q2 — First Screen
+
+**F:**  
+Did anything on this first screen feel like a lecture?
+
+**P1:**  
+No, pretty straightforward, just pick a person and hit the big button.
+
+## Observation
+
+- Seat chosen: Bailey
+- Time to first action: ~12 seconds
+- Hints required: 0
+- Participant understood the basic purpose of the app
+
+---
+
+# 4. Task T2 — Claim or Pass the Receipt
+
+**Time:** 09:42–14:16
+
+## Goal
+
+Test whether item-level Claim / Pass interaction is understandable and whether it feels less confrontational than directly assigning items to housemates.
+
+**F:**  
+Go through the receipt as you would in your house. Claim what you would actually use. Pass the rest. Think aloud, especially on the protein and the cheese.
+
+**Interaction:**  
+- Swipe right = Claim
+- Swipe left = Pass
+- NPC housemates automatically submit their votes
+
+## Participant Interaction
+
+**P1:**  
+Communal basket I will claim.
+
+Fancy cheese… I don’t eat fancy cheese, so pass.
+
+*P1 swipes left.*
+
+**P1:**  
+Okay, it says three housemates claimed cheese, $4 each.
+
+Premium protein powder, not mine either, pass.
+
+Chicken thighs I would eat, so claim.
+
+Heavy-duty cleaner, everyone uses that, pass.
+
+Specialty coffee, not my thing, pass.
+
+Pizza feast I would eat some of that, so claim.
+
+*Participant notices result toast messages after the item decisions.*
+
+*When nobody claims the cleaner, the Orphan Spinner screen appears.*
+
+## T2Q1 — Understanding Shared Cost
+
+**F:**  
+When three people claimed the cheese, what did you think the $4 each meant?
+
+**P1:**  
+That the $12 cheese gets split equally among those three people who said they eat it. That makes sense.
+
+## T2Q2 — Assigning Responsibility
+
+**F:**  
+Was there a moment you wanted to say “that’s yours” to someone on the screen?
+
+**P1:**  
+Yeah, for the protein powder. That feels like one person’s purchase really.
+
+## T2Q3 — Meaning of Passing
+
+**F:**  
+Did passing feel like accusing, like opting out, or like neither?
+
+**P1:**  
+Just opting out. I’m just saying I don’t consume this item, not blaming anyone.
+
+## Observation
+
+- Completed all seven items
+- No facilitator hints required
+- Participant noticed live Claim / Pass results
+- Participant hesitated on Premium Protein and Fancy Cheese
+- Passing was interpreted as opting out rather than accusing another person
+
+---
+
+# 5. Task T3 — Orphan Spinner
+
+**Time:** 14:16–17:40
+
+## Goal
+
+Explore whether the spinner feels playful, unfair, or punitive when dealing with an unclaimed shared item.
+
+**Item:** Heavy-Duty Cleaner — $14.50
+
+All housemates passed the cleaner.
+
+The system automatically launches the 10-second Orphan Spinner.
+
+The available options are:
+
+- Absorb the cost
+- Kitchen duty for a week
+
+*Spinner lands on Bailey, the participant’s character.*
+
+*Participant laughs.*
+
+**P1:**  
+Oh no, it landed on me.
+
+## T3Q1 — Emotional Response
+
+**F:**  
+Did it feel like bad luck, like a punishment, or like a joke?
+
+**P1:**  
+Mostly a joke right now because it’s a prototype, but in real life it would feel a little bit like bad luck. Not really punishment.
+
+## T3Q2 — Cost Threshold
+
+**F:**  
+Would you use this wheel for a $14.50 cleaner? What about an $80 pizza? Why or why not?
+
+**P1:**  
+For 14-dollar cleaning supplies, okay, low-stakes. Absolutely not for 80-dollar pizza. That’s way too much money to leave to random spin.
+
+## T3Q3 — Financial Vulnerability
+
+**F:**  
+If this landed on the housemate who is broke this week, what would go wrong?
+
+**P1:**  
+That would suck. If someone is short on cash, random chance dumping a bill on them would create real conflict.
+
+*Participant selects **Kitchen Duty for a Week** instead of paying cash.*
+
+## Observation
+
+- Spinner winner: Bailey
+- Participant selected chore instead of paying
+- Participant laughed at the spinner
+- Spinner was acceptable for low-value expenses
+- Participant strongly rejected random allocation for expensive costs
+
+---
+
+# 6. Task T4 — Fair or Veto
+
+**Time:** 17:40–21:25
+
+## Goal
+
+Test whether Anonymous Veto allows users to raise concerns without directly accusing a housemate.
+
+The screen displays:
+
+**Does this look fair?**
+
+Options:
+
+- Looks Fair
+- Play Veto Card
+
+The interface states that the veto is anonymous.
+
+**F:**  
+These are the running totals. Do whatever you would do before locking a real house bill. You do not have to match what you think we want.
+
+*Participant reads the totals for approximately 15 seconds.*
+
+*P1 selects **Play Veto Card**.*
+
+*A red “VETO PLAYED!” screen appears.*
+
+## T4Q1 — Reason for Veto
+
+**F:**  
+Why did you choose Fair or Veto?
+
+**P1:**  
+The protein powder cost is pushing my total higher than I think it should be. I want us to revisit that expensive item.
+
+## T4Q2 — Trust in Anonymity
+
+**F:**  
+Do you believe the others cannot see who vetoed? What would prove it to you?
+
+**P1:**  
+Hmm, I sort of want to believe it’s anonymous, but I’m not 100% convinced. I guess if there was zero name pop-up anywhere after veto.
+
+## T4Q3 — Curiosity About Veto Source
+
+**F:**  
+Veto has happened. Did you want to know who triggered it?
+
+**P1:**  
+Curious, yeah. I almost looked around the screen trying to hunt for a name.
+
+## Observation
+
+- Participant selected Veto without prompting
+- Participant understood the purpose of the feature
+- Participant was uncertain whether anonymity could be trusted
+- Participant looked for information about who triggered the veto
+- Critical incident recorded for anonymity / C7
+
+---
+
+# 7. Task T5 — Review
+
+**Time:** 21:25–24:12
+
+## Goal
+
+Test whether users can review disputed expensive items and understand the updated split.
+
+Because a veto was triggered, the Review screen appears.
+
+The review includes:
+
+- Premium Protein: Communal / Personal
+- Pizza: Portion slider from Nibble 10% to Feral 50%
+
+**F:**  
+The house is reviewing the expensive items. Answer as yourself, not as the character.
+
+*Participant selects **Personal** for Premium Protein.*
+
+**P1:**  
+That protein should belong to the person who added it to cart. Not shared house cost.
+
+*Participant sets Pizza share to approximately 25%.*
+
+## T5Q1 — Personal Item Fairness
+
+**F:**  
+“Personal” assigns the protein to whoever put it in the cart. Is that fair to the shopper?
+
+**P1:**  
+Yeah, if you buy your own fancy supplement you should wear that cost.
+
+## T5Q2 — Pizza Slider
+
+**F:**  
+Did the slider match how your house actually eats, or did it feel fake?
+
+**P1:**  
+Pretty realistic. We all eat different amounts of takeaway pizza. The slider makes sense.
+
+## T5Q3 — Need for Further Conversation
+
+**F:**  
+Did the result toast explain the new split well enough, or did you still want a conversation?
+
+**P1:**  
+Numbers make sense, but I would still want to chat briefly with housemates for big-ticket stuff.
+
+## Observation
+
+- Review screen successfully understood
+- Premium Protein classified as Personal
+- Pizza share adjusted to approximately 25%
+- Participant still preferred discussion for higher-value expenses
+
+---
+
+# 8. Task T6 — Bounty and Lock
+
+**Time:** 24:12–28:05
+
+## Goal
+
+Test whether chore-for-money exchanges are acceptable and whether participants can understand the final bill breakdown.
+
+The Bounty screen allows users to:
+
+- Propose a chore
+- Skip and lock the bill
+
+Other housemates can Accept / Reject the proposal.
+
+**F:**  
+If your house ever trades chores for money, try proposing one. If you never would, skip. Then look at the locked bill until you can tell me who pays whom, and why your number is that number.
+
+*Participant proposes Bin & Recycling Duty to offset $10 of debt.*
+
+*NPC housemates vote 2/3 Accept.*
+
+## T6Q1 — Chore Exchange
+
+**F:**  
+Would you offer a chore this week? Why or why not?
+
+**P1:**  
+I would offer this. Doing bins is easy work for knocking down my debt.
+
+## T6Q2 — Dollar Value of Chores
+
+**F:**  
+Is the dollar next to the chore helpful, or would it start a second fight?
+
+**P1:**  
+It’s helpful to have a dollar value attached, but I can imagine people arguing, “Is bin work really worth $10?”
+
+*Participant taps **Lock the Bill**.*
+
+## T6Q3 — Final Payment
+
+**F:**  
+In one sentence, who do you pay, and how much?
+
+**P1:**  
+I owe Alex $28 after applying my bin-duty offset.
+
+## T6Q4 — Understanding the Breakdown
+
+**F:**  
+Point to the line that made that number. If you cannot find it, say so.
+
+*Participant scrolls and points to the item breakdown without facilitator assistance.*
+
+**P1:**  
+It’s coming from protein, pizza share, plus the spinner cleaner chore adjustment.
+
+## T6Q5 — Comparison with Splitwise
+
+**F:**  
+Compared with a Splitwise ping tonight, is this better, worse, or only different because we were sitting here?
+
+**P1:**  
+Better than getting a random phone ping later, because you hash out disagreements face-to-face immediately.
+
+## Observation
+
+- Bounty proposal created
+- Participant understood chore-for-debt concept
+- Participant identified a potential argument over assigning money values to chores
+- Participant successfully explained the final payment without help
+- Final breakdown was understandable
+
+---
+
+# 9. Post-Test Questionnaire
+
+**Time:** 28:05–32:20
+
+Scale:
+
+1 = Strongly Disagree  
+5 = Strongly Agree
+
+---
+
+## Q1 — Raising Concerns
+
+**Statement:**  
+I could raise a concern in this flow without feeling like I was accusing a housemate.
+
+**Score:** 4/5
+
+**Why:**  
+Veto button keeps me from directly calling someone out, though I still worry people might guess it was me.
+
+---
+
+## Q2 — Anonymous Veto
+
+**Statement:**  
+I believed the veto stayed anonymous.
+
+**Score:** 3/5
+
+**Why:**  
+UI says anonymous, but I still had doubts there might be hidden info somewhere.
+
+---
+
+## Q3 — Understanding Final Amount
+
+**Statement:**  
+I understood how my final amount was calculated.
+
+**Score:** 4/5
+
+**Why:**  
+Item-by-item breakdown helps trace costs back, though lots of moving parts from spinner and bounty.
+
+---
+
+## Q4 — Claim / Pass
+
+**Statement:**  
+Claim / Pass on each item was better than splitting the whole bill equally.
+
+**Score:** 5/5
+
+**Why:**  
+Way fairer. You don’t pay for food you will never touch.
+
+---
+
+## Q5 — Spinner
+
+**Statement:**  
+The spinner was an acceptable way to deal with something nobody claimed.
+
+**Score:** 3/5
+
+**Why:**  
+Fun for low-cost household goods, dangerous for expensive purchases.
+
+---
+
+## Q6 — Chore Trading
+
+**Statement:**  
+Trading a chore for part of the bill would be OK in my house if everyone has to accept it.
+
+**Score:** 4/5
+
+**Why:**  
+Good workaround for cash-tight weeks, but the group needs veto power over chore value.
+
+---
+
+## Q7 — Synchronous Settlement
+
+**Statement:**  
+Doing this together in one sitting would beat a payment request that arrives later on my phone.
+
+**Score:** 5/5
+
+**Why:**  
+Get all arguments over in one session instead of awkward texts days later.
+
+---
+
+## Q8 — Comfort Discussing Bills
+
+**Statement:**  
+After using this, talking about this week’s bill would feel less awkward than usual in my house.
+
+**Score:** 4/5
+
+**Why:**  
+The app carries most of the hard conversations instead of me having to bring up unfair stuff myself.
+
+---
+
+## Q9 — Feature to Reject
+
+**Question:**  
+What is the one moment you would refuse to do with real housemates?
+
+**P1:**  
+Using the random spinner for expensive purchases like the $80 pizza delivery.
+
+---
+
+## Q10 — Feature to Keep
+
+**Question:**  
+What is the one moment you would keep?
+
+**P1:**  
+Item-level Claim and Pass for every grocery receipt line item.
+
+---
+
+## Q11 — Conditions for Real Use
+
+**Question:**  
+If your house used this next Sunday, what would have to be true?
+
+**P1:**  
+Everyone physically present together in the house, all of us willing to spend about 10 minutes going through the receipt. Trust that veto really stays secret.
+
+---
+
+## Q12 — Missing Feature
+
+**Question:**  
+Anything missing that would stop you finishing the ritual?
+
+**P1:**  
+Some way to cap how much money the spinner can assign to one person, to prevent huge random bills.
+
+---
+
+# 10. Wrap-Up
+
+**Time:** 32:20–33:08
+
+**F:**  
+Thank you for your time. All data is stored with your participant code P1 with no real-name information. If you want to clear the prototype from browser history, you can close this tab now. We will stop audio recording here.
+
+**P1:**  
+No worries, that was interesting.
+
+*Audio recording stopped.*
+
+---
+
+# 11. Key Observations
+
+| Area | Observation |
+| --- | --- |
+| Claim / Pass | Clearly understood and viewed as fair |
+| Passing | Felt like opting out rather than accusing |
+| Anonymous Veto | Useful, but anonymity was not fully trusted |
+| Veto behaviour | Participant still wanted to know who triggered it |
+| Spinner | Acceptable for low-value items but rejected for expensive costs |
+| Review | Personal vs communal distinction was understood |
+| Pizza slider | Viewed as realistic |
+| Chore bounty | Generally acceptable but money values may create new arguments |
+| Final bill | Participant could explain the final amount without help |
+| Synchronous use | Preferred over receiving a later Splitwise notification |
+
+# 12. Initial Design Implications
+
+1. Strengthen the visual communication of Anonymous Veto so users trust that no identity is revealed.
+2. Consider adding a maximum value or threshold for the Orphan Spinner.
+3. Avoid using random allocation for high-cost expenses.
+4. Keep item-level Claim / Pass because the participant strongly preferred it to equal splitting.
+5. Keep a clear itemised final breakdown so users can understand where their payment comes from.
+6. Consider whether fixed dollar values for chores could create new disagreements.
+7. Preserve some space for face-to-face discussion, especially for expensive or disputed items.
