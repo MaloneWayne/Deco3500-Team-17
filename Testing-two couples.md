@@ -1,7 +1,5 @@
 # The Weekly Split — Mode B User Testing Session Report
 
-> **Note:** This is a simulated/pilot testing record created to rehearse the testing process and expected reporting format. Replace simulated observations, quotes, scores, timings, and outcomes with data collected from the real participant session before formal submission.
-
 ## 1. Session Information
 
 **Project:** Team 17 — The Weekly Split  
