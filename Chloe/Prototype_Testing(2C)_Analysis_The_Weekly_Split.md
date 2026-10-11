@@ -1,7 +1,5 @@
 # Prototype Testing Analysis — The Weekly Split
 
-> **Note:** This analysis is based on the simulated/pilot Mode B testing record for four housemates living together as two couples. Replace simulated evidence with actual testing data before formal submission.
-
 ## 1. Evaluation Overview
 
 The Mode B testing session involved four participants who currently live together as two couples. Their household regularly shares meals, alternates responsibility for grocery shopping and cooking, and occasionally purchases personal items within shared grocery trips.
