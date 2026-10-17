@@ -2,7 +2,7 @@
 
 Two Mode A sessions, 11 October 2026. Same prototype, NPC on. P1 sat as Bailey; P2 sat as Alex (so P2 had to play the veto themselves to reach Review).
 
-Raw logs: [Test-P1.md](Test-P1.md), [Test-P2.md](Test-P2.md). Plan: [Testing Plan](../../wiki/Testing-Plan.md) section 10.
+Raw logs: [Pengxiao Yang_Test-P1.md](Pengxiao%20Yang_Test-P1.md), [Pengxiao Yang_Test-P2.md](Pengxiao%20Yang_Test-P2.md). Plan: [Testing Plan](../../wiki/Testing-Plan.md) section 10. Also copied to [`user tests/`](../../user%20tests/).
 
 ## What both did
 
