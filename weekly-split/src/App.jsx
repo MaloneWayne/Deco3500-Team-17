@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react'
-import { CHORES, RECEIPT_LIMITS, SAMPLE_ITEMS, SLIDER_STOPS, VETO_TOKENS_PER_MONTH, houseOf } from './data'
+import { CHORES, RECEIPT_LIMITS, SLIDER_STOPS, VETO_TOKENS_PER_MONTH, houseOf } from './data'
 import { allVoted, claimers, computeSettlement, isUnclaimed, money, person, receiptTotal } from './engine'
 import {
   DELAYS,
@@ -23,6 +23,13 @@ const PHASES = [
   { id: 'review', label: 'Review' },
   { id: 'bounty', label: 'Bounty' },
   { id: 'locked', label: 'Lock' },
+]
+
+const HOME_STEPS = [
+  ['Create the receipt', 'Add items and who paid'],
+  ['Claim or pass', 'Swipe what you actually used'],
+  ['Review', 'Looks fair, or play an anonymous veto'],
+  ['Lock', 'See who pays whom'],
 ]
 
 const TAG_LABEL = {
@@ -232,56 +239,64 @@ function Shell({ children }) {
 
 function Home({ joinInput, setJoinInput, onCreate, onJoin }) {
   return (
-    <section className="screen welcome">
-      <p className="kicker">Synchronous colocated settlement</p>
-      <h1>The Weekly Split</h1>
-      <p className="lede">
-        Sunday night, one table, ten minutes. Every housemate plays on their own phone, live. The app takes the blame.
-      </p>
-      <div className="receipt-mini">
-        <div className="receipt-head">
-          <span>Example week</span>
-          <span>SUN  SETTLEMENT</span>
-        </div>
-        {SAMPLE_ITEMS.map((row) => (
-          <div key={row.id} className="receipt-line">
-            <span>{row.name}</span>
-            <span>{money(row.price)}</span>
-          </div>
+    <section className="screen welcome home">
+      <header className="home-hero">
+        <p className="kicker">Sunday sharehouse settlement</p>
+        <h1>The Weekly Split</h1>
+        <p className="lede">One table, ten minutes. Every housemate plays on their own phone, live. The app takes the blame.</p>
+      </header>
+
+      <ol className="home-steps">
+        {HOME_STEPS.map(([title, body]) => (
+          <li key={title}>
+            <strong>{title}</strong>
+            <span>{body}</span>
+          </li>
         ))}
-        <div className="receipt-line total">
-          <span>Groceries + pizza</span>
-          <span>{money(receiptTotal(SAMPLE_ITEMS))}</span>
+      </ol>
+
+      <div className="home-card">
+        <div className="home-card-head">
+          <h2>Open a table</h2>
+          <span>This phone becomes the host</span>
+        </div>
+        <div className="vote-row">
+          <button className="primary" onClick={() => onCreate(4)}>
+            4 people
+          </button>
+          <button className="primary" onClick={() => onCreate(5)}>
+            5 people
+          </button>
         </div>
       </div>
-      <p className="prompt">Open a table on this phone</p>
-      <div className="vote-row">
-        <button className="primary" onClick={() => onCreate(4)}>
-          4 people
-        </button>
-        <button className="primary" onClick={() => onCreate(5)}>
-          5 people
-        </button>
-      </div>
-      <p className="prompt">Or join a housemate’s table</p>
-      <div className="join-row">
-        <input
-          className="code-input"
-          value={joinInput}
-          maxLength={4}
-          placeholder="K7M2"
-          autoCapitalize="characters"
-          onChange={(e) => setJoinInput(cleanCode(e.target.value))}
-          onKeyDown={(e) => e.key === 'Enter' && onJoin()}
-        />
-        <button className="ghost claim" disabled={joinInput.length !== 4} onClick={onJoin}>
-          Join
-        </button>
-      </div>
-      <p className="hint">
-        One person opens a table and shares the 4-letter code or invite link. Everyone else joins on their own phone.
-        Empty seats can be played by NPC housemates.
+
+      <p className="home-or">
+        <span>or</span>
       </p>
+
+      <div className="home-card">
+        <div className="home-card-head">
+          <h2>Join a housemate’s table</h2>
+          <span>Type the 4-letter code</span>
+        </div>
+        <div className="join-row">
+          <input
+            className="code-input"
+            value={joinInput}
+            maxLength={4}
+            placeholder="K7M2"
+            aria-label="Table code"
+            autoCapitalize="characters"
+            onChange={(e) => setJoinInput(cleanCode(e.target.value))}
+            onKeyDown={(e) => e.key === 'Enter' && onJoin()}
+          />
+          <button className="ghost claim" disabled={joinInput.length !== 4} onClick={onJoin}>
+            Join
+          </button>
+        </div>
+      </div>
+
+      <p className="hint">Got an invite link? Just open it. Empty seats can be played by NPC housemates.</p>
     </section>
   )
 }
