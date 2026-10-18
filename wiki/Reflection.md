@@ -32,7 +32,7 @@ P04 already told us that speaking up feels like accusing someone. P06 already to
 
 ## Were the methods effective?
 
-The wheel and the six dimensions were effective at killing ideas. Problem interviews ranked the early bets; prototype interviews then weakened the orphan spinner and exposed risks in anonymity, timed discussion and chore valuation. Kitchen observation is still the missing method.
+The wheel and the six dimensions were effective at killing ideas. Problem interviews ranked the early bets; prototype interviews then weakened the orphan spinner, which the group later removed, and exposed risks in anonymity, timed discussion and chore valuation. Kitchen observation is still the missing method.
 
 ## What we would do differently
 

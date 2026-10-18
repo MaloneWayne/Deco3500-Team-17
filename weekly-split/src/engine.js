@@ -23,22 +23,13 @@ export function claimers(votes, itemId, house = HOUSEMATES) {
   return house.filter((h) => v[h.id] === 'claim')
 }
 
-export function isOrphan(votes, itemId, house = HOUSEMATES) {
+export function isUnclaimed(votes, itemId, house = HOUSEMATES) {
   return allVoted(votes, itemId, house) && claimers(votes, itemId, house).length === 0
 }
 
-export function orphansOf(votes, house = HOUSEMATES) {
-  return ITEMS.filter((item) => isOrphan(votes, item.id, house))
-}
-
-export function topExpensive(votes, count = 3, house = HOUSEMATES) {
-  const live = ITEMS.filter((item) => !isOrphan(votes, item.id, house))
-  const flagged = live
-    .filter((item) => item.tag === 'luxury' || item.tag === 'shareable')
-    .sort((a, b) => b.price - a.price)
-  const rest = live
-    .filter((item) => item.tag !== 'luxury' && item.tag !== 'shareable')
-    .sort((a, b) => b.price - a.price)
+export function topExpensive(count = 3) {
+  const flagged = ITEMS.filter((item) => item.tag === 'luxury' || item.tag === 'shareable').sort((a, b) => b.price - a.price)
+  const rest = ITEMS.filter((item) => item.tag !== 'luxury' && item.tag !== 'shareable').sort((a, b) => b.price - a.price)
   return [...flagged, ...rest].slice(0, count)
 }
 
@@ -94,20 +85,14 @@ export function resolveReview(item, reviewVotes, house = HOUSEMATES) {
   return { type: 'communal', tally: { personal, communal } }
 }
 
-export function allocateItem(item, votes, reviewResults, orphanMap, house = HOUSEMATES) {
-  const orphan = orphanMap[item.id]
-  if (orphan) {
-    if (orphan.choice === 'pay') return { [orphan.winnerId]: item.price }
-    return evenSplit(item.price, house)
-  }
-
+/** Nobody claimed it: the whole house shares it evenly. */
+export function allocateItem(item, votes, reviewResults, house = HOUSEMATES) {
   const reviewed = reviewResults[item.id]
   if (reviewed?.type === 'slider') return reviewed.shares
   if (reviewed?.type === 'personal') return { [reviewed.owner]: item.price }
 
   const people = claimers(votes, item.id, house)
-  if (!people.length) return {}
-  return evenSplit(item.price, people)
+  return evenSplit(item.price, people.length ? people : house)
 }
 
 function roundMoney(n) {
@@ -136,12 +121,12 @@ export function applyBounties(shares, bounties, house = HOUSEMATES) {
   return next
 }
 
-export function computeSettlement(votes, reviewResults, orphanMap, bounties, house = HOUSEMATES) {
+export function computeSettlement(votes, reviewResults, bounties, house = HOUSEMATES) {
   const rawShares = Object.fromEntries(house.map((h) => [h.id, 0]))
   const lines = Object.fromEntries(house.map((h) => [h.id, []]))
 
   for (const item of ITEMS) {
-    const alloc = allocateItem(item, votes, reviewResults, orphanMap, house)
+    const alloc = allocateItem(item, votes, reviewResults, house)
     for (const h of house) {
       const amt = alloc[h.id] || 0
       if (amt > 0) {
@@ -198,11 +183,17 @@ export function computeSettlement(votes, reviewResults, orphanMap, bounties, hou
   return { shares, paid, nets, transfers, lines, groceryTotal, pizzaTotal, rawShares }
 }
 
+export function bountyTally(bounty, house = HOUSEMATES) {
+  const voters = house.filter((h) => h.id !== bounty.from)
+  const votes = bounty.votes || {}
+  return { yes: voters.filter((h) => votes[h.id] === 'accept').length, total: voters.length }
+}
+
 export function bountyAccepted(bounty, house = HOUSEMATES) {
   if (!bounty) return false
   const voters = house.filter((h) => h.id !== bounty.from)
   const votes = bounty.votes || {}
   if (!voters.every((h) => votes[h.id])) return false
-  const yes = voters.filter((h) => votes[h.id] === 'accept').length
-  return yes > voters.length / 2
+  const { yes, total } = bountyTally(bounty, house)
+  return yes > total / 2
 }

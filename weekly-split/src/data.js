@@ -63,7 +63,6 @@ export const ITEMS = [
     receipt: 'grocery',
     addedBy: 'bailey',
     emoji: '🧴',
-    chore: 'Kitchen duty for a week',
   },
   {
     id: 'coffee',
@@ -92,11 +91,20 @@ export const PAYERS = {
   pizza: 'casey',
 }
 
+/** `pitch` completes the bounty card sentence "I will … to offset $X of my debt." */
 export const CHORES = [
-  { id: 'bins', label: 'Bins & recycling for two weeks', amount: 10 },
-  { id: 'bath', label: 'Deep-clean the bathroom', amount: 12 },
-  { id: 'dishes', label: 'Dishes for a full week', amount: 8 },
-  { id: 'kitchen', label: 'Kitchen duty for a week', amount: 10 },
+  { id: 'bins', label: 'Bin Duty & Recycling', pitch: 'take out all the bins and sort recycling for the next 2 weeks', amount: 10 },
+  { id: 'bath', label: 'Bathroom Deep-Clean', pitch: 'deep-clean the bathroom this weekend', amount: 12 },
+  { id: 'dishes', label: 'Dish Duty', pitch: 'wash every dish for a full week', amount: 8 },
+  { id: 'kitchen', label: 'Kitchen Duty', pitch: 'wipe down and tidy the kitchen every night for a week', amount: 10 },
+]
+
+export const VETO_TOKENS_PER_MONTH = 3
+
+export const SLIDER_STOPS = [
+  { value: 10, label: 'Just a Nibble' },
+  { value: 25, label: 'Average' },
+  { value: 50, label: 'Feral' },
 ]
 
 export function npcVote(itemId, playerId) {
@@ -117,7 +125,7 @@ export function npcReview(itemId, playerId) {
     return playerId === 'drew' ? 'communal' : 'personal'
   }
   if (itemId === 'pizza') {
-    return { alex: 25, bailey: 10, casey: 40, drew: 15, eden: 10 }[playerId] ?? 20
+    return { alex: 25, bailey: 10, casey: 50, drew: 10, eden: 10 }[playerId] ?? 25
   }
   return 'communal'
 }

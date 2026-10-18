@@ -1,12 +1,10 @@
-import { CHORES, ITEMS, SEATS, houseOf, npcReview, npcVeto, npcVote } from './data.js'
-import { allVoted, bountyAccepted, orphansOf, resolveReview, topExpensive } from './engine.js'
+import { CHORES, ITEMS, SEATS, SLIDER_STOPS, houseOf, npcReview, npcVeto, npcVote } from './data.js'
+import { allVoted, bountyAccepted, bountyTally, resolveReview, topExpensive } from './engine.js'
 
 export const DELAYS = {
   split: 1600,
-  orphanSpin: 400,
-  spin: 10000,
   veto: 900,
-  flash: 2400,
+  talk: 120000,
   review: 2200,
   bounty: 1400,
   lock: 800,
@@ -30,12 +28,10 @@ function freshRound() {
     house: [],
     itemIndex: 0,
     votes: {},
-    orphanQueue: [],
-    orphanIndex: 0,
-    spin: null,
-    orphanMap: {},
     vetoIn: [],
     vetoResult: null,
+    talkEndsAt: 0,
+    talkReady: [],
     reviewList: [],
     reviewIndex: 0,
     reviewIn: {},
@@ -84,10 +80,6 @@ export function botSeats(state) {
 
 export function currentItem(state) {
   return state?.phase === 'draft' ? ITEMS[state.itemIndex] || null : null
-}
-
-export function currentOrphan(state) {
-  return state?.phase === 'orphan' ? itemById(state.orphanQueue[state.orphanIndex]) : null
 }
 
 export function currentReview(state) {
@@ -179,19 +171,6 @@ export function applyAction(state, priv, action, { hostId = state.hostId } = {})
       changed = true
       break
     }
-    case 'orphan': {
-      if (s.phase !== 'orphan' || !s.spin || s.spin.itemId !== action.itemId) break
-      const winner = s.spin.winnerId
-      const winnerIsBot = !s.seats[winner]
-      if (seat !== winner && !(winnerIsBot && fromHost)) break
-      if (action.choice !== 'pay' && action.choice !== 'chore') break
-      s.orphanMap[action.itemId] = { winnerId: winner, choice: action.choice }
-      s.spin = null
-      if (s.orphanIndex < s.orphanQueue.length - 1) s.orphanIndex += 1
-      else s.phase = 'veto'
-      changed = true
-      break
-    }
     case 'veto': {
       if (s.phase !== 'veto' || s.vetoResult || !inHouse(s, seat) || s.vetoIn.includes(seat)) break
       if (action.choice !== 'veto' && action.choice !== 'fair') break
@@ -206,7 +185,9 @@ export function applyAction(state, priv, action, { hostId = state.hostId } = {})
       const list = s.reviewIn[item.id] || []
       if (list.includes(seat)) break
       const value = item.tag === 'shareable' ? Number(action.value) : action.value
-      if (item.tag === 'shareable' ? !(value >= 10 && value <= 50) : value !== 'communal' && value !== 'personal') break
+      const valid =
+        item.tag === 'shareable' ? SLIDER_STOPS.some((stop) => stop.value === value) : value === 'communal' || value === 'personal'
+      if (!valid) break
       priv.review[item.id] = { ...priv.review[item.id], [seat]: value }
       s.reviewIn[item.id] = [...list, seat]
       changed = true
@@ -236,25 +217,19 @@ export function applyAction(state, priv, action, { hostId = state.hostId } = {})
       changed = true
       break
     }
+    case 'talkReady': {
+      if (s.phase !== 'talk' || !inHouse(s, seat) || s.talkReady.includes(seat)) break
+      s.talkReady.push(seat)
+      changed = true
+      break
+    }
 
     // Steps below only come from the host's own timers.
     case 'advanceDraft': {
       const item = currentItem(s)
       if (!item || !allVoted(s.votes, item.id, seatObjects(s.house))) break
       if (s.itemIndex < ITEMS.length - 1) s.itemIndex += 1
-      else {
-        const orphans = orphansOf(s.votes, seatObjects(s.house))
-        if (orphans.length) Object.assign(s, { phase: 'orphan', orphanQueue: orphans.map((o) => o.id), orphanIndex: 0, spin: null })
-        else s.phase = 'veto'
-      }
-      changed = true
-      break
-    }
-    case 'spin': {
-      const item = currentOrphan(s)
-      if (!item || s.spin) break
-      const winnerId = s.house[Math.floor(Math.random() * s.house.length)]
-      s.spin = { itemId: item.id, winnerId, at: Date.now() }
+      else s.phase = 'veto'
       changed = true
       break
     }
@@ -263,16 +238,19 @@ export function applyAction(state, priv, action, { hostId = state.hostId } = {})
       const played = s.house.some((id) => priv.veto[id] === 'veto')
       s.vetoResult = played ? 'veto' : 'fair'
       if (played) {
-        s.phase = 'flash'
-        s.reviewList = topExpensive(s.votes, 3, seatObjects(s.house)).map((i) => i.id)
+        s.phase = 'talk'
+        s.talkEndsAt = Date.now() + DELAYS.talk
+        s.talkReady = []
+        s.reviewList = topExpensive(3).map((i) => i.id)
         s.reviewIndex = 0
       } else s.phase = 'bounty'
       priv.veto = {}
       changed = true
       break
     }
-    case 'endFlash': {
-      if (s.phase !== 'flash') break
+    case 'endTalk': {
+      if (s.phase !== 'talk') break
+      if (!everyoneIn(s, s.talkReady) && Date.now() < s.talkEndsAt - 500) break
       s.phase = s.reviewList.length ? 'review' : 'bounty'
       changed = true
       break
@@ -298,8 +276,10 @@ export function applyAction(state, priv, action, { hostId = state.hostId } = {})
     case 'resolveBounty': {
       const d = s.draftBounty
       if (s.phase !== 'bounty' || !d || !everyoneIn(s, d.in, d.from)) break
-      const accepted = bountyAccepted({ from: d.from, votes: priv.bounty }, seatObjects(s.house))
-      s.bounties.push({ from: d.from, choreId: d.choreId, amount: d.amount, accepted })
+      const ballot = { from: d.from, votes: priv.bounty }
+      const accepted = bountyAccepted(ballot, seatObjects(s.house))
+      const { yes, total } = bountyTally(ballot, seatObjects(s.house))
+      s.bounties.push({ from: d.from, choreId: d.choreId, amount: d.amount, accepted, yes, total })
       s.draftBounty = null
       priv.bounty = {}
       changed = true
@@ -338,14 +318,14 @@ export function nextStep(state) {
       }
       return null
     }
-    case 'orphan':
-      return state.spin ? null : { type: 'spin', delay: DELAYS.orphanSpin, key: `spin:${state.orphanIndex}` }
     case 'veto':
       return !state.vetoResult && everyoneIn(state, state.vetoIn)
         ? { type: 'resolveVeto', delay: DELAYS.veto, key: 'veto' }
         : null
-    case 'flash':
-      return { type: 'endFlash', delay: DELAYS.flash, key: 'flash' }
+    case 'talk':
+      return everyoneIn(state, state.talkReady)
+        ? { type: 'endTalk', delay: 300, key: 'talk:ready' }
+        : { type: 'endTalk', delay: Math.max(0, state.talkEndsAt - Date.now()), key: `talk:timer:${state.talkEndsAt}` }
     case 'review': {
       const item = currentReview(state)
       if (!item) return null
@@ -377,11 +357,10 @@ export function botMoves(state) {
     bots.forEach((seat, i) => {
       if (!state.votes[item.id]?.[seat]) push(seat, i, 700, 320, { type: 'vote', itemId: item.id, choice: npcVote(item.id, seat) })
     })
-  } else if (state.phase === 'orphan') {
-    const winner = state.spin?.winnerId
-    if (winner && bots.includes(winner)) {
-      push(winner, 0, DELAYS.spin + 1200, 0, { type: 'orphan', itemId: state.spin.itemId, choice: 'pay' })
-    }
+  } else if (state.phase === 'talk') {
+    bots.forEach((seat, i) => {
+      if (!state.talkReady.includes(seat)) push(seat, i, 1500, 200, { type: 'talkReady' })
+    })
   } else if (state.phase === 'veto' && !state.vetoResult) {
     bots.forEach((seat, i) => {
       if (!state.vetoIn.includes(seat)) push(seat, i, 500, 280, { type: 'veto', choice: npcVeto(seat) || 'fair' })
@@ -430,8 +409,8 @@ export function actionSettled(state, action, seat, clientId) {
       return !seatOf(state, clientId)
     case 'vote':
       return currentItem(state)?.id !== action.itemId || Boolean(state.votes[action.itemId]?.[seat])
-    case 'orphan':
-      return state.phase !== 'orphan' || Boolean(state.orphanMap[action.itemId])
+    case 'talkReady':
+      return state.phase !== 'talk' || state.talkReady.includes(seat)
     case 'veto':
       return state.phase !== 'veto' || Boolean(state.vetoResult) || state.vetoIn.includes(seat)
     case 'review':

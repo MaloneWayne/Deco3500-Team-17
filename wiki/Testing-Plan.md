@@ -19,7 +19,7 @@ We are not asking “do you like the colours?” We are checking the claims the 
 | C2 | The app can take the heat so a housemate does not have to accuse anyone | R5 |
 | C3 | Item-level claim/pass is clearer than one house total | R3, R6 |
 | C4 | After lock, people can explain *why* they owe a number | R2, R4 |
-| C5 | A spinner / game feels like chance, not a personal attack — unless the amount is too high | R8 |
+| C5 | Splitting an unclaimed item evenly feels fair enough that nobody argues about it | R8 |
 | C6 | A chore-for-cash trade is acceptable only if the house can reject it | R7 |
 | C7 | Nobody asks “who played the veto?” | R1 |
 
@@ -60,7 +60,7 @@ Mode B is stronger evidence for C2 and C7. Mode A is enough if you cannot get a 
 - They can skip any task or stop the session.
 - Names in notes: P1, P2… House suburb only if they offer it.
 - Do not store a public feed of who bought what from this test. The prototype already uses fake names (Alex, Bailey, Casey, Drew).
-- If they become uncomfortable at the veto or spinner, skip to lock and go to the interview.
+- If they become uncomfortable at the veto or table talk, skip to lock and go to the interview.
 
 Consent script is in [Appendix A](#appendix-a--consent-script).
 
@@ -100,7 +100,7 @@ One facilitator runs the talk. One other person (if available) only logs Appendi
 
 - Think-aloud: “Say what you are looking at and what you are about to do. There is no right split.”
 - If they go silent for 10 seconds: “What are you trying to do?”
-- **Do not** say “you should veto,” “claim the protein,” or “the cleaner is an orphan.”
+- **Do not** say “you should veto,” “claim the protein,” or “nobody will claim the cleaner.”
 - **Do not** defend the design. Write the complaint down.
 - If they ask “did I do it right?”: “Whatever you would do in your house is right.”
 - After each task, ask the **immediate** questions in that task. Save Likert items for the end so you do not break the flow.
@@ -153,16 +153,16 @@ Give **one task at a time**. Start the next only when they have answered the imm
 
 > Go through the receipt as you would in your house. Claim what you would actually use. Pass the rest. Think aloud, especially on the protein and the cheese.
 
-There are seven cards. Swipe right / **Claim**, swipe left / **Pass**. NPC others will fill in.
+There are seven cards. Swipe right or tap the green ✓ **Claim**; swipe left or tap the red ✕ **Pass**. NPC others will fill in.
 
 **Watch for (tick on Appendix B):**
 
-- Do they notice live votes (`Claim` / `Pass` / `...`) under the card?
-- Do they wait for the toast (`N claimed · $X each` or `Nobody claimed it · this is an Orphan`)?
+- Do they notice the “N Housemates Claimed” badge and the avatars on the card, and the “Votes in: x/4” pill?
+- Do they wait for the toast (`N claimed · $X each` or `Nobody claimed it · split evenly across all 4`)?
 - Protein ($22, cart: Drew) and Fancy Cheese ($12) — do they hesitate? Do they say a housemate’s name out loud?
-- Cleaner — do they pass, and do they understand it will come back?
+- Cleaner — do they pass, and do they notice that passing it means everyone pays a quarter?
 
-**Immediate questions (after the seventh card, or at the spinner):**
+**Immediate questions (after the seventh card):**
 
 - T2q1. When three people claimed the cheese, what did you think the $4 each meant?
 - T2q2. Was there a moment you wanted to say “that’s yours” to someone on the screen?
@@ -172,27 +172,25 @@ There are seven cards. Swipe right / **Claim**, swipe left / **Pass**. NPC other
 
 ---
 
-### T3 — Orphan spinner (Heavy-Duty Cleaner)  
-**Goal:** C5. With NPC defaults, everyone passes the cleaner, so this screen should appear.
+### T3 — Unclaimed item (Heavy-Duty Cleaner)  
+**Goal:** C5. With NPC defaults, everyone passes the cleaner. The toast reads “Nobody claimed it · split evenly across all 4,” and the Pre-Lock Review later lists it as “Unclaimed · split evenly.” (The earlier orphan spinner was removed after the prototype interviews.)
 
-**Say nothing extra** unless they look lost. Let the 10-second wheel run.
+**Say nothing extra** unless they look lost.
 
-When it stops: **Absorb the cost** or **Kitchen duty for a week**.
+**Immediate questions (ask at the Pre-Lock Review screen, before they tap):**
 
-**Immediate questions:**
+- T3q1. Is splitting the cleaner four ways fair? Who in your house would disagree?
+- T3q2. Would it be fairer if one person took it, or if the house voted on it?
+- T3q3. Would you pass on purpose next time, knowing it gets split anyway?
 
-- T3q1. Did it feel like bad luck, like a punishment, or like a joke?
-- T3q2. Would you use this wheel for $14.50 cleaner? For an $80 pizza? Why / why not?
-- T3q3. If this landed on the housemate who is broke this week, what would go wrong?
-
-**Log:** winner name; pay vs chore; laugh / frown / “that’s mean”; whether they waited or asked to skip.
+**Log:** whether they noticed the unclaimed line; fair / unfair / “I’d just take it”; any mention of the old spinner idea.
 
 ---
 
 ### T4 — Fair or veto  
 **Goal:** C1, C2, C7.
 
-Screen: **Does this look fair?** Totals per person. Buttons: **Looks Fair** / **Play Veto Card**. Copy says the veto is anonymous.
+Screen: **Pre-Lock Review**. Household total and their share, “Your Veto Tokens: 3 of 3 remaining this month,” the bill by category, and each person’s share. Buttons: **Looks Fair** / **Play Veto Card (Anonymous)**. Copy says no name is sent.
 
 **Say:**
 
@@ -200,11 +198,14 @@ Screen: **Does this look fair?** Totals per person. Buttons: **Looks Fair** / **
 
 If they sit as non-Alex with NPC on, Alex will veto anyway. Still let them choose first if they have not tapped yet.
 
-**Immediate questions (after their tap, before or during the red VETO flash):**
+**Immediate questions (after their tap, or on the red VETO PLAYED screen):**
 
 - T4q1. Why did you choose Fair or Veto?
 - T4q2. Do you believe the others cannot see who vetoed? What would prove it to you?
 - T4q3. *(If a veto happened)* Did you want to know who triggered it?
+- T4q4. Did having only 3 veto tokens a month make you more careful, or make you not bother?
+
+**If a veto fires:** the red **VETO PLAYED!** screen shows a 2-minute **Table Talk** countdown over the contested items. Say nothing. Note whether they read the items, wait out the timer, or tap **Proceed to blind vote**. Ask: *T4q5. What would your house actually say during these two minutes?*
 
 **Success:** They tap one of the two buttons without being told which.  
 **Critical fail for C7:** they ask the facilitator who vetoed, or they hunt the UI for a name.
@@ -212,7 +213,7 @@ If they sit as non-Alex with NPC on, Alex will veto anyway. Still let them choos
 ---
 
 ### T5 — Review (only if a veto fired)  
-**Goal:** C3, C6-adjacent. Heavy items come back. Luxury: **Communal** / **Personal**. Pizza: slider **Nibble 10% → Feral 50%**, then **Lock in X%**.
+**Goal:** C3, C6-adjacent. Heavy items come back as a **Blind Item Vote**. Luxury: **Communal (Shared by all)** / **Personal (Private stash)**. Pizza: **The Slider of Fairness**, three stops (Just a Nibble 10% / Average 25% / Feral 50%) showing a dollar share, then **Lock My Portion**.
 
 **Say:**
 
@@ -231,7 +232,7 @@ If they never veto and NPC does not veto (they sat as Alex and tapped Fair), **s
 ### T6 — Bounty, then lock  
 **Goal:** C4, C6.
 
-**Bounty:** “Chores can settle debt.” Propose a chore (bins, bathroom, dishes, kitchen) or **Skip and lock the bill**. Others Accept / Reject.
+**Bounty:** “House Bounty.” Play a bounty card (Bin Duty & Recycling, Bathroom Deep-Clean, Dish Duty, Kitchen Duty). The card reads in first person, e.g. “I will take out all the bins… to offset $10 of my debt.” Others tap **Accept Trade** / **Decline Trade**. When done, everyone taps **Ready to lock the bill**.
 
 **Say:**
 
@@ -281,7 +282,7 @@ After each session, the facilitator fills this within 24 hours. Store in the rep
 
 ### Qualitative (tag quotes)
 
-Tag each quote with: `silence` `accusation` `anonymity` `maths` `spinner-cruel` `spinner-ok` `bounty-price` `bounty-ok` `ping-vs-table` `shopper-unfair` `majority`.
+Tag each quote with: `silence` `accusation` `anonymity` `maths` `unclaimed-fair` `unclaimed-unfair` `table-talk` `veto-tokens` `bounty-price` `bounty-ok` `ping-vs-table` `shopper-unfair` `majority`.
 
 A finding is real when **two sessions** produce the same tag, or when one session produces a clear critical incident (e.g. they refuse to veto because they think the others will see).
 
@@ -289,7 +290,8 @@ A finding is real when **two sessions** produce the same tag, or when one sessio
 
 - If ≥ half of participants cannot explain the lock total → redesign the breakdown, not the swipe.
 - If ≥ half ask who vetoed, or do not believe it is anonymous → the flash/copy has failed C7.
-- If the spinner is called cruel for $14.50 → drop random pay; keep chore-only, or let the house re-deal.
+- If the even split of unclaimed items is called unfair → send unclaimed items to the blind vote, or let the house re-deal them.
+- If people wait out the full 2-minute table talk in silence → shorten it, or start the blind vote straight away.
 - If bounty dollars start a “is cleaning worth $10?” speech → remove preset amounts; proposal + yes/no only.
 - If they say the session only worked because the facilitator was there → Mode B (real housemates) is mandatory before claiming C2.
 
@@ -336,8 +338,8 @@ Participant code: ______ Date: ______ Facilitator: ______ Mode: A / B
 | --- | --- | --- | --- | --- |
 | T1 start | | | | |
 | T2 claim/pass | | | | Protein: · Cheese: · Cleaner: |
-| T3 spinner | | | | Pay / chore · mood: |
-| T4 veto | | | | Fair / Veto · asked who?: Y/N |
+| T3 unclaimed | | | | Noticed even split? Y/N · fair / unfair: |
+| T4 veto | | | | Fair / Veto · asked who?: Y/N · table talk: waited / proceeded |
 | T5 review | | | | Seen? Y/N · protein vote: · pizza %: |
 | T6 bounty + lock | | | | Proposed? · explained number? Y/N |
 
@@ -345,8 +347,8 @@ Participant code: ______ Date: ______ Facilitator: ______ Mode: A / B
 
 - [ ] Named a fake housemate as greedy / unfair  
 - [ ] Whispered or lowered voice at veto  
-- [ ] Laughed at spinner  
-- [ ] Called spinner mean  
+- [ ] Talked about the items during table talk  
+- [ ] Questioned the even split of the cleaner  
 - [ ] Looked for who vetoed  
 - [ ] Confused by toast / totals  
 - [ ] Compared to Splitwise / chat unprompted  
@@ -356,7 +358,7 @@ Participant code: ______ Date: ______ Facilitator: ______ Mode: A / B
 T1q1–2:  
 T2q1–3:  
 T3q1–3:  
-T4q1–3:  
+T4q1–5:  
 T5q1–3:  
 T6q1–5:
 
@@ -383,7 +385,7 @@ Why:
 1  2  3  4  5  
 Why:
 
-**Q5.** The spinner was an acceptable way to deal with something nobody claimed.  
+**Q5.** Splitting something nobody claimed evenly across the house was fair.  
 1  2  3  4  5  
 Why:
 

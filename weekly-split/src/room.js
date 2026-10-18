@@ -35,7 +35,7 @@ const MAX_RESENDS = 12
 const HEARTBEAT_MS = 5000
 const TICK_MS = 2000
 
-const RESENDABLE = new Set(['sit', 'vote', 'orphan', 'veto', 'review', 'propose', 'bountyVote', 'ready'])
+const RESENDABLE = new Set(['sit', 'vote', 'veto', 'review', 'propose', 'bountyVote', 'ready', 'talkReady'])
 
 const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
 

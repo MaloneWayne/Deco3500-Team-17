@@ -18,9 +18,10 @@ flowchart TD
   L --> M[Mid-fi prototype<br/>The Weekly Split]
   M --> W[Prototype interviews n=4<br/>Feature walkthroughs]
   W --> N[Claim / Pass]
-  N --> O[Orphan spinner]
-  O --> P[Anonymous veto]
-  P --> Q[Blind review + slider]
+  N --> O[Unclaimed items split evenly<br/>Orphan spinner cut after interviews]
+  O --> P[Pre-lock review<br/>Anonymous veto tokens]
+  P --> P2[Veto played<br/>2-minute table talk]
+  P2 --> Q[Blind item vote + slider of fairness]
   Q --> R[Bounty cards]
   R --> S[Lock: who pays whom]
   S --> T[Meta<br/>Housing as parent problem<br/>New risks: majority, veto trolling]
@@ -38,10 +39,10 @@ flowchart TD
 | Filter | Killed location and impulse-buy branches; softened priced chores | Kitchen ritual remains |
 | Current practice | Splitwise, WeChat, Messenger, equal split by default | Expectation: item totals, not lectures |
 | Solution class | Compared posters, tokens, async apps, colocated UI | Web ritual, no install |
-| Prototype | Draft, orphan, veto, review, bounty, lock | Playable mid-fi + screen flows |
+| Prototype | Draft, veto, table talk, blind vote, bounty, lock; live on 4–5 phones; screens redrawn from AI concept art; orphan spinner removed | Playable mid-fi + screen flows |
 | Meta / ethics | Parent problems and who we might harm | Testing must watch pile-ons |
 | Reflection | Five-person team; recall interviews, no live kitchen yet | Next: one real Sunday |
 
 ## Prototype path (user-facing)
 
-Welcome → pick a seat → swipe the receipt → maybe a spinner → confirm fair or veto → review heavy items → optional bounty → locked transfers.
+Open or join a table → pick a seat → swipe the receipt (unclaimed items split evenly) → pre-lock review: looks fair or veto → if vetoed, 2-minute table talk → blind item vote and pizza slider → optional bounty card → everyone ready → locked transfers.

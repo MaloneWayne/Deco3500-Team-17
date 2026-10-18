@@ -50,7 +50,7 @@ One assumption broke in a useful way. We had treated chores as a cute currency. 
 
 A mid-fi prototype in this project had to do one job: **run the conflict**.
 
-Claim/pass is the polite version of “I didn’t eat that.” The orphan wheel is what happens when politeness fails — and houses already use rock-paper-scissors and joke wheels for that. The veto is for the person who still feels ripped off after the swipes. The review is a blind reclassification, not a debate. The slider is for pizza, where “personal vs communal” is the wrong question. The bounty card is for weeks when cash is the wrong currency.
+Claim/pass is the polite version of “I didn’t eat that.” We first tried an orphan wheel for items nobody claimed, because houses already use rock-paper-scissors and joke wheels. Prototype interviews called it unfair for shared essentials, so the group cut it. Unclaimed items are now split evenly. The veto is for the person who still feels ripped off after the swipes. The review is a blind reclassification, not a debate. The slider is for pizza, where “personal vs communal” is the wrong question. The bounty card is for weeks when cash is the wrong currency.
 
 We implemented those moves in a mobile web app so a demonstrator can press through them without installing Xcode. Visual screens sit next to that code so the social beat is readable without a laptop. That matches the submission rule: simple to run.
 
