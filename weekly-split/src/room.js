@@ -1,6 +1,7 @@
 import mqtt from 'mqtt'
 import { SEATS } from './data.js'
 import {
+  STATE_VERSION,
   actionSettled,
   applyAction,
   botMoves,
@@ -12,9 +13,9 @@ import {
 } from './game.js'
 
 /**
- * Public MQTT test brokers. Room traffic is readable by anyone who knows the topic, so the
- * prototype only ever sends the seeded demo receipt and never sends private veto/review/bounty choices
- * beyond the host phone that tallies them.
+ * Public MQTT test brokers. Room traffic is readable by anyone who knows the topic, so the receipt
+ * screen asks for made-up items, and private veto/review/bounty choices never leave the host phone
+ * that tallies them.
  */
 export const BROKERS = [
   'wss://broker.emqx.io:8084/mqtt',
@@ -35,7 +36,22 @@ const MAX_RESENDS = 12
 const HEARTBEAT_MS = 5000
 const TICK_MS = 2000
 
-const RESENDABLE = new Set(['sit', 'vote', 'veto', 'review', 'propose', 'bountyVote', 'ready', 'talkReady'])
+const RESENDABLE = new Set([
+  'sit',
+  'receiptName',
+  'receiptPayer',
+  'itemSave',
+  'itemRemove',
+  'sampleReceipt',
+  'startSplit',
+  'vote',
+  'veto',
+  'review',
+  'propose',
+  'bountyVote',
+  'ready',
+  'talkReady',
+])
 
 const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
 
@@ -285,7 +301,7 @@ export class RoomSession {
   }
 
   onState(msg) {
-    if (!msg || msg.v !== 2 || msg.code !== this.code) return
+    if (!msg || msg.v !== STATE_VERSION || msg.code !== this.code) return
     this.lastStateAt = Date.now()
 
     if (this.isHost) {
@@ -485,7 +501,7 @@ export class RoomSession {
   loadSavedState() {
     try {
       const saved = JSON.parse(this.storage.getItem(`weekly-split-state:${this.code}`) || 'null')
-      return saved?.v === 2 && saved.code === this.code ? saved : null
+      return saved?.v === STATE_VERSION && saved.code === this.code ? saved : null
     } catch {
       return null
     }

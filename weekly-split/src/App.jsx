@@ -1,11 +1,23 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react'
-import { CHORES, ITEMS, PAYERS, SLIDER_STOPS, VETO_TOKENS_PER_MONTH, houseOf } from './data'
-import { allVoted, claimers, computeSettlement, isUnclaimed, money, person } from './engine'
-import { DELAYS, botSeats, choreById, currentItem, currentReview, houseSeats, itemById } from './game'
+import { CHORES, RECEIPT_LIMITS, SAMPLE_ITEMS, SLIDER_STOPS, VETO_TOKENS_PER_MONTH, houseOf } from './data'
+import { allVoted, claimers, computeSettlement, isUnclaimed, money, person, receiptTotal } from './engine'
+import {
+  DELAYS,
+  botSeats,
+  canStartSplit,
+  choreById,
+  cleanName,
+  currentItem,
+  currentReview,
+  houseSeats,
+  itemById,
+  parsePrice,
+} from './game'
 import { cleanCode, clientId, randomCode, readRoomFromHash, roomLink, writeRoomHash } from './room'
 import { useRoom } from './useRoom'
 
 const PHASES = [
+  { id: 'receipt', label: 'Receipt' },
   { id: 'draft', label: 'Draft' },
   { id: 'veto', label: 'Veto' },
   { id: 'review', label: 'Review' },
@@ -47,7 +59,7 @@ export default function App() {
   const houseKey = !g ? '' : g.phase === 'lobby' ? `lobby:${g.houseSize}` : g.house.join(',')
   const house = useMemo(() => houseSeats(g), [houseKey])
   const settlement = useMemo(
-    () => (g ? computeSettlement(g.votes, g.reviewResults, g.bounties, house) : null),
+    () => (g ? computeSettlement(g.receipt, g.votes, g.reviewResults, g.bounties, house) : null),
     [g, house],
   )
 
@@ -123,10 +135,13 @@ export default function App() {
         />
       )}
 
+      {phase === 'receipt' && <ReceiptBuilder room={room} me={me} house={house} receipt={g.receipt} send={send} />}
+
       {phase === 'draft' && currentItem(g) && (
         <Draft
           me={me}
           house={house}
+          receipt={g.receipt}
           item={currentItem(g)}
           itemIndex={g.itemIndex}
           votes={g.votes}
@@ -139,6 +154,7 @@ export default function App() {
         <Veto
           me={me}
           house={house}
+          receipt={g.receipt}
           votes={g.votes}
           settlement={settlement}
           vetoIn={g.vetoIn}
@@ -152,7 +168,7 @@ export default function App() {
           me={me}
           house={house}
           endsAt={g.talkEndsAt}
-          items={g.reviewList.map(itemById).filter(Boolean)}
+          items={g.reviewList.map((id) => itemById(g, id)).filter(Boolean)}
           talkReady={g.talkReady}
           answered={g.talkReady.includes(me) || room.pending('talkReady')}
           onReady={() => send({ type: 'talkReady' })}
@@ -194,6 +210,7 @@ export default function App() {
       {phase === 'locked' && (
         <Locked
           settlement={settlement}
+          receipt={g.receipt}
           house={house}
           bounties={g.bounties}
           isHost={isHost}
@@ -214,7 +231,6 @@ function Shell({ children }) {
 }
 
 function Home({ joinInput, setJoinInput, onCreate, onJoin }) {
-  const grocery = ITEMS.filter((i) => i.receipt === 'grocery').reduce((s, i) => s + i.price, 0)
   return (
     <section className="screen welcome">
       <p className="kicker">Synchronous colocated settlement</p>
@@ -224,10 +240,10 @@ function Home({ joinInput, setJoinInput, onCreate, onJoin }) {
       </p>
       <div className="receipt-mini">
         <div className="receipt-head">
-          <span>This week</span>
+          <span>Example week</span>
           <span>SUN  SETTLEMENT</span>
         </div>
-        {ITEMS.map((row) => (
+        {SAMPLE_ITEMS.map((row) => (
           <div key={row.id} className="receipt-line">
             <span>{row.name}</span>
             <span>{money(row.price)}</span>
@@ -235,7 +251,7 @@ function Home({ joinInput, setJoinInput, onCreate, onJoin }) {
         ))}
         <div className="receipt-line total">
           <span>Groceries + pizza</span>
-          <span>{money(grocery + 80)}</span>
+          <span>{money(receiptTotal(SAMPLE_ITEMS))}</span>
         </div>
       </div>
       <p className="prompt">Open a table on this phone</p>
@@ -375,10 +391,10 @@ function Lobby({ code, g, me, selfId, isHost, sitting, offline, send, onLeave })
       )}
       {isHost ? (
         <button className="primary" disabled={!canDeal} onClick={() => send({ type: 'deal' })}>
-          Deal the receipt to every phone
+          Everyone’s here — create the receipt
         </button>
       ) : (
-        <p className="hint">Waiting for the host to deal the receipt.</p>
+        <p className="hint">Waiting for the host to start. Then anyone can add items to the receipt.</p>
       )}
       <button className="ghost pass" onClick={onLeave}>
         Leave table
@@ -470,7 +486,221 @@ function TableNotices({ room, g, me, house, isHost, send }) {
   )
 }
 
-function Draft({ me, house, item, itemIndex, votes, waiting, onVote }) {
+function newItemId() {
+  return `i${Date.now().toString(36).slice(-5)}${Math.random().toString(36).slice(2, 6)}`
+}
+
+function ReceiptBuilder({ room, me, house, receipt, send }) {
+  const playing = house.some((h) => h.id === me)
+  const [nameDraft, setNameDraft] = useState(receipt.name)
+  const [nameEditing, setNameEditing] = useState(false)
+  const [itemName, setItemName] = useState('')
+  const [price, setPrice] = useState('')
+  const [byAppetite, setByAppetite] = useState(false)
+  const [editing, setEditing] = useState('')
+  const [lastSent, setLastSent] = useState('')
+  const [error, setError] = useState('')
+
+  const shownName = nameEditing || room.pending('receiptName') ? nameDraft : receipt.name
+  const editItem = receipt.items.find((i) => i.id === editing) || null
+  const total = receiptTotal(receipt.items)
+  const ready = canStartSplit({ ...receipt, name: shownName }, house.map((h) => h.id))
+  const starting = room.pending('startSplit')
+  const missing = !cleanName(shownName, RECEIPT_LIMITS.name)
+    ? 'Give the receipt a name.'
+    : !receipt.items.length
+      ? 'Add at least one item.'
+      : !house.some((h) => h.id === receipt.payer)
+        ? 'Pick who paid.'
+        : ''
+
+  function commitName() {
+    if (!nameEditing) return
+    setNameEditing(false)
+    if (cleanName(nameDraft, RECEIPT_LIMITS.name) !== receipt.name) send({ type: 'receiptName', name: nameDraft })
+  }
+
+  useEffect(() => {
+    if (!nameEditing) return
+    const timer = setTimeout(commitName, 700)
+    return () => clearTimeout(timer)
+  }, [nameDraft, nameEditing])
+
+  function resetForm() {
+    setEditing('')
+    setItemName('')
+    setPrice('')
+    setByAppetite(false)
+    setError('')
+  }
+
+  function startEdit(item) {
+    setEditing(item.id)
+    setItemName(item.name)
+    setPrice(item.price.toFixed(2))
+    setByAppetite(item.tag === 'shareable')
+    setError('')
+  }
+
+  function saveItem(e) {
+    e.preventDefault()
+    const name = cleanName(itemName, RECEIPT_LIMITS.itemName)
+    const value = parsePrice(price)
+    if (!name) return setError('Give the item a name.')
+    if (Number.isNaN(value)) return setError(`Enter a price between $0.01 and ${money(RECEIPT_LIMITS.maxPrice)}.`)
+    if (!editItem && receipt.items.length >= RECEIPT_LIMITS.items) return setError('This receipt is full.')
+    const itemId = editItem ? editItem.id : newItemId()
+    send({ type: 'itemSave', itemId, name, price: value, tag: byAppetite ? 'shareable' : '' })
+    setLastSent(itemId)
+    resetForm()
+  }
+
+  function removeItem(item) {
+    send({ type: 'itemRemove', itemId: item.id })
+    if (editing === item.id) resetForm()
+  }
+
+  return (
+    <section className="screen receipt-make">
+      <h2 className="screen-title">Create a receipt</h2>
+      <p className="lede tight center">
+        {playing ? 'Anyone at the table can add items. Every phone sees the same list.' : 'Watching the house write up the receipt.'}
+      </p>
+
+      <label className="field">
+        <span>Receipt name</span>
+        <input
+          value={shownName}
+          maxLength={RECEIPT_LIMITS.name}
+          placeholder="e.g. Sunday Woolies run"
+          disabled={!playing}
+          onChange={(e) => {
+            setNameEditing(true)
+            setNameDraft(e.target.value)
+          }}
+          onBlur={commitName}
+          onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.blur()}
+        />
+      </label>
+
+      <div className="field">
+        <span>Who paid?</span>
+        <div className={`payer-row n${house.length}`}>
+          {house.map((h) => (
+            <button
+              key={h.id}
+              className={`payer ${receipt.payer === h.id ? 'on' : ''}`}
+              style={{ '--hue': h.hue }}
+              disabled={!playing}
+              aria-pressed={receipt.payer === h.id}
+              onClick={() => send({ type: 'receiptPayer', payer: h.id })}
+            >
+              <span className="avatar">{h.initial}</span>
+              {h.name}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {playing && (
+        <form className={`item-form ${editItem ? 'editing' : ''}`} onSubmit={saveItem}>
+          <p className="form-title">{editItem ? `Editing “${editItem.name}”` : 'Add an item'}</p>
+          <div className="item-inputs">
+            <input
+              value={itemName}
+              maxLength={RECEIPT_LIMITS.itemName}
+              placeholder="Item name"
+              aria-label="Item name"
+              onChange={(e) => setItemName(e.target.value)}
+            />
+            <label className="price-input">
+              <span>$</span>
+              <input
+                value={price}
+                inputMode="decimal"
+                placeholder="0.00"
+                aria-label="Price"
+                onChange={(e) => setPrice(e.target.value)}
+              />
+            </label>
+          </div>
+          <label className="appetite">
+            <input type="checkbox" checked={byAppetite} onChange={(e) => setByAppetite(e.target.checked)} />
+            Shared food — split by appetite if vetoed
+          </label>
+          {error && <p className="form-error">{error}</p>}
+          <div className="form-actions">
+            {editItem && (
+              <button type="button" className="ghost" onClick={resetForm}>
+                Cancel
+              </button>
+            )}
+            <button type="submit" className="primary">
+              {editItem ? 'Save changes' : 'Add item'}
+            </button>
+          </div>
+        </form>
+      )}
+
+      {receipt.items.length ? (
+        <ul className="bill-list receipt-items">
+          {receipt.items.map((item) => (
+            <li key={item.id} className={editing === item.id ? 'editing' : ''}>
+              <span className="ri-main">
+                <strong>{item.name}</strong>
+                <small>
+                  Added by {person(item.addedBy).name}
+                  {item.tag === 'shareable' ? ' · by appetite' : ''}
+                </small>
+              </span>
+              <span className="mono">{money(item.price)}</span>
+              {playing && (
+                <span className="ri-actions">
+                  <button aria-label={`Edit ${item.name}`} onClick={() => startEdit(item)}>
+                    ✎
+                  </button>
+                  <button className="danger" aria-label={`Remove ${item.name}`} onClick={() => removeItem(item)}>
+                    ✕
+                  </button>
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div className="receipt-empty">
+          <p>No items yet.</p>
+          {playing && (
+            <button className="chip" disabled={room.pending('sampleReceipt')} onClick={() => send({ type: 'sampleReceipt' })}>
+              Fill in the sample receipt instead
+            </button>
+          )}
+        </div>
+      )}
+      {lastSent && room.pending('itemSave', lastSent) && <p className="waiting">Sending to the table…</p>}
+
+      <div className="receipt-sum">
+        <span>
+          {receipt.items.length} {receipt.items.length === 1 ? 'item' : 'items'}
+          {receipt.payer ? ` · ${person(receipt.payer).name} paid` : ''}
+        </span>
+        <strong>{money(total)}</strong>
+      </div>
+
+      {playing && (
+        <button className="primary" disabled={!ready || starting} onClick={() => send({ type: 'startSplit', name: shownName })}>
+          {starting ? 'Starting…' : 'Start splitting'}
+        </button>
+      )}
+      <p className="hint">
+        {missing || 'Everyone swipes Claim or Pass on each item next.'} Items go through a public test server — use made-up
+        ones, not your real shop.
+      </p>
+    </section>
+  )
+}
+
+function Draft({ me, house, receipt, item, itemIndex, votes, waiting, onVote }) {
   const mine = votes[item.id]?.[me]
   const people = claimers(votes, item.id, house)
   const votesIn = house.filter((h) => votes[item.id]?.[h.id]).length
@@ -479,26 +709,26 @@ function Draft({ me, house, item, itemIndex, votes, waiting, onVote }) {
   const share = people.length ? item.price / people.length : 0
   const playing = house.some((h) => h.id === me)
   const locked = !playing || Boolean(mine) || waiting || done
-  const run = item.receipt === 'pizza' ? 'Friday Night Pizza' : 'Sunday Grocery Run'
+  const count = receipt.items.length
 
   return (
     <section className="screen draft">
       <div className="run-head">
         <p>
-          {run} · Item {itemIndex + 1} of {ITEMS.length}
+          {receipt.name} · Item {itemIndex + 1} of {count}
         </p>
         <div className="run-bar">
-          <span style={{ width: `${((itemIndex + (done ? 1 : 0)) / ITEMS.length) * 100}%` }} />
+          <span style={{ width: `${((itemIndex + (done ? 1 : 0)) / count) * 100}%` }} />
         </div>
       </div>
       <div className="card-stack">
         <SwipeCard key={item.id} locked={locked} onClaim={() => onVote('claim')} onPass={() => onVote('pass')}>
-          <article className={`deal-card tag-${item.tag}`}>
-            <span className="stamp-tag">{TAG_LABEL[item.tag] || 'Communal'}</span>
-            <p className="emoji">{item.emoji}</p>
+          <article className={`deal-card tag-${item.tag || 'plain'}`}>
+            {TAG_LABEL[item.tag] && <span className="stamp-tag">{TAG_LABEL[item.tag]}</span>}
+            <p className="emoji">{item.emoji || '🧾'}</p>
             <p className="price">{money(item.price)}</p>
             <h2>{item.name}</h2>
-            <p className="detail">{item.detail}</p>
+            {item.detail && <p className="detail">{item.detail}</p>}
             <span className="claim-badge">
               <b>{people.length}</b> {people.length === 1 ? 'Housemate' : 'Housemates'} Claimed
             </span>
@@ -509,7 +739,7 @@ function Draft({ me, house, item, itemIndex, votes, waiting, onVote }) {
                 </span>
               ))}
             </div>
-            <p className="paid-by">Cart: {person(item.addedBy).name}</p>
+            <p className="paid-by">Added by {person(item.addedBy).name}</p>
           </article>
         </SwipeCard>
       </div>
@@ -626,12 +856,12 @@ function useVetoTokens(seat) {
   return { left, spend }
 }
 
-function Veto({ me, house, votes, settlement, vetoIn, answered, onVote }) {
+function Veto({ me, house, receipt, votes, settlement, vetoIn, answered, onVote }) {
   const tokens = useVetoTokens(me || 'watcher')
   const playing = house.some((h) => h.id === me)
   const waiting = house.length - vetoIn.length
-  const total = settlement.groceryTotal + settlement.pizzaTotal
-  const unclaimed = ITEMS.filter((item) => isUnclaimed(votes, item.id, house)).reduce((s, item) => s + item.price, 0)
+  const total = settlement.total
+  const unclaimed = receiptTotal(receipt.items.filter((item) => isUnclaimed(votes, item.id, house)))
 
   function playVeto() {
     tokens.spend()
@@ -669,12 +899,10 @@ function Veto({ me, house, votes, settlement, vetoIn, answered, onVote }) {
 
       <ul className="bill-list">
         <li>
-          <span className="who">🛒 Groceries · {person(PAYERS.grocery).name} paid</span>
-          <span className="mono">{money(settlement.groceryTotal)}</span>
-        </li>
-        <li>
-          <span className="who">🍕 Friday pizza · {person(PAYERS.pizza).name} paid</span>
-          <span className="mono">{money(settlement.pizzaTotal)}</span>
+          <span className="who">
+            🧾 {receipt.name} · {person(receipt.payer).name} paid
+          </span>
+          <span className="mono">{money(total)}</span>
         </li>
         {unclaimed > 0 && (
           <li>
@@ -840,10 +1068,10 @@ function Review({ me, house, item, reviewIndex, total, answeredBy, answered, res
           Review · {reviewIndex + 1}/{total} · The Slider of Fairness
         </p>
         <p className="run-title">
-          Friday Night Pizza ({money(item.price)} Total)
+          {item.name} ({money(item.price)} Total)
         </p>
-        <p className="emoji hero">{item.emoji}</p>
-        <h2 className="prompt-big">Be honest, how hard did you hit the pizza tonight?</h2>
+        <p className="emoji hero">{item.emoji || '🍽️'}</p>
+        <h2 className="prompt-big">Be honest, how hard did you hit this one?</h2>
         <div className="fair-slider">
           <div className="fair-track">
             <span className="fill" style={{ width: `${(stop / (SLIDER_STOPS.length - 1)) * 100}%` }} />
@@ -880,7 +1108,7 @@ function Review({ me, house, item, reviewIndex, total, answeredBy, answered, res
             Lock My Portion
           </button>
         )}
-        {!result && <p className="hint">Shares are scaled at the end so the pizza adds up to {money(item.price)}.</p>}
+        {!result && <p className="hint">Shares are scaled at the end so they add up to {money(item.price)}.</p>}
         {status}
         {result && <ReviewResult result={result} house={house} />}
       </section>
@@ -895,7 +1123,7 @@ function Review({ me, house, item, reviewIndex, total, answeredBy, answered, res
       <h2 className="screen-title">Blind Item Vote</h2>
       <p className="lede tight center">Cast your secret vote — results revealed together</p>
       <article className="item-card">
-        <span className="item-art">{item.emoji}</span>
+        <span className="item-art">{item.emoji || '🧾'}</span>
         <div>
           <strong>{money(item.price)}</strong>
           <span>{item.name}</span>
@@ -1048,7 +1276,7 @@ function Bounty({
   )
 }
 
-function Locked({ settlement, house, bounties, isHost, onReset, onLeave }) {
+function Locked({ settlement, receipt, house, bounties, isHost, onReset, onLeave }) {
   return (
     <section className="screen locked">
       <p className="kicker">Ritual complete</p>
@@ -1103,7 +1331,7 @@ function Locked({ settlement, house, bounties, isHost, onReset, onLeave }) {
           </p>
         ))}
       <p className="hint">
-        Floated by {person(PAYERS.grocery).name} (groceries) and {person(PAYERS.pizza).name} (pizza)
+        {person(receipt.payer).name} paid for {receipt.name} ({money(settlement.total)})
       </p>
       {isHost ? (
         <button className="primary" onClick={onReset}>

@@ -13,14 +13,16 @@ export function houseOf(size = 4) {
   return SEATS.slice(0, size === 5 ? 5 : 4)
 }
 
-export const ITEMS = [
+/** One-tap demo receipt for test sessions. NPC scripts below are keyed to these item ids. */
+export const SAMPLE_RECEIPT = { name: 'Woolies run + Friday pizza', payer: 'drew' }
+
+export const SAMPLE_ITEMS = [
   {
     id: 'basket',
     name: 'Communal Basket',
     detail: 'Milk, eggs, bread, veg, rice',
     price: 66.8,
     tag: 'communal',
-    receipt: 'grocery',
     addedBy: 'bailey',
     emoji: '🧺',
   },
@@ -30,7 +32,6 @@ export const ITEMS = [
     detail: 'Imported brie 200g',
     price: 12,
     tag: 'luxury',
-    receipt: 'grocery',
     addedBy: 'alex',
     emoji: '🧀',
   },
@@ -40,7 +41,6 @@ export const ITEMS = [
     detail: 'Drew dropped this in the cart',
     price: 22,
     tag: 'luxury',
-    receipt: 'grocery',
     addedBy: 'drew',
     emoji: '🥤',
   },
@@ -50,7 +50,6 @@ export const ITEMS = [
     detail: 'Family pack 1.2kg',
     price: 18.9,
     tag: 'communal',
-    receipt: 'grocery',
     addedBy: 'casey',
     emoji: '🍗',
   },
@@ -60,7 +59,6 @@ export const ITEMS = [
     detail: 'The cleaning supply nobody wants',
     price: 14.5,
     tag: 'chore',
-    receipt: 'grocery',
     addedBy: 'bailey',
     emoji: '🧴',
   },
@@ -70,7 +68,6 @@ export const ITEMS = [
     detail: 'Light roast single origin 250g',
     price: 15.8,
     tag: 'luxury',
-    receipt: 'grocery',
     addedBy: 'alex',
     emoji: '☕',
   },
@@ -80,16 +77,12 @@ export const ITEMS = [
     detail: 'Three larges · split by appetite',
     price: 80,
     tag: 'shareable',
-    receipt: 'pizza',
     addedBy: 'casey',
     emoji: '🍕',
   },
 ]
 
-export const PAYERS = {
-  grocery: 'drew',
-  pizza: 'casey',
-}
+export const RECEIPT_LIMITS = { name: 40, itemName: 40, items: 40, maxPrice: 5000 }
 
 /** `pitch` completes the bounty card sentence "I will … to offset $X of my debt." */
 export const CHORES = [

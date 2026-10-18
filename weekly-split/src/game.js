@@ -1,5 +1,19 @@
-import { CHORES, ITEMS, SEATS, SLIDER_STOPS, houseOf, npcReview, npcVeto, npcVote } from './data.js'
+import {
+  CHORES,
+  RECEIPT_LIMITS,
+  SAMPLE_ITEMS,
+  SAMPLE_RECEIPT,
+  SEATS,
+  SLIDER_STOPS,
+  houseOf,
+  npcReview,
+  npcVeto,
+  npcVote,
+} from './data.js'
 import { allVoted, bountyAccepted, bountyTally, resolveReview, topExpensive } from './engine.js'
+
+/** Bump when the state shape changes, so phones ignore tables saved by an older build. */
+export const STATE_VERSION = 3
 
 export const DELAYS = {
   split: 1600,
@@ -10,8 +24,29 @@ export const DELAYS = {
   lock: 800,
 }
 
-export function itemById(id) {
-  return ITEMS.find((i) => i.id === id) || null
+export function itemById(state, id) {
+  return state?.receipt.items.find((i) => i.id === id) || null
+}
+
+export function cleanName(raw, max) {
+  return String(raw ?? '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, max)
+}
+
+/** Accepts "12", "$12.5", "12,50". Returns cents-rounded dollars, or NaN when it is not a usable price. */
+export function parsePrice(raw) {
+  const text = String(raw ?? '')
+    .replace(/[$\s]/g, '')
+    .replace(',', '.')
+  if (!/^\d+(\.\d{0,2})?$|^\.\d{1,2}$/.test(text)) return NaN
+  const value = Math.round(Number(text) * 100) / 100
+  return value > 0 && value <= RECEIPT_LIMITS.maxPrice ? value : NaN
+}
+
+export function canStartSplit(receipt, house) {
+  return Boolean(cleanName(receipt.name, RECEIPT_LIMITS.name)) && house.includes(receipt.payer) && receipt.items.length > 0
 }
 
 export function choreById(id) {
@@ -26,6 +61,7 @@ function freshRound() {
   return {
     phase: 'lobby',
     house: [],
+    receipt: { name: '', payer: '', items: [], removed: [] },
     itemIndex: 0,
     votes: {},
     vetoIn: [],
@@ -44,7 +80,7 @@ function freshRound() {
 
 export function newState({ code, hostId, houseSize, fillBots }) {
   return {
-    v: 2,
+    v: STATE_VERSION,
     code,
     hostId,
     rev: 1,
@@ -79,11 +115,11 @@ export function botSeats(state) {
 }
 
 export function currentItem(state) {
-  return state?.phase === 'draft' ? ITEMS[state.itemIndex] || null : null
+  return state?.phase === 'draft' ? state.receipt.items[state.itemIndex] || null : null
 }
 
 export function currentReview(state) {
-  return state?.phase === 'review' ? itemById(state.reviewList[state.reviewIndex]) : null
+  return state?.phase === 'review' ? itemById(state, state.reviewList[state.reviewIndex]) : null
 }
 
 function inHouse(state, seat) {
@@ -150,8 +186,73 @@ export function applyAction(state, priv, action, { hostId = state.hostId } = {})
       const table = houseOf(s.houseSize).map((h) => h.id)
       const house = s.fillBots ? table : table.filter((id) => s.seats[id])
       if (house.length < 2 || !Object.keys(s.seats).length) break
-      Object.assign(s, freshRound(), { phase: 'draft', house })
+      Object.assign(s, freshRound(), { phase: 'receipt', house })
+      s.receipt.payer = house.includes(seat) ? seat : house[0]
       Object.assign(priv, newPrivate())
+      changed = true
+      break
+    }
+    case 'receiptName': {
+      if (s.phase !== 'receipt' || !inHouse(s, seat)) break
+      const name = cleanName(action.name, RECEIPT_LIMITS.name)
+      if (name === s.receipt.name) break
+      s.receipt.name = name
+      changed = true
+      break
+    }
+    case 'receiptPayer': {
+      if (s.phase !== 'receipt' || !inHouse(s, seat) || !s.house.includes(action.payer)) break
+      if (s.receipt.payer === action.payer) break
+      s.receipt.payer = action.payer
+      changed = true
+      break
+    }
+    case 'itemSave': {
+      if (s.phase !== 'receipt' || !inHouse(s, seat)) break
+      const id = String(action.itemId || '').slice(0, 24)
+      const name = cleanName(action.name, RECEIPT_LIMITS.itemName)
+      const price = parsePrice(action.price)
+      if (!id || !name || Number.isNaN(price) || s.receipt.removed.includes(id)) break
+      const existing = s.receipt.items.find((i) => i.id === id)
+      const keep = existing && existing.tag !== 'shareable' ? existing.tag : ''
+      const tag = action.tag === 'shareable' ? 'shareable' : keep
+      if (existing) {
+        if (existing.name === name && existing.price === price && existing.tag === tag) break
+        Object.assign(existing, { name, price, tag })
+      } else {
+        if (s.receipt.items.length >= RECEIPT_LIMITS.items) break
+        s.receipt.items.push({ id, name, price, tag, addedBy: seat })
+      }
+      changed = true
+      break
+    }
+    case 'itemRemove': {
+      if (s.phase !== 'receipt' || !inHouse(s, seat)) break
+      const id = String(action.itemId || '')
+      if (!s.receipt.items.some((i) => i.id === id)) break
+      s.receipt.items = s.receipt.items.filter((i) => i.id !== id)
+      s.receipt.removed.push(id)
+      changed = true
+      break
+    }
+    case 'sampleReceipt': {
+      if (s.phase !== 'receipt' || !inHouse(s, seat) || s.receipt.items.length) break
+      const payer = s.house.includes(SAMPLE_RECEIPT.payer) ? SAMPLE_RECEIPT.payer : s.receipt.payer
+      s.receipt = {
+        name: SAMPLE_RECEIPT.name,
+        payer,
+        items: SAMPLE_ITEMS.map((item) => ({ ...item, addedBy: s.house.includes(item.addedBy) ? item.addedBy : payer })),
+        removed: s.receipt.removed.filter((id) => !SAMPLE_ITEMS.some((item) => item.id === id)),
+      }
+      changed = true
+      break
+    }
+    case 'startSplit': {
+      if (s.phase !== 'receipt' || !inHouse(s, seat)) break
+      if (action.name !== undefined) s.receipt.name = cleanName(action.name, RECEIPT_LIMITS.name)
+      if (!canStartSplit(s.receipt, s.house)) break
+      s.phase = 'draft'
+      s.itemIndex = 0
       changed = true
       break
     }
@@ -228,7 +329,7 @@ export function applyAction(state, priv, action, { hostId = state.hostId } = {})
     case 'advanceDraft': {
       const item = currentItem(s)
       if (!item || !allVoted(s.votes, item.id, seatObjects(s.house))) break
-      if (s.itemIndex < ITEMS.length - 1) s.itemIndex += 1
+      if (s.itemIndex < s.receipt.items.length - 1) s.itemIndex += 1
       else s.phase = 'veto'
       changed = true
       break
@@ -241,7 +342,7 @@ export function applyAction(state, priv, action, { hostId = state.hostId } = {})
         s.phase = 'talk'
         s.talkEndsAt = Date.now() + DELAYS.talk
         s.talkReady = []
-        s.reviewList = topExpensive(3).map((i) => i.id)
+        s.reviewList = topExpensive(s.receipt.items, 3).map((i) => i.id)
         s.reviewIndex = 0
       } else s.phase = 'bounty'
       priv.veto = {}
@@ -407,6 +508,26 @@ export function actionSettled(state, action, seat, clientId) {
       return Boolean(state.seats[action.want])
     case 'leave':
       return !seatOf(state, clientId)
+    case 'receiptName':
+      return state.phase !== 'receipt' || state.receipt.name === cleanName(action.name, RECEIPT_LIMITS.name)
+    case 'receiptPayer':
+      return state.phase !== 'receipt' || state.receipt.payer === action.payer
+    case 'itemSave': {
+      if (state.phase !== 'receipt' || state.receipt.removed.includes(action.itemId)) return true
+      const item = itemById(state, action.itemId)
+      return (
+        Boolean(item) &&
+        item.name === cleanName(action.name, RECEIPT_LIMITS.itemName) &&
+        item.price === parsePrice(action.price) &&
+        (item.tag === 'shareable') === (action.tag === 'shareable')
+      )
+    }
+    case 'itemRemove':
+      return state.phase !== 'receipt' || !itemById(state, action.itemId)
+    case 'sampleReceipt':
+      return state.phase !== 'receipt' || state.receipt.items.length > 0
+    case 'startSplit':
+      return state.phase !== 'receipt'
     case 'vote':
       return currentItem(state)?.id !== action.itemId || Boolean(state.votes[action.itemId]?.[seat])
     case 'talkReady':

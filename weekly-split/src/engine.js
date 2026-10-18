@@ -1,4 +1,4 @@
-import { HOUSEMATES, ITEMS, PAYERS, SEATS } from './data.js'
+import { HOUSEMATES, SEATS } from './data.js'
 
 export function money(n) {
   const v = Math.round((n + Number.EPSILON) * 100) / 100
@@ -27,10 +27,14 @@ export function isUnclaimed(votes, itemId, house = HOUSEMATES) {
   return allVoted(votes, itemId, house) && claimers(votes, itemId, house).length === 0
 }
 
-export function topExpensive(count = 3) {
-  const flagged = ITEMS.filter((item) => item.tag === 'luxury' || item.tag === 'shareable').sort((a, b) => b.price - a.price)
-  const rest = ITEMS.filter((item) => item.tag !== 'luxury' && item.tag !== 'shareable').sort((a, b) => b.price - a.price)
+export function topExpensive(items, count = 3) {
+  const flagged = items.filter((item) => item.tag === 'luxury' || item.tag === 'shareable').sort((a, b) => b.price - a.price)
+  const rest = items.filter((item) => item.tag !== 'luxury' && item.tag !== 'shareable').sort((a, b) => b.price - a.price)
   return [...flagged, ...rest].slice(0, count)
+}
+
+export function receiptTotal(items) {
+  return roundMoney(items.reduce((s, item) => s + item.price, 0))
 }
 
 export function reviewReady(item, reviewVotes, house = HOUSEMATES) {
@@ -121,11 +125,12 @@ export function applyBounties(shares, bounties, house = HOUSEMATES) {
   return next
 }
 
-export function computeSettlement(votes, reviewResults, bounties, house = HOUSEMATES) {
+export function computeSettlement(receipt, votes, reviewResults, bounties, house = HOUSEMATES) {
+  const items = receipt.items
   const rawShares = Object.fromEntries(house.map((h) => [h.id, 0]))
   const lines = Object.fromEntries(house.map((h) => [h.id, []]))
 
-  for (const item of ITEMS) {
+  for (const item of items) {
     const alloc = allocateItem(item, votes, reviewResults, house)
     for (const h of house) {
       const amt = alloc[h.id] || 0
@@ -141,12 +146,9 @@ export function computeSettlement(votes, reviewResults, bounties, house = HOUSEM
   }
 
   const shares = applyBounties(rawShares, bounties, house)
+  const total = receiptTotal(items)
   const paid = Object.fromEntries(house.map((h) => [h.id, 0]))
-  for (const item of ITEMS) {
-    const payer = PAYERS[item.receipt]
-    if (paid[payer] === undefined) continue
-    paid[payer] += item.price
-  }
+  if (paid[receipt.payer] !== undefined) paid[receipt.payer] = total
 
   const nets = {}
   for (const h of house) {
@@ -177,10 +179,7 @@ export function computeSettlement(votes, reviewResults, bounties, house = HOUSEM
     if (creditors[j].amt <= 0.009) j += 1
   }
 
-  const groceryTotal = ITEMS.filter((x) => x.receipt === 'grocery').reduce((s, x) => s + x.price, 0)
-  const pizzaTotal = ITEMS.filter((x) => x.receipt === 'pizza').reduce((s, x) => s + x.price, 0)
-
-  return { shares, paid, nets, transfers, lines, groceryTotal, pizzaTotal, rawShares }
+  return { shares, paid, nets, transfers, lines, total, rawShares }
 }
 
 export function bountyTally(bounty, house = HOUSEMATES) {

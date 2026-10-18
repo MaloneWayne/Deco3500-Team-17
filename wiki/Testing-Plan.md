@@ -69,14 +69,14 @@ Consent script is in [Appendix A](#appendix-a--consent-script).
 ## 4. Setup (10 minutes before they arrive)
 
 1. Open the prototype on a **phone or narrow browser** (~390px). Laptop is a last resort; this is a kitchen ritual.
-2. Tap **4 people** to open a table. For Mode A, leave the lobby toggle on **NPC fills empty seats**. Hand the phone over at the lobby so the participant picks their own seat. For Mode B, share the 4-letter code or invite link so each housemate joins on their own phone. Every phone needs internet; the table syncs through a public test server, so only the seeded fake receipt is used.
+2. Tap **4 people** to open a table. For Mode A, leave the lobby toggle on **NPC fills empty seats**. Hand the phone over at the lobby so the participant picks their own seat. For Mode B, share the 4-letter code or invite link so each housemate joins on their own phone. Every phone needs internet; the table syncs through a public test server, so participants type made-up items only, and the session runs on the sample receipt.
 3. Have a spare charger. Have a paper copy of [Appendix B](#appendix-b--observation-log) and [Appendix C](#appendix-c--post-test-sheet).
 4. Know this prototype quirk (do not hide it from the team; do not lecture the user about it):
 
 > If the participant sits as **anyone except Alex** and leaves NPC on, Alex will auto-play a veto. That is useful: they will see Review without being told to veto.  
 > If they sit as **Alex**, other NPCs vote “Looks Fair.” To see Review, they must tap **Play Veto Card** themselves.
 
-5. Seeded receipt they will see (do not read the whole list aloud):
+5. Sample receipt, loaded in T1b with **Fill in the sample receipt instead** (Drew paid; do not read the whole list aloud):
 
    Communal Basket $66.80 · Fancy Cheese $12.00 · Premium Protein $22.00 · Chicken Thighs $18.90 · Heavy-Duty Cleaner $14.50 · Specialty Coffee $15.80 · Pizza Delivery Feast $80.00
 
@@ -133,7 +133,7 @@ Give **one task at a time**. Start the next only when they have answered the imm
 
 > You are a housemate at this table. Pick who you are tonight, then start the settlement.
 
-**Success:** They choose a seat (Alex / Bailey / Casey / Drew) and tap **Deal the receipt**.
+**Success:** They choose a seat (Alex / Bailey / Casey / Drew) and tap **Everyone’s here — create the receipt**.
 
 **Immediate questions (after they tap):**
 
@@ -143,6 +143,33 @@ Give **one task at a time**. Start the next only when they have answered the imm
 **Log:** seat chosen; time to first tap; any hesitation on “Who are you tonight?”
 
 **Hint if stuck (once):** “The big button under the names starts it.”
+
+---
+
+### T1b — Create the receipt  
+**Goal:** Can a housemate enter, fix and check a receipt without help before the split starts?
+
+**Say:**
+
+> Before anything is split, the house writes up the receipt. Add one thing you bought this week, with a made-up price. Then change its price, and take it off again. When the list is empty, load the sample receipt and start splitting.
+
+Screen: **Create a receipt**. Receipt name, **Who paid?**, item name + price, ✎ edit and ✕ remove on each row, a running total, **Start splitting**.
+
+**Watch for (tick on Appendix B):**
+
+- Do they find the price box, and do they type `$` or cents in a way the form rejects?
+- Do they find ✎ edit, or delete and re-add instead?
+- Do they look at the total after each change?
+- Do they comment on **Added by** on each row or on **Who paid?**
+
+**Immediate questions (after Start splitting):**
+
+- T1bq1. In your house, who would type this in, and would that person feel like the accountant again?
+- T1bq2. Is it useful or uncomfortable that each row shows who added it?
+
+**Log:** time to add / edit / remove; errors shown; whether they checked the total; who they say would type it.
+
+**Hint if stuck (once):** “Each row has a pencil to change it.”
 
 ---
 
@@ -159,7 +186,7 @@ There are seven cards. Swipe right or tap the green ✓ **Claim**; swipe left or
 
 - Do they notice the “N Housemates Claimed” badge and the avatars on the card, and the “Votes in: x/4” pill?
 - Do they wait for the toast (`N claimed · $X each` or `Nobody claimed it · split evenly across all 4`)?
-- Protein ($22, cart: Drew) and Fancy Cheese ($12) — do they hesitate? Do they say a housemate’s name out loud?
+- Protein ($22, added by Drew) and Fancy Cheese ($12) — do they hesitate? Do they say a housemate’s name out loud?
 - Cleaner — do they pass, and do they notice that passing it means everyone pays a quarter?
 
 **Immediate questions (after the seventh card):**
@@ -282,12 +309,13 @@ After each session, the facilitator fills this within 24 hours. Store in the rep
 
 ### Qualitative (tag quotes)
 
-Tag each quote with: `silence` `accusation` `anonymity` `maths` `unclaimed-fair` `unclaimed-unfair` `table-talk` `veto-tokens` `bounty-price` `bounty-ok` `ping-vs-table` `shopper-unfair` `majority`.
+Tag each quote with: `receipt-entry` `silence` `accusation` `anonymity` `maths` `unclaimed-fair` `unclaimed-unfair` `table-talk` `veto-tokens` `bounty-price` `bounty-ok` `ping-vs-table` `shopper-unfair` `majority`.
 
 A finding is real when **two sessions** produce the same tag, or when one session produces a clear critical incident (e.g. they refuse to veto because they think the others will see).
 
 ### Decision rules (for the next design pass)
 
+- If entering the receipt takes longer than the swipe round, or the payer is always the one typing → add receipt photo scanning or split entry across phones before testing again.
 - If ≥ half of participants cannot explain the lock total → redesign the breakdown, not the swipe.
 - If ≥ half ask who vetoed, or do not believe it is anonymous → the flash/copy has failed C7.
 - If the even split of unclaimed items is called unfair → send unclaimed items to the blind vote, or let the house re-deal them.
@@ -337,6 +365,7 @@ Participant code: ______ Date: ______ Facilitator: ______ Mode: A / B
 | Task | Done | Hints | Time (s) | Critical incidents (what they said or did) |
 | --- | --- | --- | --- | --- |
 | T1 start | | | | |
+| T1b receipt | | | | Added / edited / removed: Y/N · checked total: Y/N · price errors: |
 | T2 claim/pass | | | | Protein: · Cheese: · Cleaner: |
 | T3 unclaimed | | | | Noticed even split? Y/N · fair / unfair: |
 | T4 veto | | | | Fair / Veto · asked who?: Y/N · table talk: waited / proceeded |
@@ -356,6 +385,7 @@ Participant code: ______ Date: ______ Facilitator: ______ Mode: A / B
 **T1–T6 immediate answers** (short)
 
 T1q1–2:  
+T1bq1–2:  
 T2q1–3:  
 T3q1–3:  
 T4q1–5:  
@@ -416,6 +446,7 @@ Why:
 Keep tasks T1–T6. Changes:
 
 - One housemate opens a table (4 or 5 people); the others join with the code on their own phones and each takes a seat. Turn NPC **off** in the lobby if every seat has a person. If a phone drops mid-round, the host phone can tap **Let NPC play …** to keep going.
+- In T1b, ask each housemate to add one made-up item from their own phone, so the shared list is tested with several people typing at once. Remove them all again before loading the sample receipt (it only fills an empty list).
 - The host phone runs the timers. If it closes, another phone takes over after about 20 seconds; any open Veto, Review, or Bounty vote reopens and must be answered again. Log it if this happens.
 - Add two questions after T4, asked to the table, not to one person:  
   **B1.** Did anyone in this room feel watched while choosing Fair or Veto?  
