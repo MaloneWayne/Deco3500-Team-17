@@ -1,6 +1,4 @@
-对，应该写成**基于采访和测试证据的设计故事**，适合 pitch 讲清楚“我们发现了什么、为什么做出这些设计”，而不是逐项评价功能的长报告。
 
-同时，这批采访已经讨论了 prototype 的功能，所以最准确的叙事是：**这些发现帮助我们明确并完善了现有 prototype 的设计方向**。下面这版可以直接复制，作为 pitch 的英文内容基础。
 
 # The Weekly Split
 ## What We Learned and How It Shaped Our Prototype
