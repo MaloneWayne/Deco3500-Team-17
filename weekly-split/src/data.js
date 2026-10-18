@@ -1,9 +1,17 @@
-export const HOUSEMATES = [
+export const SEATS = [
   { id: 'alex', name: 'Alex', initial: 'A', hue: '#c45c3e' },
   { id: 'bailey', name: 'Bailey', initial: 'B', hue: '#3d5a40' },
   { id: 'casey', name: 'Casey', initial: 'C', hue: '#2c4a6e' },
   { id: 'drew', name: 'Drew', initial: 'D', hue: '#b5812a' },
+  { id: 'eden', name: 'Eden', initial: 'E', hue: '#6b3d6a' },
 ]
+
+/** Default four-person house. Use houseOf(5) for five. */
+export const HOUSEMATES = SEATS.slice(0, 4)
+
+export function houseOf(size = 4) {
+  return SEATS.slice(0, size === 5 ? 5 : 4)
+}
 
 export const ITEMS = [
   {
@@ -93,13 +101,13 @@ export const CHORES = [
 
 export function npcVote(itemId, playerId) {
   const script = {
-    basket: { alex: 'claim', bailey: 'claim', casey: 'claim', drew: 'claim' },
-    cheese: { alex: 'claim', bailey: 'claim', casey: 'claim', drew: 'pass' },
-    protein: { alex: 'claim', bailey: 'claim', casey: 'claim', drew: 'claim' },
-    chicken: { alex: 'claim', bailey: 'claim', casey: 'claim', drew: 'claim' },
-    cleaner: { alex: 'pass', bailey: 'pass', casey: 'pass', drew: 'pass' },
-    coffee: { alex: 'claim', bailey: 'pass', casey: 'pass', drew: 'claim' },
-    pizza: { alex: 'claim', bailey: 'claim', casey: 'claim', drew: 'claim' },
+    basket: { alex: 'claim', bailey: 'claim', casey: 'claim', drew: 'claim', eden: 'claim' },
+    cheese: { alex: 'claim', bailey: 'claim', casey: 'claim', drew: 'pass', eden: 'pass' },
+    protein: { alex: 'claim', bailey: 'claim', casey: 'claim', drew: 'claim', eden: 'pass' },
+    chicken: { alex: 'claim', bailey: 'claim', casey: 'claim', drew: 'claim', eden: 'claim' },
+    cleaner: { alex: 'pass', bailey: 'pass', casey: 'pass', drew: 'pass', eden: 'pass' },
+    coffee: { alex: 'claim', bailey: 'pass', casey: 'pass', drew: 'claim', eden: 'claim' },
+    pizza: { alex: 'claim', bailey: 'claim', casey: 'claim', drew: 'claim', eden: 'claim' },
   }
   return script[itemId]?.[playerId] ?? 'claim'
 }
@@ -109,7 +117,7 @@ export function npcReview(itemId, playerId) {
     return playerId === 'drew' ? 'communal' : 'personal'
   }
   if (itemId === 'pizza') {
-    return { alex: 25, bailey: 10, casey: 50, drew: 25 }[playerId]
+    return { alex: 25, bailey: 10, casey: 40, drew: 15, eden: 10 }[playerId] ?? 20
   }
   return 'communal'
 }

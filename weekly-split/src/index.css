@@ -89,6 +89,27 @@ h1, h2, h3 { font-family: Fraunces, serif; font-weight: 700; letter-spacing: -0.
 .lang-abs { position: absolute; top: 18px; right: 18px; }
 
 .seats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 10px; }
+.seats.n5 { grid-template-columns: repeat(5, 1fr); }
+.live-dot { font-size: 9px; color: var(--moss); text-transform: uppercase; letter-spacing: 0.04em; }
+.live-dot.off { color: var(--stamp); }
+.live-dot.npc { color: var(--muted); }
+.notice {
+  margin: 0 20px;
+  padding: 8px 12px;
+  border-radius: 14px;
+  background: #fff1d6;
+  border: 1px solid #e7c98f;
+  color: var(--ink);
+  font-size: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+}
+.lobby .notice { margin: 0; }
+.who-in { list-style: none; display: flex; justify-content: center; gap: 10px; margin: 0; padding: 0; }
+.who-in li { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 10px; color: var(--muted); opacity: 0.45; }
+.who-in li.in { opacity: 1; color: var(--moss); }
 .seat {
   display: flex;
   flex-direction: column;
@@ -161,6 +182,22 @@ h1, h2, h3 { font-family: Fraunces, serif; font-weight: 700; letter-spacing: -0.
 
 .prompt { margin: 4px 0 0; font-weight: 600; }
 .seat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.seat-grid.five { grid-template-columns: 1fr 1fr; }
+.seat-card.taken { opacity: 0.55; }
+.seat-status { font-size: 11px; color: var(--muted); }
+.room-code { letter-spacing: 0.18em; font-size: 48px; }
+.join-row { display: flex; gap: 8px; width: 100%; }
+.code-input {
+  flex: 1;
+  border: 1px solid var(--line);
+  background: var(--card);
+  border-radius: 16px;
+  padding: 12px 14px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 18px;
+}
 .seat-card {
   background: var(--card);
   border-radius: 18px;
@@ -241,6 +278,7 @@ h1, h2, h3 { font-family: Fraunces, serif; font-weight: 700; letter-spacing: -0.
   background: var(--cream);
 }
 .ghost:disabled, .primary:disabled { opacity: 0.45; }
+.screen > .ghost { flex: 0 0 auto; }
 .ghost.pass { color: var(--stamp); }
 .ghost.claim { color: var(--moss); }
 .vote-row { width: 100%; }

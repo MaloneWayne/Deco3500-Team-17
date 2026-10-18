@@ -40,4 +40,4 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:5173/`.
+Open `http://localhost:5173/`. One phone opens a 4- or 5-person table and shares the room code; everyone else joins on their own phone and plays live. See [`weekly-split/README.md`](weekly-split/README.md) for how the sync works.

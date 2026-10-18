@@ -28,7 +28,7 @@ The prototype is not a poster. The core loop runs.
 5. **Bounty cards.** If you still owe, you can *propose* a chore trade. The others accept or reject on their phones. *(R7. Interviews said informal trades work; priced chores start a second fight.)*
 6. **Lock.** The house sees who pays whom, and the item maths stays visible. *(R2, P06: explain the result.)*
 
-You can play all four seats on one device. That is for demo. The intended use is four phones at one table.
+**Live table, one phone each.** One housemate opens a 4- or 5-person table and shares a 4-letter code. Everyone else joins on their own phone and takes a seat. From then on the swipes, the orphan wheel, the veto, the review votes, the bounties and the final bill stay in sync on every phone. The host phone acts as referee. Veto, review and bounty choices go only to its private tally, so the table learns *that* a veto was played but never *who* played it. *(C7. In Test-P1 and Test-P2 both participants asked who had vetoed, so the veto screen now also says in one line that nobody is named.)* If a phone drops, the host can hand that seat to an NPC. If the host phone closes, the next phone takes over. Empty seats can still be NPC for a solo demo.
 
 ## How good design practice shows up
 
@@ -48,6 +48,6 @@ You can play all four seats on one device. That is for demo. The intended use is
 
 ## What is still mid-fi
 
-NPC housemates auto-swipe so a single demo phone can finish the ritual. There is no real OCR of a Woolies receipt, no accounts, no bank payout. The social mechanics are the high-fidelity part. The plumbing is not.
+NPC housemates auto-swipe so a single demo phone can finish the ritual. There is no real OCR of a Woolies receipt, no accounts, no bank payout. Sync runs through a free public test server, so the demo only ever sends the seeded receipt and fake names. The social mechanics are the high-fidelity part. The plumbing is not.
 
 How to test this with real housemates: [Testing Plan](Testing-Plan.md).

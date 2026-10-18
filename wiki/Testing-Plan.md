@@ -28,7 +28,6 @@ If C1, C2, and C7 fail, the product has failed, even if the maths is correct.
 ### What this prototype cannot test
 
 - Real Woolies OCR or typing a receipt
-- Four phones in true real-time (NPC housemates auto-vote unless you turn them off)
 - Bank transfer
 - A house using this every Sunday for a month
 
@@ -47,7 +46,7 @@ Say that out loud in the intro. Do not apologise for it. Mid-fi is the point.
 | Mode | When to use | NPC |
 | --- | --- | --- |
 | **A. Solo think-aloud** | Default. One participant, ~35 min | **NPC on** |
-| **B. Pair / house** | Two to four housemates who already live together, ~45 min | **NPC off**; they tap seats to “be” each person, or sit with one device and pass it |
+| **B. Pair / house** | Two to five housemates who already live together, ~45 min | **NPC off** if every seat has a person; each housemate joins the same table on **their own phone** |
 
 Mode B is stronger evidence for C2 and C7. Mode A is enough if you cannot get a whole house.
 
@@ -70,7 +69,7 @@ Consent script is in [Appendix A](#appendix-a--consent-script).
 ## 4. Setup (10 minutes before they arrive)
 
 1. Open the prototype on a **phone or narrow browser** (~390px). Laptop is a last resort; this is a kitchen ritual.
-2. Confirm **NPC on** for Mode A. Top bar chip should read `NPC on`.
+2. Tap **4 people** to open a table. For Mode A, leave the lobby toggle on **NPC fills empty seats**. Hand the phone over at the lobby so the participant picks their own seat. For Mode B, share the 4-letter code or invite link so each housemate joins on their own phone. Every phone needs internet; the table syncs through a public test server, so only the seeded fake receipt is used.
 3. Have a spare charger. Have a paper copy of [Appendix B](#appendix-b--observation-log) and [Appendix C](#appendix-c--post-test-sheet).
 4. Know this prototype quirk (do not hide it from the team; do not lecture the user about it):
 
@@ -219,7 +218,7 @@ If they sit as non-Alex with NPC on, Alex will veto anyway. Still let them choos
 
 > The house is reviewing the expensive items. Answer as yourself, not as the character.
 
-If they never veto and NPC does not veto (they sat as Alex and tapped Fair), **skip T5**. Log “review not seen.” Optionally ask them to **Play next Sunday**, sit as Bailey, and replay only to reach review. Mark that run as *prompted*, not naturalistic.
+If they never veto and NPC does not veto (they sat as Alex and tapped Fair), **skip T5**. Log “review not seen.” Optionally tap **Back to the lobby for next Sunday**, let them sit as Bailey, and replay only to reach review. Mark that run as *prompted*, not naturalistic.
 
 **Immediate questions:**
 
@@ -414,7 +413,8 @@ Why:
 
 Keep tasks T1–T6. Changes:
 
-- NPC **off**. They switch the seat chips to vote as Alex / Bailey / Casey / Drew, or pass one phone.
+- One housemate opens a table (4 or 5 people); the others join with the code on their own phones and each takes a seat. Turn NPC **off** in the lobby if every seat has a person. If a phone drops mid-round, the host phone can tap **Let NPC play …** to keep going.
+- The host phone runs the timers. If it closes, another phone takes over after about 20 seconds; any open Veto, Review, or Bounty vote reopens and must be answered again. Log it if this happens.
 - Add two questions after T4, asked to the table, not to one person:  
   **B1.** Did anyone in this room feel watched while choosing Fair or Veto?  
   **B2.** Did anyone look at someone else’s face to guess who might veto?
