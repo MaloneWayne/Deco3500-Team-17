@@ -126,12 +126,3 @@ Testing supported the value of making expenses explicit, while challenging assum
 
 Our contribution is a shared process in which housemates can express their use, question an allocation and understand the resulting agreement.
 
-### Evidence scope
-
-This account synthesises eight supplied documents using interviews, solo think-aloud sessions with simulated housemates, and co-located household testing.
-
-Ruize’s transcript and analysis describe the same participant. Malone’s record and findings describe the same four-person session. These pairs are not counted as additional participants. Overlap across the remaining testing series cannot be verified, so we do not claim a combined unique participant total.
-
-The seven-person interview analysis was supplied without its underlying transcripts. Its findings are therefore reported as the author’s synthesis, rather than independently verified participant-level observations.
-
-Together, the materials provide formative evidence for our design direction. They do not yet establish long-term adoption or a measured reduction in household conflict.
