@@ -17,14 +17,14 @@ flowchart TD
   K --> L[Solution class<br/>Colocated web ritual]
   L --> M[Mid-fi prototype<br/>The Weekly Split]
   M --> W[Prototype interviews n=4<br/>Feature walkthroughs]
-  W --> X[Create a receipt together<br/>Name, payer, items, prices]
+  W --> X[Create a receipt together<br/>Name, items, prices<br/>adder = payer]
   X --> N[Claim / Pass]
   N --> O[Unclaimed items split evenly<br/>Orphan spinner cut after interviews]
   O --> P[Pre-lock review<br/>Anonymous veto tokens]
   P --> P2[Veto played<br/>2-minute table talk]
   P2 --> Q[Slider of fairness 0–100% on the top 3 items]
   Q --> R[Bounty cards]
-  R --> S[Lock: who pays whom]
+  R --> S[Lock: who pays whom<br/>pairwise offset + Detail]
   S --> T[Meta<br/>Housing as parent problem<br/>New risks: majority, veto trolling]
   T --> U[Ethics<br/>Shopper bias, no-phone exclusion]
   U --> V[Reflection + AI note<br/>Interviews real<br/>Kitchen observation still missing]
@@ -46,4 +46,4 @@ flowchart TD
 
 ## Prototype path (user-facing)
 
-Open or join a table → pick a seat → create the receipt together (name, who paid, items and prices) → swipe the receipt (unclaimed items split evenly) → pre-lock review: looks fair or veto → if vetoed, 2-minute table talk → everyone slides 0–100% on the three priciest items → optional bounty card → everyone ready → locked transfers.
+Open or join a table → pick a seat → create the receipt together (name, items and prices; whoever adds an item paid for it) → swipe the receipt (unclaimed items split evenly) → pre-lock review: looks fair or veto → if vetoed, 2-minute table talk → everyone slides 0–100% on the three priciest items → optional bounty card → everyone ready → locked transfers, offset pair by pair → **Detail** shows each person their own share and whom to pay.

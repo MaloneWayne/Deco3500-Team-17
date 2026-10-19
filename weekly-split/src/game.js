@@ -13,7 +13,7 @@ import {
 import { allVoted, bountyAccepted, bountyTally, resolveReview, topExpensive } from './engine.js'
 
 /** Bump when the state shape changes, so phones ignore tables saved by an older build. */
-export const STATE_VERSION = 4
+export const STATE_VERSION = 5
 
 export const DELAYS = {
   split: 1600,
@@ -46,7 +46,7 @@ export function parsePrice(raw) {
 }
 
 export function canStartSplit(receipt, house) {
-  return Boolean(cleanName(receipt.name, RECEIPT_LIMITS.name)) && house.includes(receipt.payer) && receipt.items.length > 0
+  return Boolean(cleanName(receipt.name, RECEIPT_LIMITS.name)) && receipt.items.length > 0 && receipt.items.every((i) => house.includes(i.addedBy))
 }
 
 export function choreById(id) {
@@ -61,7 +61,7 @@ function freshRound() {
   return {
     phase: 'lobby',
     house: [],
-    receipt: { name: '', payer: '', items: [], removed: [] },
+    receipt: { name: '', items: [], removed: [] },
     itemIndex: 0,
     votes: {},
     vetoIn: [],
@@ -189,7 +189,6 @@ export function applyAction(state, priv, action, { hostId = state.hostId } = {})
       const house = s.fillBots ? table : table.filter((id) => s.seats[id])
       if (house.length < 2 || !Object.keys(s.seats).length) break
       Object.assign(s, freshRound(), { phase: 'receipt', house })
-      s.receipt.payer = house.includes(seat) ? seat : house[0]
       Object.assign(priv, newPrivate())
       changed = true
       break
@@ -199,13 +198,6 @@ export function applyAction(state, priv, action, { hostId = state.hostId } = {})
       const name = cleanName(action.name, RECEIPT_LIMITS.name)
       if (name === s.receipt.name) break
       s.receipt.name = name
-      changed = true
-      break
-    }
-    case 'receiptPayer': {
-      if (s.phase !== 'receipt' || !inHouse(s, seat) || !s.house.includes(action.payer)) break
-      if (s.receipt.payer === action.payer) break
-      s.receipt.payer = action.payer
       changed = true
       break
     }
@@ -237,11 +229,9 @@ export function applyAction(state, priv, action, { hostId = state.hostId } = {})
     }
     case 'sampleReceipt': {
       if (s.phase !== 'receipt' || !inHouse(s, seat) || s.receipt.items.length) break
-      const payer = s.house.includes(SAMPLE_RECEIPT.payer) ? SAMPLE_RECEIPT.payer : s.receipt.payer
       s.receipt = {
         name: SAMPLE_RECEIPT.name,
-        payer,
-        items: SAMPLE_ITEMS.map((item) => ({ ...item, addedBy: s.house.includes(item.addedBy) ? item.addedBy : payer })),
+        items: SAMPLE_ITEMS.map((item) => ({ ...item, addedBy: s.house.includes(item.addedBy) ? item.addedBy : seat })),
         removed: s.receipt.removed.filter((id) => !SAMPLE_ITEMS.some((item) => item.id === id)),
       }
       changed = true
@@ -508,8 +498,6 @@ export function actionSettled(state, action, seat, clientId) {
       return !seatOf(state, clientId)
     case 'receiptName':
       return state.phase !== 'receipt' || state.receipt.name === cleanName(action.name, RECEIPT_LIMITS.name)
-    case 'receiptPayer':
-      return state.phase !== 'receipt' || state.receipt.payer === action.payer
     case 'itemSave': {
       if (state.phase !== 'receipt' || state.receipt.removed.includes(action.itemId)) return true
       const item = itemById(state, action.itemId)

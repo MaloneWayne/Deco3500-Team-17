@@ -22,7 +22,7 @@ So: we are not curing housing. We are treating one weekly flare-up that housing 
 
 **Gamification of debt.** Spinners and sliders are funny until someone is actually broke. A joke wheel that assigns $14.50 can feel cruel. P03 already used a wheel *as a joke* to cool an air-con fight. The line between ice-breaker and insult is thin.
 
-**The accountant is still there.** Housemate D still floated the groceries in our demo. The ritual splits the bill. It does not stop one person from being the bank.
+**The accountant is still there.** Each item is now credited to whoever added it, and debts are offset pair by pair, so several people can shop in one week. But if one housemate keeps doing the big shop, they still float the house until Sunday. The ritual splits the bill. It does not stop one person from being the bank.
 
 **Exclusion.** No phone, no English, no Sunday night at home: you miss the ritual and inherit the result.
 

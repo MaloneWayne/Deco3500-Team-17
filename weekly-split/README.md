@@ -10,9 +10,10 @@ A mobile web prototype for a Sunday sharehouse settlement ritual: create the rec
 2. Everyone else opens the site on their own phone, types the code and taps **Join**, or opens the copied invite link (`…/#r=CODE`).
 3. Each person taps a free seat (seats are lettered A–H). Every phone sees seats fill in live.
 4. The host taps **Everyone’s here — create the receipt**.
-5. **Create a receipt.** Anyone seated can enter the receipt name, pick who paid, add each item’s name and price, and edit or remove items while the total updates on every phone. Every item is shared. **Fill in the sample receipt instead** loads the demo week. Tap **Start splitting** to begin.
+5. **Create a receipt.** Anyone seated can enter the receipt name, add each item’s name and price, and edit or remove items while the total updates on every phone. There is no single payer: whoever adds an item is recorded as having paid for that item in full, and the summary shows how much each person paid. Every item is shared. **Fill in the sample receipt instead** loads the demo week. Tap **Start splitting** to begin.
 6. Swipes, vetoes, the 2-minute table-talk timer, the review slider, bounties and the final bill stay in sync on every phone. If someone vetoes, the three priciest items are re-split: each person drags a slider from 0% to 100% for how much they used, and the item is shared in proportion.
 7. Before the bill locks, every seated housemate taps **Ready to lock the bill**.
+8. On the locked bill, tap **Detail** to see your own share item by item, what you already paid at the shop, and exactly whom you pay and how much. Debts are offset pair by pair: if A owes B $5 and B owes A $10, only B pays A $5, and A’s detail shows nothing for B.
 
 Empty seats can be played by NPC housemates (**NPC fills empty seats** in the lobby), so one person can still demo the whole ritual.
 

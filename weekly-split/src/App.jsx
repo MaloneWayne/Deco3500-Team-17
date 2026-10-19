@@ -26,7 +26,7 @@ const PHASES = [
 ]
 
 const HOME_STEPS = [
-  ['Create the receipt', 'Add items and who paid'],
+  ['Create the receipt', 'Everyone adds what they paid for'],
   ['Claim or pass', 'Swipe what you actually used'],
   ['Review', 'Looks fair, or play an anonymous veto'],
   ['Lock', 'See who pays whom'],
@@ -209,6 +209,7 @@ export default function App() {
 
       {phase === 'locked' && (
         <Locked
+          me={me}
           settlement={settlement}
           receipt={g.receipt}
           house={house}
@@ -541,15 +542,16 @@ function ReceiptBuilder({ room, me, house, receipt, send }) {
   const shownName = nameEditing || room.pending('receiptName') ? nameDraft : receipt.name
   const editItem = receipt.items.find((i) => i.id === editing) || null
   const total = receiptTotal(receipt.items)
+  const paidBy = house
+    .map((h) => [h.id, receiptTotal(receipt.items.filter((i) => i.addedBy === h.id))])
+    .filter(([, amt]) => amt > 0)
   const ready = canStartSplit({ ...receipt, name: shownName }, house.map((h) => h.id))
   const starting = room.pending('startSplit')
   const missing = !cleanName(shownName, RECEIPT_LIMITS.name)
     ? 'Give the receipt a name.'
     : !receipt.items.length
       ? 'Add at least one item.'
-      : !house.some((h) => h.id === receipt.payer)
-        ? 'Pick who paid.'
-        : ''
+      : ''
 
   function commitName() {
     if (!nameEditing) return
@@ -599,7 +601,9 @@ function ReceiptBuilder({ room, me, house, receipt, send }) {
     <section className="screen receipt-make">
       <h2 className="screen-title">Create a receipt</h2>
       <p className="lede tight center">
-        {playing ? 'Anyone at the table can add items. Every phone sees the same list.' : 'Watching the house write up the receipt.'}
+        {playing
+          ? 'Add the items you paid for. Whoever adds an item paid for it in full. Every phone sees the same list.'
+          : 'Watching the house write up the receipt.'}
       </p>
 
       <label className="field">
@@ -617,24 +621,6 @@ function ReceiptBuilder({ room, me, house, receipt, send }) {
           onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.blur()}
         />
       </label>
-
-      <div className="field">
-        <span>Who paid?</span>
-        <div className="payer-row" style={seatColumns(house.length)}>
-          {house.map((h) => (
-            <button
-              key={h.id}
-              className={`payer ${receipt.payer === h.id ? 'on' : ''}`}
-              style={{ '--hue': h.hue }}
-              disabled={!playing}
-              aria-pressed={receipt.payer === h.id}
-              onClick={() => send({ type: 'receiptPayer', payer: h.id })}
-            >
-              <span className="avatar">{h.initial}</span>
-            </button>
-          ))}
-        </div>
-      </div>
 
       {playing && (
         <form className={`item-form ${editItem ? 'editing' : ''}`} onSubmit={saveItem}>
@@ -678,7 +664,7 @@ function ReceiptBuilder({ room, me, house, receipt, send }) {
             <li key={item.id} className={editing === item.id ? 'editing' : ''}>
               <span className="ri-main">
                 <strong>{item.name}</strong>
-                <small>Added by {person(item.addedBy).name}</small>
+                <small>Added & paid by {person(item.addedBy).name}</small>
               </span>
               <span className="mono">{money(item.price)}</span>
               {playing && (
@@ -709,7 +695,7 @@ function ReceiptBuilder({ room, me, house, receipt, send }) {
       <div className="receipt-sum">
         <span>
           {receipt.items.length} {receipt.items.length === 1 ? 'item' : 'items'}
-          {receipt.payer ? ` · ${person(receipt.payer).name} paid` : ''}
+          {paidBy.length > 0 && <small>{paidBy.map(([id, amt]) => `${person(id).name} paid ${money(amt)}`).join(' · ')}</small>}
         </span>
         <strong>{money(total)}</strong>
       </div>
@@ -926,7 +912,7 @@ function Veto({ me, house, receipt, votes, settlement, vetoIn, answered, onVote 
       <ul className="bill-list">
         <li>
           <span className="who">
-            🧾 {receipt.name} · {person(receipt.payer).name} paid
+            🧾 {receipt.name} · each item paid by whoever added it
           </span>
           <span className="mono">{money(total)}</span>
         </li>
@@ -1240,7 +1226,99 @@ function Bounty({
   )
 }
 
-function Locked({ settlement, receipt, house, bounties, isHost, onReset, onLeave }) {
+/** One housemate's own bill: what they are responsible for, then only the payments they still have to make. */
+function SettlementDetail({ id, self, settlement }) {
+  const who = person(id)
+  const share = settlement.shares[id] || 0
+  const bountyShift = Math.round((share - (settlement.rawShares[id] || 0)) * 100) / 100
+  const paid = settlement.paid[id] || 0
+  const toPay = settlement.transfers.filter((t) => t.from === id)
+  const totalToPay = toPay.reduce((s, t) => s + t.amount, 0)
+
+  return (
+    <article className="detail-card" style={{ '--hue': who.hue }}>
+      <header>
+        <span className="avatar">{who.initial}</span>
+        <div>
+          <p className="kicker">{self ? 'Your detail' : `Detail for ${who.name}`}</p>
+          <strong>{self ? 'You' : who.name} should pay</strong>
+        </div>
+        <span className="detail-total">{money(share)}</span>
+      </header>
+      <ul className="detail-lines">
+        {(settlement.lines[id] || []).map((line) => (
+          <li key={line.item.id}>
+            <span>
+              {line.item.name}
+              <small>
+                {line.item.addedBy === id ? 'you added it' : `paid by ${person(line.item.addedBy).name}`}
+              </small>
+            </span>
+            <span>{money(line.amount)}</span>
+          </li>
+        ))}
+        {Math.abs(bountyShift) > 0.009 && (
+          <li>
+            <span>Bounty trade</span>
+            <span>
+              {bountyShift > 0 ? '+' : '−'}
+              {money(Math.abs(bountyShift))}
+            </span>
+          </li>
+        )}
+      </ul>
+      <p className="detail-paid">
+        Already paid at the shop (items {self ? 'you' : who.name} added): <b>{money(paid)}</b>
+      </p>
+
+      <h4>{self ? 'Who you pay' : `Who ${who.name} pays`}</h4>
+      {toPay.length === 0 ? (
+        <p className="detail-none">{self ? 'You don’t' : `${who.name} doesn’t`} need to pay anyone.</p>
+      ) : (
+        <ul className="detail-pay">
+          {toPay.map((t) => {
+            const theyOwed = settlement.owes[t.to]?.[id] || 0
+            return (
+              <li key={t.to}>
+                <span className="avatar sm" style={{ '--hue': person(t.to).hue }}>
+                  {person(t.to).initial}
+                </span>
+                <span className="detail-pay-who">
+                  Pay {person(t.to).name}
+                  {theyOwed > 0.009 && (
+                    <small>
+                      {money(settlement.owes[id][t.to])} owed − {money(theyOwed)} {person(t.to).name} owed back
+                    </small>
+                  )}
+                </span>
+                <strong>{money(t.amount)}</strong>
+              </li>
+            )
+          })}
+          {toPay.length > 1 && (
+            <li className="detail-pay-sum">
+              <span>Total to send</span>
+              <strong>{money(totalToPay)}</strong>
+            </li>
+          )}
+        </ul>
+      )}
+      <p className="hint">Debts between each pair are offset first, so only the difference is paid, in one direction.</p>
+    </article>
+  )
+}
+
+function Locked({ me, settlement, receipt, house, bounties, isHost, onReset, onLeave }) {
+  const playing = house.some((h) => h.id === me)
+  const [detailOpen, setDetailOpen] = useState(false)
+  const [viewing, setViewing] = useState(playing ? me : house[0]?.id)
+  const detailRef = useRef(null)
+  const shown = playing ? me : viewing
+
+  useEffect(() => {
+    if (detailOpen) detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [detailOpen])
+
   return (
     <section className="screen locked">
       <p className="kicker">Ritual complete</p>
@@ -1294,8 +1372,32 @@ function Locked({ settlement, receipt, house, bounties, isHost, onReset, onLeave
           </p>
         ))}
       <p className="hint">
-        {person(receipt.payer).name} paid for {receipt.name} ({money(settlement.total)})
+        {receipt.name} ({money(settlement.total)}) · each item was paid by whoever added it
       </p>
+      <button className={`detail-toggle ${detailOpen ? 'on' : ''}`} aria-expanded={detailOpen} onClick={() => setDetailOpen((v) => !v)}>
+        {detailOpen ? 'Hide detail' : 'Detail'}
+      </button>
+      {detailOpen && (
+        <div ref={detailRef} className="detail-wrap">
+          {!playing && (
+            <div className="detail-pick" style={seatColumns(house.length)}>
+              {house.map((h) => (
+                <button
+                  key={h.id}
+                  className={viewing === h.id ? 'on' : ''}
+                  style={{ '--hue': h.hue }}
+                  aria-pressed={viewing === h.id}
+                  aria-label={`Show detail for ${h.name}`}
+                  onClick={() => setViewing(h.id)}
+                >
+                  <span className="avatar sm">{h.initial}</span>
+                </button>
+              ))}
+            </div>
+          )}
+          {shown && <SettlementDetail id={shown} self={playing} settlement={settlement} />}
+        </div>
+      )}
       {isHost ? (
         <button className="primary" onClick={onReset}>
           Back to the lobby for next Sunday

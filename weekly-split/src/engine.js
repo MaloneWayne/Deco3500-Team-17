@@ -92,8 +92,13 @@ function roundMoney(n) {
   return Math.round((n + Number.EPSILON) * 100) / 100
 }
 
+/**
+ * An accepted bounty moves part of the proposer's share onto everyone else.
+ * Returns the new shares and, for the ledger, what each other housemate now owes the proposer for the chore.
+ */
 export function applyBounties(shares, bounties, house = HOUSEMATES) {
   const next = { ...shares }
+  const credits = []
   for (const b of bounties) {
     if (!b.accepted) continue
     const others = house.filter((h) => h.id !== b.from)
@@ -103,72 +108,65 @@ export function applyBounties(shares, bounties, house = HOUSEMATES) {
     const piece = roundMoney(cut / others.length)
     let given = 0
     others.forEach((h, i) => {
-      if (i === others.length - 1) {
-        next[h.id] = roundMoney((next[h.id] || 0) + (cut - given))
-      } else {
-        next[h.id] = roundMoney((next[h.id] || 0) + piece)
-        given += piece
-      }
+      const amount = i === others.length - 1 ? roundMoney(cut - given) : piece
+      next[h.id] = roundMoney((next[h.id] || 0) + amount)
+      given += amount
+      if (amount > 0) credits.push({ from: h.id, to: b.from, amount })
     })
   }
-  return next
+  return { shares: next, credits }
 }
 
+/**
+ * Whoever added an item paid for it in full. Everyone else who used it owes that person their share,
+ * and debts between each pair are offset so only the difference is paid, in one direction.
+ */
 export function computeSettlement(receipt, votes, reviewResults, bounties, house = HOUSEMATES) {
   const items = receipt.items
-  const rawShares = Object.fromEntries(house.map((h) => [h.id, 0]))
-  const lines = Object.fromEntries(house.map((h) => [h.id, []]))
+  const ids = house.map((h) => h.id)
+  const rawShares = Object.fromEntries(ids.map((id) => [id, 0]))
+  const lines = Object.fromEntries(ids.map((id) => [id, []]))
+  const paid = Object.fromEntries(ids.map((id) => [id, 0]))
+  const owes = Object.fromEntries(ids.map((id) => [id, Object.fromEntries(ids.map((to) => [to, 0]))]))
+  const addDebt = (from, to, amount) => {
+    if (from !== to && owes[from]?.[to] !== undefined) owes[from][to] += amount
+  }
 
   for (const item of items) {
+    if (paid[item.addedBy] !== undefined) paid[item.addedBy] += item.price
     const alloc = allocateItem(item, votes, reviewResults, house)
-    for (const h of house) {
-      const amt = alloc[h.id] || 0
-      if (amt > 0) {
-        rawShares[h.id] += amt
-        lines[h.id].push({ item, amount: amt })
-      }
+    for (const id of ids) {
+      const amt = alloc[id] || 0
+      if (amt <= 0) continue
+      rawShares[id] += amt
+      lines[id].push({ item, amount: amt })
+      addDebt(id, item.addedBy, amt)
     }
   }
 
-  for (const h of house) {
-    rawShares[h.id] = Math.round(rawShares[h.id] * 100) / 100
+  for (const id of ids) {
+    rawShares[id] = roundMoney(rawShares[id])
+    paid[id] = roundMoney(paid[id])
   }
 
-  const shares = applyBounties(rawShares, bounties, house)
-  const total = receiptTotal(items)
-  const paid = Object.fromEntries(house.map((h) => [h.id, 0]))
-  if (paid[receipt.payer] !== undefined) paid[receipt.payer] = total
+  const { shares, credits } = applyBounties(rawShares, bounties, house)
+  for (const c of credits) addDebt(c.from, c.to, c.amount)
 
-  const nets = {}
-  for (const h of house) {
-    nets[h.id] = Math.round((shares[h.id] - paid[h.id]) * 100) / 100
-  }
-
-  const debtors = house
-    .map((h) => ({ id: h.id, amt: nets[h.id] }))
-    .filter((x) => x.amt > 0.009)
-    .sort((a, b) => b.amt - a.amt)
-  const creditors = house
-    .map((h) => ({ id: h.id, amt: -nets[h.id] }))
-    .filter((x) => x.amt > 0.009)
-    .sort((a, b) => b.amt - a.amt)
+  const nets = Object.fromEntries(ids.map((id) => [id, roundMoney(shares[id] - paid[id])]))
 
   const transfers = []
-  let i = 0
-  let j = 0
-  while (i < debtors.length && j < creditors.length) {
-    const pay = Math.min(debtors[i].amt, creditors[j].amt)
-    const amt = Math.round(pay * 100) / 100
-    if (amt > 0) {
-      transfers.push({ from: debtors[i].id, to: creditors[j].id, amount: amt })
+  ids.forEach((a, i) => {
+    for (const b of ids.slice(i + 1)) {
+      const diff = roundMoney(owes[a][b] - owes[b][a])
+      if (diff > 0.009) transfers.push({ from: a, to: b, amount: diff })
+      else if (diff < -0.009) transfers.push({ from: b, to: a, amount: -diff })
     }
-    debtors[i].amt = Math.round((debtors[i].amt - amt) * 100) / 100
-    creditors[j].amt = Math.round((creditors[j].amt - amt) * 100) / 100
-    if (debtors[i].amt <= 0.009) i += 1
-    if (creditors[j].amt <= 0.009) j += 1
-  }
+  })
+  transfers.sort((x, y) => y.amount - x.amount)
 
-  return { shares, paid, nets, transfers, lines, total, rawShares }
+  for (const id of ids) for (const to of ids) owes[id][to] = roundMoney(owes[id][to])
+
+  return { shares, paid, nets, transfers, owes, lines, total: receiptTotal(items), rawShares }
 }
 
 export function bountyTally(bounty, house = HOUSEMATES) {

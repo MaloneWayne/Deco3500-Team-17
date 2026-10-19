@@ -692,21 +692,6 @@ h1, h2, h3 { font-family: Fraunces, serif; font-weight: 700; letter-spacing: -0.
   min-width: 0;
 }
 .field input:disabled { opacity: 0.7; }
-.payer-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-.payer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding: 8px 2px;
-  border-radius: 14px;
-  border: 1px solid var(--line);
-  background: var(--card);
-  font-size: 12px;
-  color: var(--ink);
-}
-.payer.on { border: 2px solid var(--hue); background: #fff; font-weight: 700; }
-.payer:disabled { cursor: default; }
 .item-form {
   display: flex;
   flex-direction: column;
@@ -772,6 +757,8 @@ h1, h2, h3 { font-family: Fraunces, serif; font-weight: 700; letter-spacing: -0.
   color: var(--muted);
 }
 .receipt-sum strong { font-family: "IBM Plex Mono", monospace; font-size: 22px; color: var(--ink); }
+.receipt-sum span { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.receipt-sum small { font-size: 11px; line-height: 1.4; }
 
 .transfers .arrow { color: var(--muted); }
 .transfers strong { font-family: "IBM Plex Mono", monospace; }
@@ -780,6 +767,52 @@ h1, h2, h3 { font-family: Fraunces, serif; font-weight: 700; letter-spacing: -0.
 .breakdown header { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
 .breakdown header p { margin: 0; font-size: 12px; color: var(--muted); }
 .breakdown ul { list-style: none; padding: 0; margin: 0; font-size: 13px; }
+
+/* Personal detail after lock */
+.detail-toggle {
+  width: 100%;
+  padding: 13px 18px;
+  border-radius: 999px;
+  border: 2px solid var(--ink);
+  background: var(--card);
+  color: var(--ink);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.detail-toggle.on { background: var(--ink); color: var(--cream); }
+.detail-wrap { display: flex; flex-direction: column; gap: 10px; scroll-margin-top: 12px; }
+.detail-pick { display: grid; gap: 6px; }
+.detail-pick button { padding: 8px 0; border-radius: 12px; border: 1px solid var(--line); background: var(--card); display: grid; place-items: center; }
+.detail-pick button.on { border: 2px solid var(--hue); background: #fff; }
+.detail-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--card);
+  border: 2px solid var(--hue);
+  border-radius: 18px;
+  padding: 14px;
+}
+.detail-card header { display: flex; align-items: center; gap: 10px; }
+.detail-card header div { flex: 1; min-width: 0; }
+.detail-card header .kicker { margin: 0; text-align: left; }
+.detail-card header strong { font-size: 15px; }
+.detail-total { font-family: "IBM Plex Mono", monospace; font-size: 22px; font-weight: 700; }
+.detail-lines, .detail-pay { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.detail-lines li { display: flex; justify-content: space-between; gap: 8px; padding: 6px 0; border-bottom: 1px dashed var(--line); font-size: 13px; }
+.detail-lines li span:first-child { display: flex; flex-direction: column; min-width: 0; }
+.detail-lines small, .detail-pay small { font-size: 11px; color: var(--muted); }
+.detail-lines li span:last-child { font-family: "IBM Plex Mono", monospace; }
+.detail-paid { margin: 0; font-size: 12px; color: var(--muted); }
+.detail-paid b { font-family: "IBM Plex Mono", monospace; color: var(--ink); }
+.detail-card h4 { margin: 4px 0 0; font-size: 14px; }
+.detail-none { margin: 0; padding: 12px; border-radius: 12px; background: #e6efe3; color: var(--moss); font-weight: 600; font-size: 13px; text-align: center; }
+.detail-pay li { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: #fdecea; margin-bottom: 6px; }
+.detail-pay-who { flex: 1; display: flex; flex-direction: column; font-weight: 600; font-size: 14px; min-width: 0; }
+.detail-pay strong { font-family: "IBM Plex Mono", monospace; font-size: 17px; color: var(--stamp); }
+.detail-pay li.detail-pay-sum { background: none; border-top: 2px solid var(--ink); border-radius: 0; justify-content: space-between; margin: 0; font-weight: 700; }
+.detail-pay li.detail-pay-sum strong { color: var(--ink); }
+.detail-card .hint { text-align: left; }
 
 @media (max-width: 700px) {
   .stage { padding: 0; background: var(--paper); }

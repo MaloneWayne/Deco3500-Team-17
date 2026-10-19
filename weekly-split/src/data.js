@@ -24,8 +24,8 @@ export function houseOf(size = 4) {
   return SEATS.slice(0, clampSize(size))
 }
 
-/** One-tap demo receipt for test sessions. NPC scripts below are keyed to these item ids. */
-export const SAMPLE_RECEIPT = { name: 'Woolies run + Friday pizza', payer: 'd' }
+/** One-tap demo receipt for test sessions. Whoever added an item paid for it. NPC scripts below are keyed to these item ids. */
+export const SAMPLE_RECEIPT = { name: 'Woolies run + Friday pizza' }
 
 export const SAMPLE_ITEMS = [
   { id: 'basket', name: 'Communal Basket', detail: 'Milk, eggs, bread, veg, rice', price: 66.8, addedBy: 'b', emoji: '🧺' },

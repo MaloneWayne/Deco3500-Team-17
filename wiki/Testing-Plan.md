@@ -76,7 +76,7 @@ Consent script is in [Appendix A](#appendix-a--consent-script).
 > If the participant sits as **anyone except A** and leaves NPC on, A will auto-play a veto. That is useful: they will see Review without being told to veto.  
 > If they sit as **A**, other NPCs vote “Looks Fair.” To see Review, they must tap **Play Veto Card** themselves.
 
-5. Sample receipt, loaded in T1b with **Fill in the sample receipt instead** (D paid; do not read the whole list aloud):
+5. Sample receipt, loaded in T1b with **Fill in the sample receipt instead** (each item is paid by the seat that added it; do not read the whole list aloud):
 
    Communal Basket $66.80 · Fancy Cheese $12.00 · Premium Protein $22.00 · Chicken Thighs $18.90 · Heavy-Duty Cleaner $14.50 · Specialty Coffee $15.80 · Pizza Delivery Feast $80.00
 
@@ -273,7 +273,8 @@ If they never veto and NPC does not veto (they sat as A and tapped Fair), **skip
 **Immediate questions on lock (Bill locked / Who pays whom):**
 
 - T6q3. In one sentence: who do you pay, and how much?
-- T6q4. Point to the line that made that number. If you cannot find it, say so.
+- T6q4. Point to the line that made that number. If you cannot find it, say so. *(Note whether they find the **Detail** button at the bottom on their own.)*
+- T6q4b. *(If they opened Detail)* The app cancelled out money going both ways between two people. Did the “owed − owed back” line make sense, or did you expect to see both payments?
 - T6q5. Compared with a Splitwise ping tonight, is this better, worse, or only different because we were sitting here?
 
 **Success for C4:** they can point to at least one item line that explains their share, without the facilitator scrolling for them.
