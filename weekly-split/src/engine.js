@@ -28,9 +28,7 @@ export function isUnclaimed(votes, itemId, house = HOUSEMATES) {
 }
 
 export function topExpensive(items, count = 3) {
-  const flagged = items.filter((item) => item.tag === 'luxury' || item.tag === 'shareable').sort((a, b) => b.price - a.price)
-  const rest = items.filter((item) => item.tag !== 'luxury' && item.tag !== 'shareable').sort((a, b) => b.price - a.price)
-  return [...flagged, ...rest].slice(0, count)
+  return [...items].sort((a, b) => b.price - a.price).slice(0, count)
 }
 
 export function receiptTotal(items) {
@@ -58,9 +56,11 @@ function evenSplit(price, people) {
   return shares
 }
 
+/** Each person's percent is scaled so the shares add up to the price. If everyone says 0%, split evenly. */
 function sliderSplit(price, weights, house = HOUSEMATES) {
   const entries = house.map((h) => [h.id, Number(weights[h.id] || 0)])
-  const total = entries.reduce((s, [, w]) => s + w, 0) || 1
+  const total = entries.reduce((s, [, w]) => s + w, 0)
+  if (total <= 0) return evenSplit(price, house)
   const shares = {}
   let allocated = 0
   entries.forEach(([id, w], i) => {
@@ -75,25 +75,14 @@ function sliderSplit(price, weights, house = HOUSEMATES) {
 }
 
 export function resolveReview(item, reviewVotes, house = HOUSEMATES) {
-  const v = reviewVotes[item.id] || {}
-  if (item.tag === 'shareable') {
-    if (!reviewReady(item, reviewVotes, house)) return null
-    return { type: 'slider', shares: sliderSplit(item.price, v, house) }
-  }
   if (!reviewReady(item, reviewVotes, house)) return null
-  const personal = house.filter((h) => v[h.id] === 'personal').length
-  const communal = house.filter((h) => v[h.id] === 'communal').length
-  if (personal > communal) {
-    return { type: 'personal', owner: item.addedBy, tally: { personal, communal } }
-  }
-  return { type: 'communal', tally: { personal, communal } }
+  return { type: 'slider', shares: sliderSplit(item.price, reviewVotes[item.id], house) }
 }
 
-/** Nobody claimed it: the whole house shares it evenly. */
+/** A reviewed item follows the slider. Otherwise claimers split it; nobody claimed it, the whole house does. */
 export function allocateItem(item, votes, reviewResults, house = HOUSEMATES) {
   const reviewed = reviewResults[item.id]
   if (reviewed?.type === 'slider') return reviewed.shares
-  if (reviewed?.type === 'personal') return { [reviewed.owner]: item.price }
 
   const people = claimers(votes, item.id, house)
   return evenSplit(item.price, people.length ? people : house)

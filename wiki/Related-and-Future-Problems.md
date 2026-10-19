@@ -16,13 +16,13 @@ So: we are not curing housing. We are treating one weekly flare-up that housing 
 
 ## What the solution could break next
 
-**Majority as truth.** If three people tap “personal” on the protein, the fourth is stuck. The tribe has spoken. That can bully a housemate who actually bought a shared item.
+**Self-report as truth.** An earlier build let three people vote the protein “personal” and stick the fourth with it. The group replaced that vote with a 0–100% slider, which removes the pile-on but trusts everyone to slide honestly. If two people slide low, the rescaling quietly moves their share onto the others.
 
 **Veto as a weapon.** An anonymous pause is a gift to a shy person. It is also a gift to someone who wants to stall every bill.
 
 **Gamification of debt.** Spinners and sliders are funny until someone is actually broke. A joke wheel that assigns $14.50 can feel cruel. P03 already used a wheel *as a joke* to cool an air-con fight. The line between ice-breaker and insult is thin.
 
-**The accountant is still there.** Drew still floated the groceries in our demo. The ritual splits the bill. It does not stop one person from being the bank.
+**The accountant is still there.** Housemate D still floated the groceries in our demo. The ritual splits the bill. It does not stop one person from being the bank.
 
 **Exclusion.** No phone, no English, no Sunday night at home: you miss the ritual and inherit the result.
 

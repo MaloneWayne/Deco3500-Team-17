@@ -4,7 +4,6 @@ import {
   SAMPLE_ITEMS,
   SAMPLE_RECEIPT,
   SEATS,
-  SLIDER_STOPS,
   clampSize,
   houseOf,
   npcReview,
@@ -14,7 +13,7 @@ import {
 import { allVoted, bountyAccepted, bountyTally, resolveReview, topExpensive } from './engine.js'
 
 /** Bump when the state shape changes, so phones ignore tables saved by an older build. */
-export const STATE_VERSION = 3
+export const STATE_VERSION = 4
 
 export const DELAYS = {
   split: 1600,
@@ -217,14 +216,12 @@ export function applyAction(state, priv, action, { hostId = state.hostId } = {})
       const price = parsePrice(action.price)
       if (!id || !name || Number.isNaN(price) || s.receipt.removed.includes(id)) break
       const existing = s.receipt.items.find((i) => i.id === id)
-      const keep = existing && existing.tag !== 'shareable' ? existing.tag : ''
-      const tag = action.tag === 'shareable' ? 'shareable' : keep
       if (existing) {
-        if (existing.name === name && existing.price === price && existing.tag === tag) break
-        Object.assign(existing, { name, price, tag })
+        if (existing.name === name && existing.price === price) break
+        Object.assign(existing, { name, price })
       } else {
         if (s.receipt.items.length >= RECEIPT_LIMITS.items) break
-        s.receipt.items.push({ id, name, price, tag, addedBy: seat })
+        s.receipt.items.push({ id, name, price, addedBy: seat })
       }
       changed = true
       break
@@ -288,10 +285,8 @@ export function applyAction(state, priv, action, { hostId = state.hostId } = {})
       if (!item || item.id !== action.itemId || !inHouse(s, seat) || s.reviewResults[item.id]) break
       const list = s.reviewIn[item.id] || []
       if (list.includes(seat)) break
-      const value = item.tag === 'shareable' ? Number(action.value) : action.value
-      const valid =
-        item.tag === 'shareable' ? SLIDER_STOPS.some((stop) => stop.value === value) : value === 'communal' || value === 'personal'
-      if (!valid) break
+      const value = action.value
+      if (!Number.isInteger(value) || value < 0 || value > 100) break
       priv.review[item.id] = { ...priv.review[item.id], [seat]: value }
       s.reviewIn[item.id] = [...list, seat]
       changed = true
@@ -518,12 +513,7 @@ export function actionSettled(state, action, seat, clientId) {
     case 'itemSave': {
       if (state.phase !== 'receipt' || state.receipt.removed.includes(action.itemId)) return true
       const item = itemById(state, action.itemId)
-      return (
-        Boolean(item) &&
-        item.name === cleanName(action.name, RECEIPT_LIMITS.itemName) &&
-        item.price === parsePrice(action.price) &&
-        (item.tag === 'shareable') === (action.tag === 'shareable')
-      )
+      return Boolean(item) && item.name === cleanName(action.name, RECEIPT_LIMITS.itemName) && item.price === parsePrice(action.price)
     }
     case 'itemRemove':
       return state.phase !== 'receipt' || !itemById(state, action.itemId)

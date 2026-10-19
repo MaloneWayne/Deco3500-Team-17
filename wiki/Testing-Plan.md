@@ -59,7 +59,7 @@ Mode B is stronger evidence for C2 and C7. Mode A is enough if you cannot get a 
 - Audio (and optional screen) only with spoken yes. Default: notes only.
 - They can skip any task or stop the session.
 - Names in notes: P1, P2… House suburb only if they offer it.
-- Do not store a public feed of who bought what from this test. The prototype already uses fake names (Alex, Bailey, Casey, Drew).
+- Do not store a public feed of who bought what from this test. The prototype only labels seats with letters (A, B, C, D …), not names.
 - If they become uncomfortable at the veto or table talk, skip to lock and go to the interview.
 
 Consent script is in [Appendix A](#appendix-a--consent-script).
@@ -73,10 +73,10 @@ Consent script is in [Appendix A](#appendix-a--consent-script).
 3. Have a spare charger. Have a paper copy of [Appendix B](#appendix-b--observation-log) and [Appendix C](#appendix-c--post-test-sheet).
 4. Know this prototype quirk (do not hide it from the team; do not lecture the user about it):
 
-> If the participant sits as **anyone except Alex** and leaves NPC on, Alex will auto-play a veto. That is useful: they will see Review without being told to veto.  
-> If they sit as **Alex**, other NPCs vote “Looks Fair.” To see Review, they must tap **Play Veto Card** themselves.
+> If the participant sits as **anyone except A** and leaves NPC on, A will auto-play a veto. That is useful: they will see Review without being told to veto.  
+> If they sit as **A**, other NPCs vote “Looks Fair.” To see Review, they must tap **Play Veto Card** themselves.
 
-5. Sample receipt, loaded in T1b with **Fill in the sample receipt instead** (Drew paid; do not read the whole list aloud):
+5. Sample receipt, loaded in T1b with **Fill in the sample receipt instead** (D paid; do not read the whole list aloud):
 
    Communal Basket $66.80 · Fancy Cheese $12.00 · Premium Protein $22.00 · Chicken Thighs $18.90 · Heavy-Duty Cleaner $14.50 · Specialty Coffee $15.80 · Pizza Delivery Feast $80.00
 
@@ -133,7 +133,7 @@ Give **one task at a time**. Start the next only when they have answered the imm
 
 > You are a housemate at this table. Pick who you are tonight, then start the settlement.
 
-**Success:** They choose a seat (Alex / Bailey / Casey / Drew) and tap **Everyone’s here — create the receipt**.
+**Success:** They choose a seat (A / B / C / D) and tap **Everyone’s here — create the receipt**.
 
 **Immediate questions (after they tap):**
 
@@ -186,7 +186,7 @@ There are seven cards. Swipe right or tap the green ✓ **Claim**; swipe left or
 
 - Do they notice the “N Housemates Claimed” badge and the avatars on the card, and the “Votes in: x/4” pill?
 - Do they wait for the toast (`N claimed · $X each` or `Nobody claimed it · split evenly across all 4`)?
-- Protein ($22, added by Drew) and Fancy Cheese ($12) — do they hesitate? Do they say a housemate’s name out loud?
+- Protein ($22, added by D) and Fancy Cheese ($12) — do they hesitate? Do they say a housemate’s name out loud?
 - Cleaner — do they pass, and do they notice that passing it means everyone pays a quarter?
 
 **Immediate questions (after the seventh card):**
@@ -223,7 +223,7 @@ Screen: **Pre-Lock Review**. Household total and their share, “Your Veto Token
 
 > These are the running totals. Do whatever you would do before locking a real house bill. You do not have to match what you think we want.
 
-If they sit as non-Alex with NPC on, Alex will veto anyway. Still let them choose first if they have not tapped yet.
+If they sit as anyone but A with NPC on, A will veto anyway. Still let them choose first if they have not tapped yet.
 
 **Immediate questions (after their tap, or on the red VETO PLAYED screen):**
 
@@ -232,7 +232,7 @@ If they sit as non-Alex with NPC on, Alex will veto anyway. Still let them choos
 - T4q3. *(If a veto happened)* Did you want to know who triggered it?
 - T4q4. Did having only 3 veto tokens a month make you more careful, or make you not bother?
 
-**If a veto fires:** the red **VETO PLAYED!** screen shows a 2-minute **Table Talk** countdown over the contested items. Say nothing. Note whether they read the items, wait out the timer, or tap **Proceed to blind vote**. Ask: *T4q5. What would your house actually say during these two minutes?*
+**If a veto fires:** the red **VETO PLAYED!** screen shows a 2-minute **Table Talk** countdown over the contested items. Say nothing. Note whether they read the items, wait out the timer, or tap **Proceed to the slider**. Ask: *T4q5. What would your house actually say during these two minutes?*
 
 **Success:** They tap one of the two buttons without being told which.  
 **Critical fail for C7:** they ask the facilitator who vetoed, or they hunt the UI for a name.
@@ -240,17 +240,17 @@ If they sit as non-Alex with NPC on, Alex will veto anyway. Still let them choos
 ---
 
 ### T5 — Review (only if a veto fired)  
-**Goal:** C3, C6-adjacent. Heavy items come back as a **Blind Item Vote**. Luxury: **Communal (Shared by all)** / **Personal (Private stash)**. Pizza: **The Slider of Fairness**, three stops (Just a Nibble 10% / Average 25% / Feral 50%) showing a dollar share, then **Lock My Portion**.
+**Goal:** C3, C6-adjacent. The three priciest items (pizza, basket, protein in the sample) come back one by one on **The Slider of Fairness**. Each person drags from 0% to 100% for how much they used; the screen shows the percent and a dollar share, then **Lock My Portion**. Percents are rescaled so each item still adds up to its price.
 
 **Say:**
 
 > The house is reviewing the expensive items. Answer as yourself, not as the character.
 
-If they never veto and NPC does not veto (they sat as Alex and tapped Fair), **skip T5**. Log “review not seen.” Optionally tap **Back to the lobby for next Sunday**, let them sit as Bailey, and replay only to reach review. Mark that run as *prompted*, not naturalistic.
+If they never veto and NPC does not veto (they sat as A and tapped Fair), **skip T5**. Log “review not seen.” Optionally tap **Back to the lobby for next Sunday**, let them sit as B, and replay only to reach review. Mark that run as *prompted*, not naturalistic.
 
 **Immediate questions:**
 
-- T5q1. (Protein) “Personal” assigns it to whoever put it in the cart. Is that fair to the shopper?
+- T5q1. (Protein) Where did you put the slider, and would you be comfortable if the others saw that number?
 - T5q2. (Pizza) Did the slider match how your house actually eats, or did it feel fake?
 - T5q3. Did the result toast explain the new split well enough, or did you still want a conversation?
 
@@ -318,8 +318,8 @@ A finding is real when **two sessions** produce the same tag, or when one sessio
 - If entering the receipt takes longer than the swipe round, or the payer is always the one typing → add receipt photo scanning or split entry across phones before testing again.
 - If ≥ half of participants cannot explain the lock total → redesign the breakdown, not the swipe.
 - If ≥ half ask who vetoed, or do not believe it is anonymous → the flash/copy has failed C7.
-- If the even split of unclaimed items is called unfair → send unclaimed items to the blind vote, or let the house re-deal them.
-- If people wait out the full 2-minute table talk in silence → shorten it, or start the blind vote straight away.
+- If the even split of unclaimed items is called unfair → send unclaimed items to the slider, or let the house re-deal them.
+- If people wait out the full 2-minute table talk in silence → shorten it, or start the slider straight away.
 - If bounty dollars start a “is cleaning worth $10?” speech → remove preset amounts; proposal + yes/no only.
 - If they say the session only worked because the facilitator was there → Mode B (real housemates) is mandatory before claiming C2.
 
@@ -327,7 +327,7 @@ A finding is real when **two sessions** produce the same tag, or when one sessio
 
 ## 11. Facilitator dry run
 
-Before the first real user: one teammate runs Mode A end-to-end with NPC on, once as Bailey (expect auto-veto) and once as Alex (expect no review unless they veto). Time it. Fix anything in this plan that does not match the screen.
+Before the first real user: one teammate runs Mode A end-to-end with NPC on, once as B (expect auto-veto) and once as A (expect no review unless they veto). Time it. Fix anything in this plan that does not match the screen.
 
 ---
 
@@ -349,7 +349,7 @@ Participant code: ______ Date: ______ Facilitator: ______ Mode: A / B
 
 ## Appendix B — Observation log
 
-**Session:** ______ **Seat they chose:** Alex / Bailey / Casey / Drew **NPC:** on / off
+**Session:** ______ **Seat they chose:** A / B / C / D **NPC:** on / off
 
 **Warm-up**
 
@@ -369,7 +369,7 @@ Participant code: ______ Date: ______ Facilitator: ______ Mode: A / B
 | T2 claim/pass | | | | Protein: · Cheese: · Cleaner: |
 | T3 unclaimed | | | | Noticed even split? Y/N · fair / unfair: |
 | T4 veto | | | | Fair / Veto · asked who?: Y/N · table talk: waited / proceeded |
-| T5 review | | | | Seen? Y/N · protein vote: · pizza %: |
+| T5 review | | | | Seen? Y/N · pizza %: · protein %: · basket %: |
 | T6 bounty + lock | | | | Proposed? · explained number? Y/N |
 
 **Talk during play (tick all that apply)**

@@ -22,7 +22,7 @@ flowchart TD
   N --> O[Unclaimed items split evenly<br/>Orphan spinner cut after interviews]
   O --> P[Pre-lock review<br/>Anonymous veto tokens]
   P --> P2[Veto played<br/>2-minute table talk]
-  P2 --> Q[Blind item vote + slider of fairness]
+  P2 --> Q[Slider of fairness 0–100% on the top 3 items]
   Q --> R[Bounty cards]
   R --> S[Lock: who pays whom]
   S --> T[Meta<br/>Housing as parent problem<br/>New risks: majority, veto trolling]
@@ -40,10 +40,10 @@ flowchart TD
 | Filter | Killed location and impulse-buy branches; softened priced chores | Kitchen ritual remains |
 | Current practice | Splitwise, WeChat, Messenger, equal split by default | Expectation: item totals, not lectures |
 | Solution class | Compared posters, tokens, async apps, colocated UI | Web ritual, no install |
-| Prototype | Shared receipt entry, draft, veto, table talk, blind vote, bounty, lock; live on 2–8 phones; screens redrawn from AI concept art; orphan spinner removed | Playable mid-fi + screen flows |
+| Prototype | Shared receipt entry, draft, veto, table talk, 0–100% review slider, bounty, lock; live on 2–8 phones; screens redrawn from AI concept art; orphan spinner and communal/personal vote removed | Playable mid-fi + screen flows |
 | Meta / ethics | Parent problems and who we might harm | Testing must watch pile-ons |
 | Reflection | Five-person team; recall interviews, no live kitchen yet | Next: one real Sunday |
 
 ## Prototype path (user-facing)
 
-Open or join a table → pick a seat → create the receipt together (name, who paid, items and prices) → swipe the receipt (unclaimed items split evenly) → pre-lock review: looks fair or veto → if vetoed, 2-minute table talk → blind item vote and shared-food slider → optional bounty card → everyone ready → locked transfers.
+Open or join a table → pick a seat → create the receipt together (name, who paid, items and prices) → swipe the receipt (unclaimed items split evenly) → pre-lock review: looks fair or veto → if vetoed, 2-minute table talk → everyone slides 0–100% on the three priciest items → optional bounty card → everyone ready → locked transfers.

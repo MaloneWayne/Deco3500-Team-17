@@ -8,14 +8,14 @@ The shy housemate who would rather overpay than accuse. That is the user we desi
 
 ## Who can get hurt
 
-- **The housemate who shops.** If personal items snap back to “whoever added it to the cart,” the shopper eats every ambiguous luxury.
+- **The honest housemate.** The review slider is self-reported. Earlier builds sent a “personal” item back to whoever added it to the cart, so the shopper ate every ambiguous luxury; the group replaced that vote with a 0–100% slider. The new risk is the opposite: anyone who slides low pushes cost onto whoever slides honestly, and the rescaling hides who did it.
 - **Anyone without a working phone.** A web app still assumes a screen, data, and enough English to read “Play veto card.”
 - **Low-income housemates.** A spinner that dumps an orphan item on you is a fee for being unlucky, not for consuming. This is why the group removed the spinner; unclaimed items are now split evenly. P04 warned that swapping chores for money can start a second fight about what an hour of cleaning is worth.
 - **People who miss Sunday.** If the house locks the bill without you, you did not consent. You just got a total.
 
 ## Socio-political
 
-We are putting a voting machine in a household. Households are not democracies with equal power. Length of lease, whose name is on the bills, whose parents can float a week: those are already there. A 3–1 “personal” vote can look objective and still be a pile-on.
+We are putting a voting machine in a household. Households are not democracies with equal power. Length of lease, whose name is on the bills, whose parents can float a week: those are already there. A rescaled slider result can look objective and still reflect who felt safe being honest.
 
 ## Economic
 

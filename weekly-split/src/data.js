@@ -1,12 +1,12 @@
 export const SEATS = [
-  { id: 'alex', name: 'Alex', initial: 'A', hue: '#c45c3e' },
-  { id: 'bailey', name: 'Bailey', initial: 'B', hue: '#3d5a40' },
-  { id: 'casey', name: 'Casey', initial: 'C', hue: '#2c4a6e' },
-  { id: 'drew', name: 'Drew', initial: 'D', hue: '#b5812a' },
-  { id: 'eden', name: 'Eden', initial: 'E', hue: '#6b3d6a' },
-  { id: 'finn', name: 'Finn', initial: 'F', hue: '#1f6f6b' },
-  { id: 'gus', name: 'Gus', initial: 'G', hue: '#8a4b2a' },
-  { id: 'hana', name: 'Hana', initial: 'H', hue: '#a03c62' },
+  { id: 'a', name: 'A', initial: 'A', hue: '#c45c3e' },
+  { id: 'b', name: 'B', initial: 'B', hue: '#3d5a40' },
+  { id: 'c', name: 'C', initial: 'C', hue: '#2c4a6e' },
+  { id: 'd', name: 'D', initial: 'D', hue: '#b5812a' },
+  { id: 'e', name: 'E', initial: 'E', hue: '#6b3d6a' },
+  { id: 'f', name: 'F', initial: 'F', hue: '#1f6f6b' },
+  { id: 'g', name: 'G', initial: 'G', hue: '#8a4b2a' },
+  { id: 'h', name: 'H', initial: 'H', hue: '#a03c62' },
 ]
 
 export const MIN_SEATS = 2
@@ -25,72 +25,16 @@ export function houseOf(size = 4) {
 }
 
 /** One-tap demo receipt for test sessions. NPC scripts below are keyed to these item ids. */
-export const SAMPLE_RECEIPT = { name: 'Woolies run + Friday pizza', payer: 'drew' }
+export const SAMPLE_RECEIPT = { name: 'Woolies run + Friday pizza', payer: 'd' }
 
 export const SAMPLE_ITEMS = [
-  {
-    id: 'basket',
-    name: 'Communal Basket',
-    detail: 'Milk, eggs, bread, veg, rice',
-    price: 66.8,
-    tag: 'communal',
-    addedBy: 'bailey',
-    emoji: '🧺',
-  },
-  {
-    id: 'cheese',
-    name: 'Fancy Cheese',
-    detail: 'Imported brie 200g',
-    price: 12,
-    tag: 'luxury',
-    addedBy: 'alex',
-    emoji: '🧀',
-  },
-  {
-    id: 'protein',
-    name: 'Premium Protein',
-    detail: 'Drew dropped this in the cart',
-    price: 22,
-    tag: 'luxury',
-    addedBy: 'drew',
-    emoji: '🥤',
-  },
-  {
-    id: 'chicken',
-    name: 'Chicken Thighs',
-    detail: 'Family pack 1.2kg',
-    price: 18.9,
-    tag: 'communal',
-    addedBy: 'casey',
-    emoji: '🍗',
-  },
-  {
-    id: 'cleaner',
-    name: 'Heavy-Duty Cleaner',
-    detail: 'The cleaning supply nobody wants',
-    price: 14.5,
-    tag: 'chore',
-    addedBy: 'bailey',
-    emoji: '🧴',
-  },
-  {
-    id: 'coffee',
-    name: 'Specialty Coffee',
-    detail: 'Light roast single origin 250g',
-    price: 15.8,
-    tag: 'luxury',
-    addedBy: 'alex',
-    emoji: '☕',
-  },
-  {
-    id: 'pizza',
-    name: 'Pizza Delivery Feast',
-    detail: 'Three larges · split by appetite',
-    price: 80,
-    tag: 'shareable',
-    addedBy: 'casey',
-    emoji: '🍕',
-  },
+  { id: 'basket', name: 'Communal Basket', detail: 'Milk, eggs, bread, veg, rice', price: 66.8, addedBy: 'b', emoji: '🧺' },
+  { id: 'cheese', name: 'Fancy Cheese', detail: 'Imported brie 200g', price: 12, addedBy: 'a', emoji: '🧀' },
+  { id: 'protein', name: 'Premium Protein', detail: 'D dropped this in the cart', price: 22, addedBy: 'd', emoji: '🥤' },
+  { id: 'chicken', name: 'Chicken Thighs', detail: 'Family pack 1.2kg', price: 18.9, addedBy: 'c', emoji: '🍗' },
+  { id: 'cleaner', name: 'Heavy-Duty Cleaner', detail: 'The cleaning supply nobody wants', price: 14.5, addedBy: 'b', emoji: '🧴' },
+  { id: 'coffee', name: 'Specialty Coffee', detail: 'Light roast single origin 250g', price: 15.8, addedBy: 'a', emoji: '☕' },
+  { id: 'pizza', name: 'Pizza Delivery Feast', detail: 'Three larges', price: 80, addedBy: 'c', emoji: '🍕' },
 ]
 
 export const RECEIPT_LIMITS = { name: 40, itemName: 40, items: 40, maxPrice: 5000 }
@@ -105,36 +49,42 @@ export const CHORES = [
 
 export const VETO_TOKENS_PER_MONTH = 3
 
-export const SLIDER_STOPS = [
-  { value: 10, label: 'Just a Nibble' },
-  { value: 25, label: 'Average' },
-  { value: 50, label: 'Feral' },
+/** Words shown under the review slider; `upTo` is the highest percent that still earns the label. */
+export const SLIDER_MOODS = [
+  { upTo: 0, label: 'None of it' },
+  { upTo: 15, label: 'Just a Nibble' },
+  { upTo: 35, label: 'Average' },
+  { upTo: 60, label: 'Hungry' },
+  { upTo: 100, label: 'Feral' },
 ]
+
+export function sliderMood(percent) {
+  return SLIDER_MOODS.find((m) => percent <= m.upTo)?.label || SLIDER_MOODS[SLIDER_MOODS.length - 1].label
+}
 
 export function npcVote(itemId, playerId) {
   const script = {
-    basket: { alex: 'claim', bailey: 'claim', casey: 'claim', drew: 'claim', eden: 'claim' },
-    cheese: { alex: 'claim', bailey: 'claim', casey: 'claim', drew: 'pass', eden: 'pass' },
-    protein: { alex: 'claim', bailey: 'claim', casey: 'claim', drew: 'claim', eden: 'pass' },
-    chicken: { alex: 'claim', bailey: 'claim', casey: 'claim', drew: 'claim', eden: 'claim' },
-    cleaner: { alex: 'pass', bailey: 'pass', casey: 'pass', drew: 'pass', eden: 'pass' },
-    coffee: { alex: 'claim', bailey: 'pass', casey: 'pass', drew: 'claim', eden: 'claim' },
-    pizza: { alex: 'claim', bailey: 'claim', casey: 'claim', drew: 'claim', eden: 'claim' },
+    basket: { a: 'claim', b: 'claim', c: 'claim', d: 'claim', e: 'claim' },
+    cheese: { a: 'claim', b: 'claim', c: 'claim', d: 'pass', e: 'pass' },
+    protein: { a: 'claim', b: 'claim', c: 'claim', d: 'claim', e: 'pass' },
+    chicken: { a: 'claim', b: 'claim', c: 'claim', d: 'claim', e: 'claim' },
+    cleaner: { a: 'pass', b: 'pass', c: 'pass', d: 'pass', e: 'pass' },
+    coffee: { a: 'claim', b: 'pass', c: 'pass', d: 'claim', e: 'claim' },
+    pizza: { a: 'claim', b: 'claim', c: 'claim', d: 'claim', e: 'claim' },
   }
   return script[itemId]?.[playerId] ?? 'claim'
 }
 
+/** Percent of an item an NPC says it used during review. */
 export function npcReview(itemId, playerId) {
-  if (itemId === 'protein') {
-    return playerId === 'drew' ? 'communal' : 'personal'
+  const script = {
+    protein: { a: 5, b: 5, c: 5, d: 80, e: 5 },
+    pizza: { a: 25, b: 10, c: 50, d: 10, e: 10 },
   }
-  if (itemId === 'pizza') {
-    return { alex: 25, bailey: 10, casey: 50, drew: 10, eden: 10 }[playerId] ?? 25
-  }
-  return 'communal'
+  return script[itemId]?.[playerId] ?? 25
 }
 
 export function npcVeto(playerId, me) {
   if (playerId === me) return null
-  return playerId === 'alex' && me !== 'alex' ? 'veto' : 'fair'
+  return playerId === 'a' && me !== 'a' ? 'veto' : 'fair'
 }

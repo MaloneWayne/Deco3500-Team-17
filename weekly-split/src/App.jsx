@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react'
-import { CHORES, MAX_SEATS, MIN_SEATS, RECEIPT_LIMITS, SLIDER_STOPS, VETO_TOKENS_PER_MONTH, houseOf } from './data'
+import { CHORES, MAX_SEATS, MIN_SEATS, RECEIPT_LIMITS, VETO_TOKENS_PER_MONTH, houseOf, sliderMood } from './data'
 import { allVoted, claimers, computeSettlement, isUnclaimed, money, person, receiptTotal } from './engine'
 import {
   DELAYS,
@@ -31,13 +31,6 @@ const HOME_STEPS = [
   ['Review', 'Looks fair, or play an anonymous veto'],
   ['Lock', 'See who pays whom'],
 ]
-
-const TAG_LABEL = {
-  luxury: 'Luxury',
-  shareable: 'Shared',
-  chore: 'Chore',
-  communal: 'Communal',
-}
 
 export default function App() {
   const [selfId] = useState(clientId)
@@ -421,7 +414,6 @@ function Lobby({ code, g, me, selfId, isHost, sitting, offline, send, onLeave })
               onClick={() => send({ type: 'sit', want: h.id })}
             >
               <span className="avatar lg">{h.initial}</span>
-              <strong>{h.name}</strong>
               <span className="seat-status">{seatLabel(g, h.id, selfId)}</span>
             </button>
           )
@@ -477,7 +469,6 @@ function TopBar({ me, house, g, phase, code, onLeave }) {
           return (
             <div key={h.id} className={`seat ${me === h.id ? 'on' : ''}`} style={{ '--hue': h.hue }}>
               <span className="avatar">{h.initial}</span>
-              <span>{h.name}</span>
               <span className={`live-dot ${dropped ? 'off' : ''} ${owner ? '' : 'npc'}`}>
                 {!owner ? 'NPC' : dropped ? 'offline' : owner === g.hostId ? '● host' : '●'}
               </span>
@@ -543,7 +534,6 @@ function ReceiptBuilder({ room, me, house, receipt, send }) {
   const [nameEditing, setNameEditing] = useState(false)
   const [itemName, setItemName] = useState('')
   const [price, setPrice] = useState('')
-  const [byAppetite, setByAppetite] = useState(false)
   const [editing, setEditing] = useState('')
   const [lastSent, setLastSent] = useState('')
   const [error, setError] = useState('')
@@ -577,7 +567,6 @@ function ReceiptBuilder({ room, me, house, receipt, send }) {
     setEditing('')
     setItemName('')
     setPrice('')
-    setByAppetite(false)
     setError('')
   }
 
@@ -585,7 +574,6 @@ function ReceiptBuilder({ room, me, house, receipt, send }) {
     setEditing(item.id)
     setItemName(item.name)
     setPrice(item.price.toFixed(2))
-    setByAppetite(item.tag === 'shareable')
     setError('')
   }
 
@@ -597,7 +585,7 @@ function ReceiptBuilder({ room, me, house, receipt, send }) {
     if (Number.isNaN(value)) return setError(`Enter a price between $0.01 and ${money(RECEIPT_LIMITS.maxPrice)}.`)
     if (!editItem && receipt.items.length >= RECEIPT_LIMITS.items) return setError('This receipt is full.')
     const itemId = editItem ? editItem.id : newItemId()
-    send({ type: 'itemSave', itemId, name, price: value, tag: byAppetite ? 'shareable' : '' })
+    send({ type: 'itemSave', itemId, name, price: value })
     setLastSent(itemId)
     resetForm()
   }
@@ -643,7 +631,6 @@ function ReceiptBuilder({ room, me, house, receipt, send }) {
               onClick={() => send({ type: 'receiptPayer', payer: h.id })}
             >
               <span className="avatar">{h.initial}</span>
-              {h.name}
             </button>
           ))}
         </div>
@@ -671,10 +658,6 @@ function ReceiptBuilder({ room, me, house, receipt, send }) {
               />
             </label>
           </div>
-          <label className="appetite">
-            <input type="checkbox" checked={byAppetite} onChange={(e) => setByAppetite(e.target.checked)} />
-            Shared food — split by appetite if vetoed
-          </label>
           {error && <p className="form-error">{error}</p>}
           <div className="form-actions">
             {editItem && (
@@ -695,10 +678,7 @@ function ReceiptBuilder({ room, me, house, receipt, send }) {
             <li key={item.id} className={editing === item.id ? 'editing' : ''}>
               <span className="ri-main">
                 <strong>{item.name}</strong>
-                <small>
-                  Added by {person(item.addedBy).name}
-                  {item.tag === 'shareable' ? ' · by appetite' : ''}
-                </small>
+                <small>Added by {person(item.addedBy).name}</small>
               </span>
               <span className="mono">{money(item.price)}</span>
               {playing && (
@@ -770,8 +750,7 @@ function Draft({ me, house, receipt, item, itemIndex, votes, waiting, onVote }) 
       </div>
       <div className="card-stack">
         <SwipeCard key={item.id} locked={locked} onClaim={() => onVote('claim')} onPass={() => onVote('pass')}>
-          <article className={`deal-card tag-${item.tag || 'plain'}`}>
-            {TAG_LABEL[item.tag] && <span className="stamp-tag">{TAG_LABEL[item.tag]}</span>}
+          <article className="deal-card">
             <p className="emoji">{item.emoji || '🧾'}</p>
             <p className="price">{money(item.price)}</p>
             <h2>{item.name}</h2>
@@ -966,7 +945,6 @@ function Veto({ me, house, receipt, votes, settlement, vetoIn, answered, onVote 
               <span className="avatar sm" style={{ background: h.hue }}>
                 {h.initial}
               </span>
-              {h.name}
             </span>
             <span className="mono">{money(settlement.shares[h.id] || 0)}</span>
           </li>
@@ -1048,10 +1026,10 @@ function TableTalk({ me, house, endsAt, items, talkReady, answered, onReady }) {
             </article>
           ))}
         </div>
-        <p className="talk-prompt">Discuss with the room or proceed to blind vote</p>
+        <p className="talk-prompt">Discuss with the room, then each person slides how much they used</p>
         {playing && (
           <button className="primary talk-go" disabled={answered} onClick={onReady}>
-            {!answered ? 'Proceed to blind vote' : waiting ? `Ready · waiting on ${waiting} more` : 'Starting the blind vote…'}
+            {!answered ? 'Proceed to the slider' : waiting ? `Ready · waiting on ${waiting} more` : 'Starting the slider…'}
           </button>
         )}
         <WhoIsIn house={house} list={talkReady} />
@@ -1063,132 +1041,71 @@ function TableTalk({ me, house, endsAt, items, talkReady, answered, onReady }) {
 function ReviewResult({ result, house }) {
   return (
     <div className="split-toast review-toast">
-      {result.type === 'slider' && (
-        <div>
-          <p>Recut by appetite</p>
-          <ul>
-            {house.map((h) => (
-              <li key={h.id}>
-                {h.name} · {money(result.shares[h.id] || 0)}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-      {result.type === 'personal' && (
-        <p>
-          The house has spoken: Personal. Assigned to {person(result.owner).name}.
-          <br />
-          <small>
-            {result.tally.personal} personal · {result.tally.communal} communal
-          </small>
-        </p>
-      )}
-      {result.type === 'communal' && (
-        <p>
-          The house says Communal. It stays split.
-          <br />
-          <small>
-            {result.tally.communal} communal · {result.tally.personal} personal
-          </small>
-        </p>
-      )}
+      <div>
+        <p>Recut by appetite</p>
+        <ul>
+          {house.map((h) => (
+            <li key={h.id}>
+              {h.name} · {money(result.shares[h.id] || 0)}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   )
 }
 
 function Review({ me, house, item, reviewIndex, total, answeredBy, answered, result, onVote }) {
-  const [stop, setStop] = useState(0)
+  const [percent, setPercent] = useState(() => Math.round(100 / house.length))
   const playing = house.some((h) => h.id === me)
   const locked = answered || !playing || Boolean(result)
-  const status = (
-    <p className="votes-pill">
-      {result ? 'Results revealed' : `Votes in: ${answeredBy.length}/${house.length}${answeredBy.length < house.length ? ' waiting on table…' : ''}`}
-    </p>
-  )
-
-  if (item.tag === 'shareable') {
-    const pick = SLIDER_STOPS[stop]
-    return (
-      <section className={`screen review slider-screen ${result ? 'revealed' : ''}`}>
-        <p className="kicker warn">
-          Review · {reviewIndex + 1}/{total} · The Slider of Fairness
-        </p>
-        <p className="run-title">
-          {item.name} ({money(item.price)} Total)
-        </p>
-        <p className="emoji hero">{item.emoji || '🍽️'}</p>
-        <h2 className="prompt-big">Be honest, how hard did you hit this one?</h2>
-        <div className="fair-slider">
-          <div className="fair-track">
-            <span className="fill" style={{ width: `${(stop / (SLIDER_STOPS.length - 1)) * 100}%` }} />
-            {SLIDER_STOPS.map((s, i) => (
-              <button
-                key={s.value}
-                className={`stop ${i === stop ? 'on' : ''}`}
-                style={{ left: `${(i / (SLIDER_STOPS.length - 1)) * 100}%` }}
-                disabled={locked}
-                onClick={() => setStop(i)}
-                aria-label={`${s.label} ${s.value}%`}
-              >
-                {i === stop && (
-                  <span className={`share-badge ${i === 0 ? 'at-start' : i === SLIDER_STOPS.length - 1 ? 'at-end' : ''}`}>
-                    Your Share: {money((item.price * s.value) / 100)}
-                  </span>
-                )}
-              </button>
-            ))}
-          </div>
-          <div className="fair-labels">
-            {SLIDER_STOPS.map((s, i) => (
-              <button key={s.value} className={i === stop ? 'on' : ''} disabled={locked} onClick={() => setStop(i)}>
-                <strong>{s.label}</strong>
-                <span>
-                  ({s.value}% · {money((item.price * s.value) / 100)})
-                </span>
-              </button>
-            ))}
-          </div>
-        </div>
-        {!locked && (
-          <button className="primary lock-portion" onClick={() => onVote(pick.value)}>
-            Lock My Portion
-          </button>
-        )}
-        {!result && <p className="hint">Shares are scaled at the end so they add up to {money(item.price)}.</p>}
-        {status}
-        {result && <ReviewResult result={result} house={house} />}
-      </section>
-    )
-  }
 
   return (
-    <section className={`screen review blind ${result ? 'revealed' : ''}`}>
+    <section className={`screen review slider-screen ${result ? 'revealed' : ''}`}>
       <p className="kicker warn">
-        Review · {reviewIndex + 1}/{total}
+        Review · {reviewIndex + 1}/{total} · The Slider of Fairness
       </p>
-      <h2 className="screen-title">Blind Item Vote</h2>
-      <p className="lede tight center">Cast your secret vote — results revealed together</p>
-      <article className="item-card">
-        <span className="item-art">{item.emoji || '🧾'}</span>
-        <div>
-          <strong>{money(item.price)}</strong>
-          <span>{item.name}</span>
+      <p className="run-title">
+        {item.name} ({money(item.price)} Total)
+      </p>
+      <p className="emoji hero">{item.emoji || '🍽️'}</p>
+      <h2 className="prompt-big">Be honest, how much of this did you use?</h2>
+      <div className="fair-slider">
+        <div className="fair-readout">
+          <strong>{percent}%</strong>
+          <span>{sliderMood(percent)}</span>
+          <em>Your Share: {money((item.price * percent) / 100)}</em>
         </div>
-        <span className="added-by">Added by: {person(item.addedBy).name}</span>
-      </article>
-      <div className="split-vote">
-        <button className="communal" disabled={locked} onClick={() => onVote('communal')}>
-          Communal
-          <small>(Shared by all)</small>
-        </button>
-        <button className="personal" disabled={locked} onClick={() => onVote('personal')}>
-          Personal
-          <small>(Private stash)</small>
-        </button>
+        <input
+          type="range"
+          className="fair-range"
+          min="0"
+          max="100"
+          step="1"
+          value={percent}
+          disabled={locked}
+          style={{ '--fill': `${percent}%` }}
+          aria-label={`How much of ${item.name} you used, in percent`}
+          onChange={(e) => setPercent(Number(e.target.value))}
+        />
+        <div className="fair-ends">
+          <span>0%</span>
+          <span>50%</span>
+          <span>100%</span>
+        </div>
       </div>
-      {answered && !result && <p className="waiting">Your vote is in. Nobody sees it until the reveal.</p>}
-      {status}
+      {!locked && (
+        <button className="primary lock-portion" onClick={() => onVote(percent)}>
+          Lock My Portion
+        </button>
+      )}
+      {answered && !result && <p className="waiting">Your portion is locked. Nobody sees it until the reveal.</p>}
+      {!result && <p className="hint">Shares are scaled at the end so they add up to {money(item.price)}.</p>}
+      <p className="votes-pill">
+        {result
+          ? 'Results revealed'
+          : `Votes in: ${answeredBy.length}/${house.length}${answeredBy.length < house.length ? ' waiting on table…' : ''}`}
+      </p>
       {result && <ReviewResult result={result} house={house} />}
     </section>
   )
@@ -1243,7 +1160,7 @@ function Bounty({
             {proposer.initial}
           </span>
           <div>
-            <strong>{isProposer ? 'You' : proposer.name}</strong>
+            <strong>{isProposer ? 'Your card' : `${proposer.name}’s card`}</strong>
             <span>
               House Vote: {draftBounty.in.length}/{voters} in
             </span>
@@ -1353,7 +1270,6 @@ function Locked({ settlement, receipt, house, bounties, isHost, onReset, onLeave
                 {h.initial}
               </span>
               <div>
-                <strong>{h.name}</strong>
                 <p>
                   Share {money(settlement.shares[h.id] || 0)} · paid {money(settlement.paid[h.id] || 0)}
                 </p>
