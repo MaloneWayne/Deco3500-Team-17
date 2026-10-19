@@ -40,7 +40,7 @@ flowchart TD
 | Filter | Killed location and impulse-buy branches; softened priced chores | Kitchen ritual remains |
 | Current practice | Splitwise, WeChat, Messenger, equal split by default | Expectation: item totals, not lectures |
 | Solution class | Compared posters, tokens, async apps, colocated UI | Web ritual, no install |
-| Prototype | Shared receipt entry, draft, veto, table talk, blind vote, bounty, lock; live on 4–5 phones; screens redrawn from AI concept art; orphan spinner removed | Playable mid-fi + screen flows |
+| Prototype | Shared receipt entry, draft, veto, table talk, blind vote, bounty, lock; live on 2–8 phones; screens redrawn from AI concept art; orphan spinner removed | Playable mid-fi + screen flows |
 | Meta / ethics | Parent problems and who we might harm | Testing must watch pile-ons |
 | Reflection | Five-person team; recall interviews, no live kitchen yet | Next: one real Sunday |
 

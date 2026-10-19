@@ -4,13 +4,24 @@ export const SEATS = [
   { id: 'casey', name: 'Casey', initial: 'C', hue: '#2c4a6e' },
   { id: 'drew', name: 'Drew', initial: 'D', hue: '#b5812a' },
   { id: 'eden', name: 'Eden', initial: 'E', hue: '#6b3d6a' },
+  { id: 'finn', name: 'Finn', initial: 'F', hue: '#1f6f6b' },
+  { id: 'gus', name: 'Gus', initial: 'G', hue: '#8a4b2a' },
+  { id: 'hana', name: 'Hana', initial: 'H', hue: '#a03c62' },
 ]
 
-/** Default four-person house. Use houseOf(5) for five. */
+export const MIN_SEATS = 2
+export const MAX_SEATS = SEATS.length
+
+export function clampSize(size) {
+  const n = Math.round(Number(size))
+  return Number.isFinite(n) ? Math.min(MAX_SEATS, Math.max(MIN_SEATS, n)) : 4
+}
+
+/** Default four-person house. */
 export const HOUSEMATES = SEATS.slice(0, 4)
 
 export function houseOf(size = 4) {
-  return SEATS.slice(0, size === 5 ? 5 : 4)
+  return SEATS.slice(0, clampSize(size))
 }
 
 /** One-tap demo receipt for test sessions. NPC scripts below are keyed to these item ids. */

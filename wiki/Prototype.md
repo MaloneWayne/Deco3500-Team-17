@@ -1,6 +1,6 @@
 # Prototype
 
-**The Weekly Split** is a mid-fi mobile web ritual. Four housemates. One receipt. About ten minutes. No extra software. The brief asked for a link that runs without installing anything. This is that link.
+**The Weekly Split** is a mid-fi mobile web ritual. Two to eight housemates. One receipt. About ten minutes. No extra software. The brief asked for a link that runs without installing anything. This is that link.
 
 **Open the prototype:** [https://malonewayne.github.io/Deco3500-Team-17/](https://malonewayne.github.io/Deco3500-Team-17/)
 
@@ -45,7 +45,7 @@ The team drew the target screens with AI image tools. The prototype now follows 
 
 Two places where the build differs from the drawings on purpose. The bounty screen shows how many votes are in during voting, not how many accepted, so early votes cannot be guessed. The concept's rent and utilities rows are replaced by the receipt the house entered, who paid it, and any unclaimed items.
 
-**Live table, one phone each.** One housemate opens a 4- or 5-person table and shares a 4-letter code. Everyone else joins on their own phone and takes a seat. From then on the receipt entry, the swipes, the veto, the table-talk timer, the blind votes, the bounties and the final bill stay in sync on every phone. The host phone acts as referee. Veto, review and bounty choices go only to its private tally, so the table learns *that* a veto was played but never *who* played it. *(C7. In Test-P1 and Test-P2 both participants asked who had vetoed, so the veto screen now also says in one line that nobody is named.)* If a phone drops, the host can hand that seat to an NPC. If the host phone closes, the next phone takes over. Empty seats can still be NPC for a solo demo.
+**Live table, one phone each.** One housemate sets how many people live in the house (2–8) and opens a table, then shares a 4-letter code. Everyone else joins on their own phone and takes a seat. From then on the receipt entry, the swipes, the veto, the table-talk timer, the blind votes, the bounties and the final bill stay in sync on every phone. The host phone acts as referee. Veto, review and bounty choices go only to its private tally, so the table learns *that* a veto was played but never *who* played it. *(C7. In Test-P1 and Test-P2 both participants asked who had vetoed, so the veto screen now also says in one line that nobody is named.)* If a phone drops, the host can hand that seat to an NPC. If the host phone closes, the next phone takes over. Empty seats can still be NPC for a solo demo.
 
 ## How good design practice shows up
 

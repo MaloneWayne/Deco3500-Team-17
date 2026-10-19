@@ -4,9 +4,9 @@
 
 A mobile web prototype for a Sunday sharehouse settlement ritual: create the receipt together, receipt draft, pre-lock review with anonymous veto tokens, table talk, blind item vote, the slider of fairness, and house bounty cards. Items nobody claims are split evenly across the house.
 
-## Play together (4 or 5 phones, live)
+## Play together (2–8 phones, live)
 
-1. One housemate opens the site and taps **4 people** or **5 people**. That opens a table with a 4-letter room code. This phone is the host.
+1. One housemate opens the site, sets **Housemates** with − / + (2 to 8 people) and taps **Open a table**. That opens a table with a 4-letter room code. This phone is the host. In the lobby the host can still change the number of seats, as long as nobody is sitting in a seat that would be removed.
 2. Everyone else opens the site on their own phone, types the code and taps **Join**, or opens the copied invite link (`…/#r=CODE`).
 3. Each person taps a free seat. Every phone sees seats fill in live.
 4. The host taps **Everyone’s here — create the receipt**.

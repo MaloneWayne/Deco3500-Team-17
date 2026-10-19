@@ -5,6 +5,7 @@ import {
   SAMPLE_RECEIPT,
   SEATS,
   SLIDER_STOPS,
+  clampSize,
   houseOf,
   npcReview,
   npcVeto,
@@ -84,7 +85,7 @@ export function newState({ code, hostId, houseSize, fillBots }) {
     code,
     hostId,
     rev: 1,
-    houseSize: houseSize === 5 ? 5 : 4,
+    houseSize: clampSize(houseSize),
     fillBots: Boolean(fillBots),
     seats: {},
     online: {},
@@ -170,8 +171,10 @@ export function applyAction(state, priv, action, { hostId = state.hostId } = {})
     }
     case 'setSize': {
       if (!fromHost || s.phase !== 'lobby') break
-      s.houseSize = action.size === 5 ? 5 : 4
-      if (s.houseSize === 4) delete s.seats.eden
+      const size = clampSize(action.size)
+      const table = houseOf(size).map((h) => h.id)
+      if (size === s.houseSize || Object.keys(s.seats).some((id) => !table.includes(id))) break
+      s.houseSize = size
       changed = true
       break
     }

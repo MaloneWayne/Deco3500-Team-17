@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react'
-import { CHORES, RECEIPT_LIMITS, SLIDER_STOPS, VETO_TOKENS_PER_MONTH, houseOf } from './data'
+import { CHORES, MAX_SEATS, MIN_SEATS, RECEIPT_LIMITS, SLIDER_STOPS, VETO_TOKENS_PER_MONTH, houseOf } from './data'
 import { allVoted, claimers, computeSettlement, isUnclaimed, money, person, receiptTotal } from './engine'
 import {
   DELAYS,
@@ -237,7 +237,32 @@ function Shell({ children }) {
   )
 }
 
+/** Columns for a row of seat buttons: one row up to four, then two even rows. */
+function seatColumns(n) {
+  return { gridTemplateColumns: `repeat(${n <= 4 ? n : Math.ceil(n / 2)}, 1fr)` }
+}
+
+function SizeStepper({ value, onChange, canShrink = true }) {
+  return (
+    <div className="stepper" role="group" aria-label="Number of housemates">
+      <button
+        type="button"
+        aria-label="Fewer housemates"
+        disabled={value <= MIN_SEATS || !canShrink}
+        onClick={() => onChange(value - 1)}
+      >
+        −
+      </button>
+      <output aria-live="polite">{value}</output>
+      <button type="button" aria-label="More housemates" disabled={value >= MAX_SEATS} onClick={() => onChange(value + 1)}>
+        +
+      </button>
+    </div>
+  )
+}
+
 function Home({ joinInput, setJoinInput, onCreate, onJoin }) {
+  const [size, setSize] = useState(4)
   return (
     <section className="screen welcome home">
       <header className="home-hero">
@@ -260,14 +285,18 @@ function Home({ joinInput, setJoinInput, onCreate, onJoin }) {
           <h2>Open a table</h2>
           <span>This phone becomes the host</span>
         </div>
-        <div className="vote-row">
-          <button className="primary" onClick={() => onCreate(4)}>
-            4 people
-          </button>
-          <button className="primary" onClick={() => onCreate(5)}>
-            5 people
-          </button>
+        <div className="size-row">
+          <span>
+            <strong>Housemates</strong>
+            <small>
+              {MIN_SEATS}–{MAX_SEATS} people
+            </small>
+          </span>
+          <SizeStepper value={size} onChange={setSize} />
         </div>
+        <button className="primary" onClick={() => onCreate(size)}>
+          Open a table for {size}
+        </button>
       </div>
 
       <p className="home-or">
@@ -345,6 +374,7 @@ function Lobby({ code, g, me, selfId, isHost, sitting, offline, send, onLeave })
   const [copied, setCopied] = useState(false)
   const table = houseOf(g.houseSize)
   const seated = table.filter((h) => g.seats[h.id]).length
+  const lastTaken = Boolean(g.seats[table[table.length - 1].id])
   const canDeal = Boolean(me) && (g.fillBots ? seated >= 1 : seated >= 2)
 
   async function copyLink() {
@@ -369,17 +399,16 @@ function Lobby({ code, g, me, selfId, isHost, sitting, offline, send, onLeave })
         {copied ? 'Link copied' : 'Copy invite link'}
       </button>
       {isHost && (
-        <div className="vote-row">
-          <button className={`ghost ${g.houseSize === 4 ? 'claim' : ''}`} onClick={() => send({ type: 'setSize', size: 4 })}>
-            4 seats
-          </button>
-          <button className={`ghost ${g.houseSize === 5 ? 'claim' : ''}`} onClick={() => send({ type: 'setSize', size: 5 })}>
-            5 seats
-          </button>
+        <div className="size-row">
+          <span>
+            <strong>Seats at this table</strong>
+            <small>{lastTaken ? `${person(table[table.length - 1].id).name} is sitting in the last seat` : `${MIN_SEATS}–${MAX_SEATS} people`}</small>
+          </span>
+          <SizeStepper value={g.houseSize} canShrink={!lastTaken} onChange={(size) => send({ type: 'setSize', size })} />
         </div>
       )}
       <p className="prompt">{me ? `You are ${person(me).name}` : 'Sit down — one seat per phone'}</p>
-      <div className={`seat-grid ${table.length === 5 ? 'five' : ''}`}>
+      <div className={`seat-grid ${table.length > 4 ? 'many' : ''}`}>
         {table.map((h) => {
           const owner = g.seats[h.id]
           const mine = me === h.id
@@ -438,7 +467,10 @@ function TopBar({ me, house, g, phase, code, onLeave }) {
           </button>
         </div>
       </div>
-      <div className={`seats n${house.length}`}>
+      <div
+        className={`seats ${house.length > 5 ? 'compact' : ''}`}
+        style={{ gridTemplateColumns: `repeat(${house.length}, 1fr)` }}
+      >
         {house.map((h) => {
           const owner = g.seats[h.id]
           const dropped = owner && g.online[h.id] === false
@@ -600,7 +632,7 @@ function ReceiptBuilder({ room, me, house, receipt, send }) {
 
       <div className="field">
         <span>Who paid?</span>
-        <div className={`payer-row n${house.length}`}>
+        <div className="payer-row" style={seatColumns(house.length)}>
           {house.map((h) => (
             <button
               key={h.id}

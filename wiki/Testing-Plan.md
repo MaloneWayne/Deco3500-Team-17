@@ -69,7 +69,7 @@ Consent script is in [Appendix A](#appendix-a--consent-script).
 ## 4. Setup (10 minutes before they arrive)
 
 1. Open the prototype on a **phone or narrow browser** (~390px). Laptop is a last resort; this is a kitchen ritual.
-2. Tap **4 people** to open a table. For Mode A, leave the lobby toggle on **NPC fills empty seats**. Hand the phone over at the lobby so the participant picks their own seat. For Mode B, share the 4-letter code or invite link so each housemate joins on their own phone. Every phone needs internet; the table syncs through a public test server, so participants type made-up items only, and the session runs on the sample receipt.
+2. Set **Housemates** to 4 and tap **Open a table for 4**. For Mode A, leave the lobby toggle on **NPC fills empty seats**. Hand the phone over at the lobby so the participant picks their own seat. For Mode B, share the 4-letter code or invite link so each housemate joins on their own phone. Every phone needs internet; the table syncs through a public test server, so participants type made-up items only, and the session runs on the sample receipt.
 3. Have a spare charger. Have a paper copy of [Appendix B](#appendix-b--observation-log) and [Appendix C](#appendix-c--post-test-sheet).
 4. Know this prototype quirk (do not hide it from the team; do not lecture the user about it):
 
@@ -445,7 +445,7 @@ Why:
 
 Keep tasks T1–T6. Changes:
 
-- One housemate opens a table (4 or 5 people); the others join with the code on their own phones and each takes a seat. Turn NPC **off** in the lobby if every seat has a person. If a phone drops mid-round, the host phone can tap **Let NPC play …** to keep going.
+- One housemate opens a table sized to the house (2–8 people); the others join with the code on their own phones and each takes a seat. Turn NPC **off** in the lobby if every seat has a person. If a phone drops mid-round, the host phone can tap **Let NPC play …** to keep going.
 - In T1b, ask each housemate to add one made-up item from their own phone, so the shared list is tested with several people typing at once. Remove them all again before loading the sample receipt (it only fills an empty list).
 - The host phone runs the timers. If it closes, another phone takes over after about 20 seconds; any open Veto, Review, or Bounty vote reopens and must be answered again. Log it if this happens.
 - Add two questions after T4, asked to the table, not to one person:  
