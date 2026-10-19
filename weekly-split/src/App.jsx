@@ -1185,7 +1185,7 @@ function Bounty({
   onReady,
 }) {
   const playing = house.some((h) => h.id === me)
-  const net = settlement.nets[me] || 0
+  const myShare = settlement.shares[me] || 0
   const isProposer = draftBounty?.from === me
   const imReady = ready.includes(me) || readyPending
   const draftChore = draftBounty ? choreById(draftBounty.choreId) : null
@@ -1234,23 +1234,25 @@ function Bounty({
       <p className="lede tight center">
         {!playing
           ? 'Watching the bounty round.'
-          : net > 0
-            ? `You still owe ${money(net)}. Offer a chore to offset some of it.`
-            : 'You are owed this week. Vote on any card, or say you are ready to lock.'}
+          : myShare > 0.009
+            ? `Your share is ${money(myShare)}. Offer a chore to offset some of it, or say you are ready to lock.`
+            : 'You have nothing to pay this round. Vote on any card, or say you are ready to lock.'}
       </p>
+      <p className="list-caption">What each person has to pay, from the items they claimed and their slider picks</p>
       <ul className="bill-list compact">
-        {house.map((h) => (
-          <li key={h.id}>
-            <span>{h.name}</span>
-            <span className={(settlement.nets[h.id] || 0) > 0 ? 'owe' : 'owed'}>
-              {(settlement.nets[h.id] || 0) > 0.009
-                ? `owes ${money(settlement.nets[h.id])}`
-                : (settlement.nets[h.id] || 0) < -0.009
-                  ? `owed ${money(-settlement.nets[h.id])}`
-                  : 'even'}
-            </span>
-          </li>
-        ))}
+        {house.map((h) => {
+          const share = settlement.shares[h.id] || 0
+          const before = settlement.rawShares[h.id] || 0
+          return (
+            <li key={h.id}>
+              <span>{h.name}</span>
+              <span className="mono">
+                {Math.abs(share - before) > 0.009 && <s className="was">{money(before)}</s>}
+                {money(share)}
+              </span>
+            </li>
+          )
+        })}
       </ul>
 
       {bounties.map((b, i) => (

@@ -418,8 +418,8 @@ h1, h2, h3 { font-family: Fraunces, serif; font-weight: 700; letter-spacing: -0.
 .who { display: flex; align-items: center; gap: 8px; }
 .mono { font-family: "IBM Plex Mono", monospace; }
 .veto-actions { display: flex; flex-direction: column; gap: 8px; }
-.owe { color: var(--stamp); }
-.owed { color: var(--moss); }
+.list-caption { margin: 0 0 -4px; font-size: 11px; color: var(--muted); text-align: center; }
+.was { margin-right: 6px; color: var(--muted); font-size: 0.85em; }
 
 .pay-title { margin: 8px 0 0; font-size: 16px; }
 .screen-title { margin: 6px 0 0; font-size: 26px; text-align: center; }
