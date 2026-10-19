@@ -39,6 +39,9 @@ export const SAMPLE_ITEMS = [
 
 export const RECEIPT_LIMITS = { name: 40, itemName: 40, items: 40, maxPrice: 5000 }
 
+/** Optional real name a housemate can attach to their seat. Shown only in the "Who you pay" part of Detail. */
+export const PERSON_NAME_MAX = 20
+
 /** `pitch` completes the bounty card sentence "I will … to offset $X of my debt." */
 export const CHORES = [
   { id: 'bins', label: 'Bin Duty & Recycling', pitch: 'take out all the bins and sort recycling for the next 2 weeks', amount: 10 },

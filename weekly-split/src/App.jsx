@@ -1,5 +1,14 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react'
-import { CHORES, MAX_SEATS, MIN_SEATS, RECEIPT_LIMITS, VETO_TOKENS_PER_MONTH, houseOf, sliderMood } from './data'
+import {
+  CHORES,
+  MAX_SEATS,
+  MIN_SEATS,
+  PERSON_NAME_MAX,
+  RECEIPT_LIMITS,
+  VETO_TOKENS_PER_MONTH,
+  houseOf,
+  sliderMood,
+} from './data'
 import { allVoted, claimers, computeSettlement, isUnclaimed, money, person, receiptTotal } from './engine'
 import {
   DELAYS,
@@ -129,6 +138,7 @@ export default function App() {
           selfId={selfId}
           isHost={isHost}
           sitting={room.pending('sit')}
+          naming={room.pending('setName')}
           offline={status === 'offline'}
           send={send}
           onLeave={leaveTable}
@@ -210,6 +220,7 @@ export default function App() {
       {phase === 'locked' && (
         <Locked
           me={me}
+          names={g.names || {}}
           settlement={settlement}
           receipt={g.receipt}
           house={house}
@@ -364,7 +375,52 @@ function seatLabel(g, seatId, selfId) {
   return owner === g.hostId ? 'Host' : 'Live'
 }
 
-function Lobby({ code, g, me, selfId, isHost, sitting, offline, send, onLeave }) {
+/** Optional real name for your seat. Saved after a short pause or on blur, like the receipt name. */
+function NameField({ me, saved, pending, send }) {
+  const [draft, setDraft] = useState(saved)
+  const [editing, setEditing] = useState(false)
+  const shown = editing || pending ? draft : saved
+  const letter = person(me).name
+
+  function commit() {
+    if (!editing) return
+    setEditing(false)
+    if (cleanName(draft, PERSON_NAME_MAX) !== saved) send({ type: 'setName', name: draft })
+  }
+
+  useEffect(() => {
+    if (!editing) return
+    const timer = setTimeout(commit, 700)
+    return () => clearTimeout(timer)
+  }, [draft, editing])
+
+  return (
+    <label className="field name-field">
+      <span>
+        Your name <em>(optional)</em>
+        {saved && !editing && !pending && <b className="saved">Saved</b>}
+      </span>
+      <input
+        value={shown}
+        maxLength={PERSON_NAME_MAX}
+        placeholder={`Leave blank to stay “${letter}”`}
+        autoComplete="given-name"
+        onChange={(e) => {
+          setEditing(true)
+          setDraft(e.target.value)
+        }}
+        onBlur={commit}
+        onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.blur()}
+      />
+      <small>
+        Everywhere in the round you stay “{letter}”. Your name only appears in <b>Detail</b> on the locked bill, for housemates
+        who need to pay you. A first name or nickname is enough.
+      </small>
+    </label>
+  )
+}
+
+function Lobby({ code, g, me, selfId, isHost, sitting, naming, offline, send, onLeave }) {
   const [copied, setCopied] = useState(false)
   const table = houseOf(g.houseSize)
   const seated = table.filter((h) => g.seats[h.id]).length
@@ -402,6 +458,7 @@ function Lobby({ code, g, me, selfId, isHost, sitting, offline, send, onLeave })
         </div>
       )}
       <p className="prompt">{me ? `You are ${person(me).name}` : 'Sit down — one seat per phone'}</p>
+      {me && <NameField key={me} me={me} saved={g.names?.[me] || ''} pending={naming} send={send} />}
       <div className={`seat-grid ${table.length > 4 ? 'many' : ''}`}>
         {table.map((h) => {
           const owner = g.seats[h.id]
@@ -1227,7 +1284,7 @@ function Bounty({
 }
 
 /** One housemate's own bill: what they are responsible for, then only the payments they still have to make. */
-function SettlementDetail({ id, self, settlement }) {
+function SettlementDetail({ id, self, settlement, names }) {
   const who = person(id)
   const share = settlement.shares[id] || 0
   const bountyShift = Math.round((share - (settlement.rawShares[id] || 0)) * 100) / 100
@@ -1284,7 +1341,13 @@ function SettlementDetail({ id, self, settlement }) {
                   {person(t.to).initial}
                 </span>
                 <span className="detail-pay-who">
-                  Pay {person(t.to).name}
+                  {names[t.to] ? (
+                    <span>
+                      Pay {names[t.to]} <em>({person(t.to).name})</em>
+                    </span>
+                  ) : (
+                    <span>Pay {person(t.to).name}</span>
+                  )}
                   {theyOwed > 0.009 && (
                     <small>
                       {money(settlement.owes[id][t.to])} owed − {money(theyOwed)} {person(t.to).name} owed back
@@ -1308,7 +1371,7 @@ function SettlementDetail({ id, self, settlement }) {
   )
 }
 
-function Locked({ me, settlement, receipt, house, bounties, isHost, onReset, onLeave }) {
+function Locked({ me, names, settlement, receipt, house, bounties, isHost, onReset, onLeave }) {
   const playing = house.some((h) => h.id === me)
   const [detailOpen, setDetailOpen] = useState(false)
   const [viewing, setViewing] = useState(playing ? me : house[0]?.id)
@@ -1395,7 +1458,7 @@ function Locked({ me, settlement, receipt, house, bounties, isHost, onReset, onL
               ))}
             </div>
           )}
-          {shown && <SettlementDetail id={shown} self={playing} settlement={settlement} />}
+          {shown && <SettlementDetail id={shown} self={playing} settlement={settlement} names={names} />}
         </div>
       )}
       {isHost ? (

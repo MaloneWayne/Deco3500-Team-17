@@ -27,4 +27,4 @@ We localised to sharehouses in inner-west Brisbane. P03 already settles in WeCha
 
 ## What we will not do
 
-We will not store a public feed of who bought what. We will not reveal who vetoed. We will not require a bank login for a studio prototype. If this went further, spending logs would need a house agreement and a delete path.
+We will not store a public feed of who bought what. We will not reveal who vetoed. Real names are optional: seats are letters throughout, and a typed name is shown only to the housemates who have to pay that person, at the very end. It still travels through the public test server with the rest of the table, so the lobby asks for a first name or nickname, and a real deployment would need a private sync channel. We will not require a bank login for a studio prototype. If this went further, spending logs would need a house agreement and a delete path.

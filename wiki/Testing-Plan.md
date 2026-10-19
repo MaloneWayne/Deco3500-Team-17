@@ -59,7 +59,7 @@ Mode B is stronger evidence for C2 and C7. Mode A is enough if you cannot get a 
 - Audio (and optional screen) only with spoken yes. Default: notes only.
 - They can skip any task or stop the session.
 - Names in notes: P1, P2… House suburb only if they offer it.
-- Do not store a public feed of who bought what from this test. The prototype only labels seats with letters (A, B, C, D …), not names.
+- Do not store a public feed of who bought what from this test. The prototype labels seats with letters (A, B, C, D …). The lobby offers an optional name field; in Mode A ask the participant to leave it blank or use a made-up name, and never copy it into notes.
 - If they become uncomfortable at the veto or table talk, skip to lock and go to the interview.
 
 Consent script is in [Appendix A](#appendix-a--consent-script).

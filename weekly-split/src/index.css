@@ -692,6 +692,12 @@ h1, h2, h3 { font-family: Fraunces, serif; font-weight: 700; letter-spacing: -0.
   min-width: 0;
 }
 .field input:disabled { opacity: 0.7; }
+.name-field { width: 100%; text-align: left; }
+.name-field span { display: flex; align-items: baseline; gap: 6px; }
+.name-field em { font-style: normal; font-weight: 400; }
+.name-field .saved { margin-left: auto; color: var(--moss); font-size: 11px; }
+.name-field small { font-weight: 400; font-size: 11px; line-height: 1.45; }
+.detail-pay-who em { font-style: normal; font-weight: 400; color: var(--muted); }
 .item-form {
   display: flex;
   flex-direction: column;

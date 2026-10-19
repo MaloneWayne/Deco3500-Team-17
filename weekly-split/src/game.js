@@ -1,5 +1,6 @@
 import {
   CHORES,
+  PERSON_NAME_MAX,
   RECEIPT_LIMITS,
   SAMPLE_ITEMS,
   SAMPLE_RECEIPT,
@@ -13,7 +14,7 @@ import {
 import { allVoted, bountyAccepted, bountyTally, resolveReview, topExpensive } from './engine.js'
 
 /** Bump when the state shape changes, so phones ignore tables saved by an older build. */
-export const STATE_VERSION = 5
+export const STATE_VERSION = 6
 
 export const DELAYS = {
   split: 1600,
@@ -87,6 +88,7 @@ export function newState({ code, hostId, houseSize, fillBots }) {
     houseSize: clampSize(houseSize),
     fillBots: Boolean(fillBots),
     seats: {},
+    names: {},
     online: {},
     ...freshRound(),
   }
@@ -148,8 +150,15 @@ export function applyAction(state, priv, action, { hostId = state.hostId } = {})
       if (s.phase === 'lobby') {
         if (!houseOf(s.houseSize).some((h) => h.id === want)) break
       } else if (!s.house.includes(want) || owner) break
-      for (const id of Object.keys(s.seats)) if (s.seats[id] === action.from) delete s.seats[id]
+      let carried = ''
+      for (const id of Object.keys(s.seats)) {
+        if (s.seats[id] !== action.from) continue
+        carried = s.names[id] || carried
+        delete s.seats[id]
+        delete s.names[id]
+      }
       s.seats[want] = action.from
+      if (carried) s.names[want] = carried
       changed = true
       break
     }
@@ -157,6 +166,7 @@ export function applyAction(state, priv, action, { hostId = state.hostId } = {})
       for (const id of Object.keys(s.seats)) {
         if (s.seats[id] === action.from) {
           delete s.seats[id]
+          delete s.names[id]
           changed = true
         }
       }
@@ -165,6 +175,17 @@ export function applyAction(state, priv, action, { hostId = state.hostId } = {})
     case 'handToBot': {
       if (!fromHost || !s.seats[action.target] || s.phase === 'lobby') break
       delete s.seats[action.target]
+      delete s.names[action.target]
+      changed = true
+      break
+    }
+    case 'setName': {
+      const mine = seatOf(s, action.from)
+      if (s.phase !== 'lobby' || !mine) break
+      const name = cleanName(action.name, PERSON_NAME_MAX)
+      if ((s.names[mine] || '') === name) break
+      if (name) s.names[mine] = name
+      else delete s.names[mine]
       changed = true
       break
     }
@@ -496,6 +517,10 @@ export function actionSettled(state, action, seat, clientId) {
       return Boolean(state.seats[action.want])
     case 'leave':
       return !seatOf(state, clientId)
+    case 'setName': {
+      const mine = seatOf(state, clientId)
+      return state.phase !== 'lobby' || !mine || (state.names[mine] || '') === cleanName(action.name, PERSON_NAME_MAX)
+    }
     case 'receiptName':
       return state.phase !== 'receipt' || state.receipt.name === cleanName(action.name, RECEIPT_LIMITS.name)
     case 'itemSave': {

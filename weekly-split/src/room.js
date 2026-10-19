@@ -38,6 +38,7 @@ const TICK_MS = 2000
 
 const RESENDABLE = new Set([
   'sit',
+  'setName',
   'receiptName',
   'itemSave',
   'itemRemove',
